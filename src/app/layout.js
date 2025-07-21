@@ -3,6 +3,7 @@ import "./globals.css";
 import Footer from "@/components/Layouts/Footer";
 import MainHeader from "@/components/Layouts/Header";
 import Topline from "@/components/Layouts/topline";
+import SocialIcons from "@/components/Layouts/Socailicon";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({ children }) {
         </header>
         <main className="min-h-screen">{children}</main>
         <Footer/>
+        <SocialIcons/>
       </body>
     </html>
   );
