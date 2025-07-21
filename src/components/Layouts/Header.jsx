@@ -23,7 +23,7 @@ export default function Header() {
                             <li><Link href="/projects">Projects</Link></li>
                         </ul>
                     </div>
-                    <a className="btn btn-ghost text-xl">Code<span className="color-py">Nest</span>24</a>
+                    <a className="btn btn-ghost text-xl">sellPixser</a>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
@@ -35,7 +35,7 @@ export default function Header() {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <a className="btn bg-color color-wt">Live Chat</a>
+                    <a className="btn bg-color text-wt">Live Chat</a>
                 </div>
             </div>
         </div>
