@@ -11,8 +11,8 @@
 :root {
     --wt-color: #F7F7F7;
     --bk-color: #0a0a0a;
-    --primary-color: #27315f;
-    --secondary-color: #495db7;
+    --primary-color: #ed145b;
+    --secondary-color: #00adf1;
     --en-font: "Maven Pro", sans-serif;
     --bn-font: "Hind Siliguri", sans-serif;
     --poppins-font: "Poppins", serif;
@@ -26,11 +26,30 @@
 .text-bk{
   color: var(--bk-color);
 }
-.text-py{
+.text-pry{
   color: var(--primary-color);
 }
-.bg-hover{
+.text-sec{
+  color: var(--secondary-color);
+}
+
+.bg-primary{
+  background-color: var(--primary-color);
+}
+.bg-secondary{
+  background-color: var(--secondary);
+}
+.bg-secondary-hover{
+  background-color: var(--primary-color);
+}
+.bg-secondary-hover{
   background-color: var(--secondary-color);
+}
+.border-pry{
+  border-color: var(--primary-color);
+}
+.border-sec{
+  border-color: var(--secondary-color);
 }
 
 

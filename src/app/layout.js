@@ -3,7 +3,8 @@ import "./globals.css";
 import Footer from "@/components/Layouts/Footer";
 import MainHeader from "@/components/Layouts/Header";
 import Topline from "@/components/Layouts/topline";
-import SocialIcons from "@/components/Layouts/Socailicon";
+import SocialIcons from "@/components/Layouts/SocailIcon";
+import ScrollToTopButton from "@/components/Layouts/ScrollerTop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,7 @@ export default function RootLayout({ children }) {
         <main className="min-h-screen">{children}</main>
         <Footer/>
         <SocialIcons/>
+        <ScrollToTopButton/>
       </body>
     </html>
   );
