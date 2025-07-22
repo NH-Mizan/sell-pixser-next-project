@@ -40,7 +40,7 @@ export default function Slider() {
                             <img
                                 src={`https://sellpixer.websolutionit.com/${item.image}`}
                                 alt={`Slide ${index + 1}`}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full "
                             />
                         </div>
                     </SwiperSlide>
