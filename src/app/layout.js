@@ -5,7 +5,7 @@ import MainHeader from "@/components/Layouts/Header";
 import Topline from "@/components/Layouts/topline";
 import SocialIcons from "@/components/Layouts/SocailIcon";
 import ScrollToTopButton from "@/components/Layouts/ScrollerTop";
-import MainMenu from "@/components/Layouts/Mainmenu";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,10 +28,10 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <header>
+        <header class="">
           <Topline/>
           <MainHeader/>
-          <MainMenu/>
+       
         </header>
         <main className="min-h-screen">{children}</main>
         <Footer/>

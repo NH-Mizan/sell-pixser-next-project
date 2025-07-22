@@ -30,7 +30,7 @@ export default function Slider() {
             <Swiper
                 modules={[Navigation, Autoplay]}
                 navigation
-                autoplay={{ delay: 4000 }}
+                autoplay={{ delay: 2000 }}
                 loop={true}
                 className="rounded-lg overflow-hidden"
             >
