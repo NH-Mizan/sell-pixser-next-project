@@ -10,6 +10,7 @@ import Link from 'next/link';
 
 export default function TopCategories() {
   const [categories, setCategories] = useState([]);
+  const baseURL = 'https://sellpixer.websolutionit.com/';
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories`) // ✅ এখানে তোমার API URL দাও
@@ -22,7 +23,7 @@ export default function TopCategories() {
   }, []);
 
   return (
-    <section className="py-8 px-4">
+    <section className="w-10/12 mx-auto my-10">
       <h2 className="text-xl font-bold mb-5">TOP CATEGORIES</h2>
 
       <Swiper
@@ -31,12 +32,12 @@ export default function TopCategories() {
         breakpoints={{
           640: { slidesPerView: 3 },
           768: { slidesPerView: 4 },
-          1024: { slidesPerView: 6 },
+          1024: { slidesPerView: 5 },
         }}
         loop={true}
         autoplay={{ delay: 2500, disableOnInteraction: false }}
-        pagination={{ clickable: true }}
-        modules={[Navigation, Pagination, Autoplay]}
+
+        modules={[Navigation, Autoplay]}
         className="category-swiper"
       >
         {categories.map((cat) => (
@@ -47,7 +48,7 @@ export default function TopCategories() {
             >
               <div className="h-36 flex items-center justify-center overflow-hidden bg-gray-50">
                 <img
-                  src={`/${cat.image.replace('public/', '')}`}
+                  src={`${baseURL}${cat.image}`}
                   alt={cat.name}
                   className="object-contain h-full transition-transform duration-300 group-hover:scale-105"
                 />

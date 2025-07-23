@@ -144,7 +144,7 @@ export default function MainHeader() {
           {/* Hotline - hidden on small screens */}
           <div className="hidden lg:flex items-center gap-2 text-sm">
             <BiSupport className="text-[25px] text-bk" />
-            <span className="text-bk font-semibold text-[18px]">Hotline:</span>
+            <span className="text-bk font-semibold text-[16px]">Hotline:</span>
             <a href="tel:+8801303779646" className="text-wt font-semibold">
               +8801303-779646
             </a>
