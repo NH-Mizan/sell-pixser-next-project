@@ -3,8 +3,10 @@ import Link from "next/link";
 import { BiSupport } from "react-icons/bi";
 import { useState } from 'react';
 import {
-  FaBars, FaTimes, FaUser, FaShoppingCart, FaTruck, FaHeart, FaSearch, FaAngleDown
+  FaBars, FaTimes, FaUser, FaShoppingCart, FaTruck, FaHeart, FaSearch, FaAngleDown,
+  FaRegUserCircle
 } from 'react-icons/fa';
+import { IoGitCompare } from "react-icons/io5";
 
 export default function MainHeader() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +18,7 @@ export default function MainHeader() {
       {/* === Header Section === */}
       <div className="bg-white shadow-sm z-20 relative">
         <header className="text-black shadow-md">
-          <nav className="w-10/12 mx-auto  py-4 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
+          <nav className="w-10/12 mx-auto  grid grid-cols-1 md:grid-cols-3 items-center gap-2">
 
             {/* Logo + Mobile Toggle */}
             <div className="flex items-center justify-between md:justify-start col-span-1">
@@ -65,21 +67,25 @@ export default function MainHeader() {
 
             {/* Desktop Icons */}
             <div className="hidden lg:flex items-center justify-end gap-4 text-sm col-span-1 text-black">
-              <a href="#" className="hover:text-yellow-400 flex items-center gap-1">
-                <FaTruck />
-                <span>Track Order</span>
+                 <a href="#" className=" flex items-center gap-1">
+                <FaRegUserCircle className="text-[30px]"/>
+                <span>
+                  <p className="text-sm" >Hello, Sign In/Sign Up</p>
+                  <p className="font-bold text-md ">Your Account</p>
+                </span>
               </a>
-              <a href="#" className="hover:text-yellow-400 flex items-center gap-1">
-                <FaUser />
-                <span>Login / Sign Up</span>
+              <a href="#" className=" flex items-center gap-1">
+                <IoGitCompare className="text-[24px]"/>
               </a>
-              <a href="#" className="relative hover:text-yellow-400">
-                <FaHeart />
+           
+              <a href="#" className="relative ">
+                <FaHeart className="text-[24px]"/>
                 <span className="absolute -top-2 -right-2 bg-pry text-wt text-xs px-1 rounded-full">0</span>
               </a>
-              <a href="#" className="relative hover:text-yellow-400">
-                <FaShoppingCart />
+              <a href="#" className="relative ">
+                <FaShoppingCart className="text-[24px]" />
                 <span className="absolute -top-2 -right-2 bg-pry text-wt text-xs px-1 rounded-full">0</span>
+             
               </a>
             </div>
           </nav>
@@ -95,10 +101,10 @@ export default function MainHeader() {
           </button>
         </div>
         <ul className="flex flex-col gap-4 px-6 py-4">
-          <li><a href="#" className="hover:text-yellow-400">Home</a></li>
-          <li><a href="#" className="hover:text-yellow-400">Shop</a></li>
-          <li><a href="#" className="hover:text-yellow-400">Track Order</a></li>
-          <li><a href="#" className="hover:text-yellow-400">Login / Signup</a></li>
+          <li><a href="#" className="hover:text-[#ed145b]">Home</a></li>
+          <li><a href="#" className="hover:text-[#ed145b]">Shop</a></li>
+          <li><a href="#" className="hover:text-[#ed145b]">Track Order</a></li>
+          <li><a href="#" className="hhover:text-[#ed145b]">Login / Signup</a></li>
         </ul>
       </div>
 
@@ -122,13 +128,13 @@ export default function MainHeader() {
           </div>
 
           {/* Middle: Menu Items - always visible */}
-          <ul className="flex items-center uppercase gap-2 lg:gap-6 text-[11px] md:text-[13px] lg:text-[18px] font-medium text-wt">
+          <ul className="flex items-center uppercase gap-2 lg:gap-6 text-[10px] md:text-[10px] lg:text-[15px] font-medium text-wt">
             <li className="hover:text-[#ed145b] cursor-pointer"><Link href={'/'}>Home</Link></li>
             <li className="hover:text-[#ed145b] cursor-pointer"><Link href={'/products'}>Products</Link></li>
-            <li className="hover:text-[#ed145b] cursor-pointer flex items-center gap-1">
+            <li className="hover:text-[#ed145b] cursor-pointer flex items-center">
               Brands <span><FaAngleDown /></span>
             </li>
-            <li className="hover:text-[#ed145b] cursor-pointer flex items-center gap-1">
+            <li className="hover:text-[#ed145b] cursor-pointer flex items-center ">
               Skin Care <span><FaAngleDown /></span>
             </li>
             <li className="hover:text-[#ed145b] cursor-pointer">Offers</li>

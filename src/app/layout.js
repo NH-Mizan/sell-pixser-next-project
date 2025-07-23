@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
           <MainHeader/>
        
         </header>
-        <main className="min-h-screen">{children}</main>
+        <main className="">{children}</main>
         <Footer/>
         <SocialIcons/>
         <ScrollToTopButton/>
