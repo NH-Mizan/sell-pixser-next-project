@@ -1,55 +1,83 @@
-// src/app/products/page.jsx
+'use client';
+import { useEffect, useState } from 'react';
+import { FaHeart, FaShoppingCart } from 'react-icons/fa';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
-import Head from 'next/head';
+export default function ProductsPage() {
+  const [products, setProducts] = useState([]);
+  const baseURL = 'https://sellpixer.websolutionit.com/';
 
-const getSlider = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/slider`, {
-    cache: 'no-store', // SSR: fetch fresh data every time
-  });
+  useEffect(() => {
+    AOS.init();
+  }, []);
 
-  const json = await res.json();
-  return json.data; // J API response থেকে শুধু data অংশ
-};
+  useEffect(() => {
+    const fetchproduct = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/hotdeal-product`);
+        const data = await res.json();
+        if (data?.data) {
+          setProducts(data.data);
+        }
+      } catch (error) {
+        console.error('Slider fetch error:', error);
+      }
+    };
 
-export default async function ProductsPage() {
-  const slider = await getSlider();
+    fetchproduct();
+  }, []);
 
   return (
-    <>
-      <Head>
-        <title>All Products | MyShop</title>
-        <meta
-          name="description"
-          content="Browse our latest Laravel-powered product list with fresh updates every time."
-        />
-      </Head>
+    <section className="w-10/12 mx-auto my-10">
+      <h2 className="text-3xl font-bold text-center mb-8">
+        <span className="text-pink-500 italic block text-base">Korean Shop Bangladesh</span>
+        Popular Product
+      </h2>
 
-      <main className="max-w-6xl mx-auto p-4">
-        <h1 className="text-3xl font-bold mb-4">All Products</h1>
-
-        {Array.isArray(slider) && slider.length === 0 ? (
-          <p>No products found.</p>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {slider.map((product) => (
-              <div
-                key={product.id}
-                className="border p-4 rounded shadow-sm hover:shadow-md transition"
-              >
-                <img
-                  src={`https://sellpixer.websolutionit.com/${product.image}`}
-                  alt="slider"
-                  className="w-full h-48 object-cover rounded mb-2"
-                />
-                <h2 className="text-xl font-semibold mb-2">Category ID: {product.category_id}</h2>
-                <a href={product.link} className="text-blue-500 underline">
-                  Visit Link
-                </a>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        {products.map(product => (
+          <div
+            key={product.id}
+            className="border rounded-xl p-4 relative aos-init aos-animate"
+            data-aos="zoom-in"
+            data-aos-duration="500"
+          >
+            {product.new_price && product.old_price && (
+              <div className="absolute top-2 left-2 bg-pink-500 text-white text-xs px-2 py-1 rounded">
+                SAVE {Math.round((product.old_price - product.new_price) * 100 / product.old_price)}%
               </div>
-            ))}
+            )}
+
+            <button className="absolute top-2 right-2 text-gray-600 hover:text-pink-500">
+              <FaHeart />
+            </button>
+
+            <img
+              src={`${baseURL}${product.image.image}`}
+              alt={product.title}
+              className="w-full h-[160px] object-contain my-4"
+            />
+
+            <h3 className="text-sm font-medium text-gray-800">
+              {product.name.slice(0, 50)}...
+            </h3>
+
+            <div className="mt-2 flex items-center gap-2">
+              <span className="text-pink-600 font-bold text-lg">৳{product.new_price}</span>
+              {product.old_price && (
+                <span className="text-gray-400 line-through text-sm">৳{product.old_price}</span>
+              )}
+            </div>
+
+            <div className="mt-4 flex items-center justify-between">
+              <button className="text-pink-600 bg-pink-100 px-3 py-1 rounded-full text-sm flex items-center gap-1">
+                <FaShoppingCart /> Buy Now
+              </button>
+            </div>
           </div>
-        )}
-      </main>
-    </>
+        ))}
+      </div>
+    </section>
   );
 }

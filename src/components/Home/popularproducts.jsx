@@ -17,7 +17,7 @@ export default function PopularProducts() {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/hotdeal-product`);
         const data = await res.json();
         if (data?.data) {
-          setProducts(data.data.slice(0, 10));
+          setProducts(data.data.slice(0, 20));
         }
       } catch (error) {
         console.error('Slider fetch error:', error);
@@ -30,7 +30,7 @@ export default function PopularProducts() {
  
 
   return (
-    <section className="py-10 px-4 md:px-8">
+    <section className="w-10/12 mx-auto my-10">
       <h2 className="text-3xl font-bold text-center mb-8">
         <span className="text-pink-500 italic block text-base">Korean Shop Bangladesh</span>
         Popular Product
@@ -38,15 +38,16 @@ export default function PopularProducts() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
         {products.map(product => (
+      
           <div
             key={product.id}
             className="border rounded-xl p-4 relative aos-init aos-animate"
             data-aos="zoom-in"
             data-aos-duration="500"
           >
-            {product.discount && (
+            {product.new_price && product.old_price && (
               <div className="absolute top-2 left-2 bg-pink-500 text-white text-xs px-2 py-1 rounded">
-                SAVE {product.discount}%
+                SAVE {Math.round((product.old_price - product.new_price) * 100 / product.old_price)}%
               </div>
             )}
 
@@ -55,17 +56,17 @@ export default function PopularProducts() {
             </button>
 
             <img
-              src={`${baseURL}${product.image}`} // Adjust base path as needed
+              src={`${baseURL}${product.image.image}`} // Adjust base path as needed
               alt={product.title}
               className="w-full h-[160px] object-contain my-4"
             />
 
-            <h3 className="text-sm font-medium text-gray-800">{product.title}</h3>
+            <h3 className="text-sm font-medium text-gray-800">{product.name.slice(0, 50)}...</h3>
 
             <div className="mt-2 flex items-center gap-2">
-              <span className="text-pink-600 font-bold text-lg">৳{product.price}</span>
-              {product.oldPrice && (
-                <span className="text-gray-400 line-through text-sm">৳{product.oldPrice}</span>
+              <span className="text-pink-600 font-bold text-lg">৳{product.new_price}</span>
+              {product.old_price && (
+                <span className="text-gray-400 line-through text-sm">৳{product.old_price}</span>
               )}
             </div>
 
