@@ -31,7 +31,7 @@ export default function ProductsPage() {
   return (
     <section className="w-10/12 mx-auto my-10">
       <h2 className="text-3xl font-bold text-center mb-8">
-        <span className="text-pink-500 italic block text-base">Korean Shop Bangladesh</span>
+        <span className="text-pink-500 italic block text-base"> Shop Bangladesh</span>
         Popular Product
       </h2>
 
