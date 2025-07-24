@@ -1,3 +1,4 @@
+import HomeProducts from "@/components/Home/homeproducts";
 import ProductCard from "@/components/Home/offerbanner";
 import PopularProducts from "@/components/Home/popularproducts";
 import Slider from "@/components/Home/slider";
@@ -10,6 +11,7 @@ export default function page() {
       <TopCategories/>
       <PopularProducts/>
       <ProductCard/>
+      <HomeProducts/>
     </div>
   );
 }

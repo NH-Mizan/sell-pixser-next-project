@@ -10,7 +10,7 @@ const ProductCard = () => {
   }, []);
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="w-10/12 mx-auto  py-8">
       <h1 className="text-3xl font-bold text-gray-800 mb-8">Special Offers</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
