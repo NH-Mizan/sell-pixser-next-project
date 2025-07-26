@@ -14,7 +14,7 @@ export default function MainHeader() {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
-    <div className="relative">
+    <div className="relative mb-2">
       {/* === Header Section === */}
       <div className="bg-white shadow-sm z-20 relative">
         <header className="text-black shadow-md">
