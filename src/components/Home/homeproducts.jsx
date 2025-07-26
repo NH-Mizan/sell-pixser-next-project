@@ -11,7 +11,11 @@ export default function CategoryWiseProducts() {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    AOS.init({ duration: 800 });
+      AOS.init();
+    }, []);
+
+  useEffect(() => {
+    
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/homepage-product`)
       .then(res => res.json())
       .then(data => {
@@ -21,7 +25,7 @@ export default function CategoryWiseProducts() {
   }, []);
 
   return (
-    <section className="px-4 py-10 space-y-16">
+    <section className="w-10/12 mx-auto py-10 space-y-16">
       {categories.map(category => (
         <div key={category.id}>
           {/* Header */}
@@ -42,7 +46,8 @@ export default function CategoryWiseProducts() {
               return (
                 <div
                   key={product.id}
-                  data-aos="fade-up"
+                 data-aos="zoom-in"
+                 data-aos-duration="500"
                   className="relative border rounded-lg shadow hover:shadow-lg transition overflow-hidden"
                 >
                   {/* Discount Badge */}
