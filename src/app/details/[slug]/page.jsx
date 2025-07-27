@@ -1,5 +1,6 @@
 // app/productDetails/[slug]/page.jsx
 import ProductInfoTabs from '@/components/ProductInfoTabs';
+import RelatedProducts from '@/components/RelatedProducts';
 
 import React from 'react';
 
@@ -23,6 +24,7 @@ export default async function ProductDetailsPage({ params }) {
 
   const data = await res.json();
   const product = data?.data?.[0];
+
 
   if (!product) {
     return <div className="text-center py-20 text-red-600">Product Not Found</div>;
@@ -81,7 +83,7 @@ export default async function ProductDetailsPage({ params }) {
       {/* Related Products */}
       <div className="mt-10">
         <h2 className="text-xl font-semibold mb-4">Related Products</h2>
-        {/* <RelatedProducts currentProductId={product?.id} /> */}
+        <RelatedProducts currentProductId={product?.id} />
       </div>
     </section>
   );

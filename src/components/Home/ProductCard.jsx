@@ -26,7 +26,7 @@ export default function ProductCard({ product, baseURL }) {
                 <img
                     src={`${baseURL}${product.image?.image}`}
                     alt={product.name}
-                    className="w-full h-48"
+                    className="w-full h-48 group-hover:scale-110 transition-transform duration-500 ease-in-out"
                 />
             </Link>
 

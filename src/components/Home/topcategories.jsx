@@ -53,7 +53,7 @@ export default function TopCategories() {
                 <img
                   src={`${baseURL}${cat.image}`}
                   alt={cat.name}
-                  className="object-contain h-full transition-transform duration-300 group-hover:scale-105"
+                  className="object-contain h-full transition-transform duration-300 group-hover:scale-115"
                 />
               </div>
               <div className="p-3 text-center">
