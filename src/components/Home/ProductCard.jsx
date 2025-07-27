@@ -22,7 +22,7 @@ export default function ProductCard({ product, baseURL }) {
             )}
 
             {/* Image */}
-            <Link href={`/product/${product.slug}`}>
+            <Link href={`/details/${product.slug}`}>
                 <img
                     src={`${baseURL}${product.image?.image}`}
                     alt={product.name}

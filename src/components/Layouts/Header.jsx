@@ -26,7 +26,7 @@ export default function MainHeader() {
                 <FaBars />
               </button>
 
-              <img src="/images/sell-pixer.webp" alt="Logo" className="w-22 md:w-28" />
+             <Link href={'/'}> <img src="/images/sell-pixer.webp" alt="Logo" className="w-22 md:w-28" /></Link>
 
               {/* Mobile Icons */}
               <div className="lg:hidden md:hidden flex gap-4">

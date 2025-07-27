@@ -40,7 +40,8 @@ export default function CategoryWiseProducts() {
         <div key={category.id}>
           {/* Header */}
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold">{category.name}</h2>
+            <h2 className="text-xl font-bold" data-aos="fade-right"
+            data-aos-duration="500">{category.name}</h2>
             <Link href={`/category/${category.slug}`} className="text-blue-600 hover:underline">
               View All →
             </Link>
