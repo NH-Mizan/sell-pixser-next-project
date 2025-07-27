@@ -24,7 +24,8 @@ export default function TopCategories() {
 
   return (
     <section className="w-10/12 mx-auto my-10">
-      <h2 className="text-xl font-bold mb-5">TOP CATEGORIES</h2>
+      <h2 className="text-xl font-bold mb-5"   data-aos="zoom-in"
+            data-aos-duration="500">TOP CATEGORIES</h2>
 
       <Swiper
         slidesPerView={2}
@@ -45,6 +46,8 @@ export default function TopCategories() {
             <Link
               href={`/category/${cat.slug}`}
               className="group block bg-white rounded-md shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300"
+               data-aos="fade-up"
+            data-aos-duration="500"
             >
               <div className="h-36 flex items-center justify-center overflow-hidden bg-gray-50">
                 <img
