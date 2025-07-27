@@ -1,3 +1,4 @@
+import Brands from "@/components/Home/Brands";
 import HomeProducts from "@/components/Home/homeproducts";
 import ProductCard from "@/components/Home/offerbanner";
 import PopularProducts from "@/components/Home/popularproducts";
@@ -12,6 +13,7 @@ export default function page() {
       <PopularProducts/>
       <ProductCard/>
       <HomeProducts/>
+      <Brands/>
     </div>
   );
 }
