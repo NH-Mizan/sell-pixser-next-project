@@ -3,8 +3,9 @@ import "./globals.css";
 import Footer from "@/components/Layouts/Footer";
 import MainHeader from "@/components/Layouts/Header";
 import Topline from "@/components/Layouts/topline";
-import SocialIcons from "@/components/Layouts/SocailIcon";
+import SocialIcons from "@/components/Layouts/SocialIcon";
 import ScrollToTopButton from "@/components/Layouts/ScrollerTop";
+import CustomCursor from "@/components/CustomCursor";
 
 
 const geistSans = Geist({
@@ -28,7 +29,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-      
+          <CustomCursor />
           <Topline/>
           <MainHeader/>
        

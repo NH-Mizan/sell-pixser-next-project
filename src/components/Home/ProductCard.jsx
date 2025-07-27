@@ -32,7 +32,7 @@ export default function ProductCard({ product, baseURL }) {
 
             {/* Wishlist Icon */}
             <button
-                className="absolute top-2 right-2 bg-pry p-1 rounded-full text-wt hover:text-bk z-10 text-lg"
+                className="cursor-hover absolute top-2 right-2 bg-pry p-1 rounded-full text-wt hover:text-bk z-10 text-lg"
                 onClick={(e) => e.preventDefault()} // prevent Link trigger
             >
                 <FaHeart />
@@ -62,7 +62,7 @@ export default function ProductCard({ product, baseURL }) {
                             e.preventDefault();
                             // handleAddToCart(product)
                         }}
-                        className="p-2 rounded-full bg-sec text-wt  transition"
+                        className="cursor-hover p-2 rounded-full bg-sec text-wt  transition"
                     >
                         <FaShoppingCart className="text-lg" />
                     </button>
@@ -73,10 +73,11 @@ export default function ProductCard({ product, baseURL }) {
                             e.preventDefault();
                             // handleOrderNow(product)
                         }}
-                        className="flex-1 bg-sec  text-wt text-sm font-semibold py-2 rounded-lg transition"
+                        className="cursor-hover flex-1 bg-sec  text-wt text-sm font-semibold py-2 rounded-lg transition"
                     >
                         Order Now
                     </button>
+                    
                 </div>
             </div>
         </Link>
