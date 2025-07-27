@@ -32,7 +32,9 @@ export default function CategoryWiseProducts() {
   }, []);
 
   if (!mounted || categories.length === 0) {
-    return <div className="text-center py-10">Loading...</div>;
+    return <div className="loading-wrapper">
+      <div className="runner" />
+    </div>;
   }
 
   return (

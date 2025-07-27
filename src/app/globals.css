@@ -97,3 +97,54 @@ body {
   background-color: var(--primary-color)!important;
   color:var(--wt-color)!important;
 }
+
+
+
+.loading-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #000;
+}
+
+.runner {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background-color: #ff3c3c;
+  border-radius: 50%;
+  animation: moveRight 2s linear infinite, fireTrail 0.3s ease-in-out infinite;
+  box-shadow: 0 0 15px #ff4500, 0 0 25px #ff6347, 0 0 35px #ff0000;
+}
+
+@keyframes moveRight {
+  0% {
+    left: -60px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  100% {
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes fireTrail {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 10px #ff4500;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.6;
+    box-shadow: 0 0 20px #ff6347;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 10px #ff4500;
+  }
+}
