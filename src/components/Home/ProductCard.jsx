@@ -42,7 +42,7 @@ export default function ProductCard({ product, baseURL }) {
             <div className="p-4 space-y-2">
                 <Link href={`/details/${product.slug}`}>
                     <h3 className="text-sm h-18 font-semibold hover:text-blue-600 transition">
-                        {product.name.length > 50 ? product.name.slice(0, 50) + '...' : product.name}
+                        {product.name.length > 30 ? product.name.slice(0, 30) + '...' : product.name}
                     </h3>
                 </Link>
 
@@ -73,7 +73,7 @@ export default function ProductCard({ product, baseURL }) {
                             e.preventDefault();
                             // handleOrderNow(product)
                         }}
-                        className="cursor-hover flex-1 bg-sec  text-wt text-sm font-semibold py-2 rounded-lg transition"
+                        className="cursor-hover flex-1 bg-sec  text-wt text-[11px] lg:text-sm font-semibold py-2 rounded-lg transition"
                     >
                         Order Now
                     </button>

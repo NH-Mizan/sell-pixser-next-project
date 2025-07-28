@@ -109,16 +109,24 @@ export default function MainHeader() {
       {/* === Slide-in Mobile Drawer === */}
       <div className={`fixed top-0 left-0 h-full w-[260px] bg-black text-white z-50 transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex justify-between items-center p-4 border-b border-gray-700">
-          <h2 className="text-lg font-semibold">Menu</h2>
+           <Link href={'/'}> <img src="/images/sell-pixer.webp" alt="Logo" className="w-22 md:w-28 ml-4" /></Link>
           <button onClick={toggleMenu} className="text-xl">
             <FaTimes />
           </button>
         </div>
         <ul className="flex flex-col gap-4 px-6 py-4">
-          <li><a href="#" className="hover:text-[#ed145b]">Home</a></li>
-          <li><a href="#" className="hover:text-[#ed145b]">Shop</a></li>
-          <li><a href="#" className="hover:text-[#ed145b]">Track Order</a></li>
-          <li><a href="#" className="hhover:text-[#ed145b]">Login / Signup</a></li>
+          <li><Link href="#" className="hover:text-[#ed145b]">Home</Link></li>
+           {
+            cat.map((category) => (
+              <li key={category.id}>
+                <Link href={`/products/${category.slug}`} className="hover:text-[#ed145b]">
+                  {category.name}
+                </Link>
+              </li>
+            ))
+           }
+          <li><Link href="#" className="hover:text-[#ed145b]">Track Order</Link></li>
+          <li><Link href="#" className="hhover:text-[#ed145b]">Login / Signup</Link></li>
         </ul>
       </div>
 
@@ -155,12 +163,12 @@ export default function MainHeader() {
 
       {/* === Main Menu Section === */}
       <div className="bg-sec shadow-sm">
-        <div className="w-10/12 mx-auto flex items-center justify-between">
+        <div className="w-11/12 mx-auto flex items-center justify-between py-2 lg:py-0">
 
           {/* Categories - hidden on small screens */}
           <div
             onClick={() => setShow(!show)}
-            className="hidden lg:flex items-center bg-pry text-white px-4 py-2 rounded cursor-pointer">
+            className="hidden lg:flex items-center bg-pry text-white px-4 py-2  rounded cursor-pointer">
             <span className="mr-2 text-xl"><FaBars /></span>
             <span>Categories</span>
             <span className="ml-2 text-sm"><FaAngleDown /></span>
@@ -168,7 +176,7 @@ export default function MainHeader() {
 
 
           {/* Middle: Menu Items - always visible */}
-          <ul className="flex items-center uppercase gap-2 lg:gap-6 text-[10px] md:text-[10px] lg:text-[15px] font-medium text-wt">
+          <ul className="flex items-center uppercase gap-2 lg:gap-6 text-[9px]  lg:text-[15px] font-medium text-wt">
             <li className="hover:text-[#ed145b] cursor-pointer"><Link href={'/'}>Home</Link></li>
             <li className="hover:text-[#ed145b] cursor-pointer"><Link href={'/products'}>Products</Link></li>
             <li className="hover:text-[#ed145b] cursor-pointer flex items-center">
@@ -184,9 +192,10 @@ export default function MainHeader() {
           {/* Hotline - hidden on small screens */}
           <div className="hidden lg:flex items-center gap-2 text-sm">
             <BiSupport className="text-[25px] text-bk" />
-            <span className="text-bk font-semibold text-[16px]">Hotline:</span>
-            <a href="tel:+8801303779646" className="text-wt font-semibold">
-              +8801303-779646
+            
+            <a href="tel:+8801303779646" className="text-wt  ">
+              <div className="text-bk text-[15px] mb-[-3px]">Hotline:</div>
+             <span className="text-sm"> +8801303-779646</span>
             </a>
           </div>
 

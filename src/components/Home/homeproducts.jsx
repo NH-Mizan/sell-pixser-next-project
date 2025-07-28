@@ -43,16 +43,16 @@ export default function CategoryWiseProducts() {
         <div key={category.id}>
           {/* Header */}
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-3xl font-bold text-gray-800 mb-8" data-aos="fade-right"
+            <h2 className="text-lg lg:text-3xl font-bold text-gray-800 " data-aos="fade-right"
             data-aos-duration="500">{category.name}</h2>
-            <Link href={`/category/${category.slug}`} className="flex items-center text-wt bg-pry px-4 py-1 rounded-lg hover:text-sec hover:underline"data-aos="fade-left"
+            <Link href={`/category/${category.slug}`} className="flex text-sm lg:text-lg items-center text-wt bg-pry px-4 py-1 rounded-lg hover:text-sec "data-aos="fade-left"
             data-aos-duration="500">
               View All <PiArrowFatLineRight className='ml-2'/>
             </Link>
           </div>
 
           {/* Products Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-2 lg:gap-4">
             {category.products?.slice(0, 10).map(product => (
               <ProductCard key={product.id} product={product} baseURL={baseURL} />
             ))}

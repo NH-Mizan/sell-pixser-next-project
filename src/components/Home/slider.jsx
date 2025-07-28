@@ -42,7 +42,7 @@ export default function AutoSlider() {
         pagination={{ clickable: true }}
         autoplay={{ delay: 4000 }}
         loop={true}
-        className="w-full h-[200px] lg:h-[450px] slider-height"
+        className="w-full h-[200px] lg:h-[500px] slider-height"
       >
         {images.map((item, index) => (
           <SwiperSlide key={index}>
