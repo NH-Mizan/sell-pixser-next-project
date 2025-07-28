@@ -69,8 +69,13 @@ export default function MainHeader() {
               {/* Select Dropdown */}
               <select className="text-sm px-3 outline-none bg-white text-black appearance-none">
                 <option>Select Category</option>
-                <option>Skincare</option>
-                <option>Makeup</option>
+                {
+                  cat.map((category) => (
+                    <option key={category.id} value={category.slug}>
+                      {category.name}
+                    </option>
+                  ))
+                }
               </select>
 
               {/* Search Button */}
