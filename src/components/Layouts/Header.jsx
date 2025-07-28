@@ -168,7 +168,7 @@ export default function MainHeader() {
 
       {/* === Main Menu Section === */}
       <div className="bg-sec shadow-sm">
-        <div className="w-11/12 mx-auto flex items-center justify-between py-2 lg:py-0">
+        <div className="w-11/12 lg:w-10/12 mx-auto flex items-center justify-between py-2 lg:py-0">
 
           {/* Categories - hidden on small screens */}
           <div

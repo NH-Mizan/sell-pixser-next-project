@@ -4,7 +4,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect } from 'react';
 
-const ProductCard = () => {
+export default function OfferBanner()  {
   useEffect(() => {
     AOS.init();
   }, []);
@@ -84,4 +84,4 @@ const ProductCard = () => {
   );
 };
 
-export default ProductCard;
+
