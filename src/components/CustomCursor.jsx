@@ -64,7 +64,7 @@ export default function CustomCursor() {
       {trail.map((particle) => (
         <div
           key={particle.id}
-          className="fixed w-4 h-4 rounded-full bg-pry opacity-60 pointer-events-none z-[9998] animate-ping"
+          className="fixed w-2 h-2 rounded-full bg-pry opacity-60 pointer-events-none z-[9998] animate-ping"
           style={{
             left: `${particle.x}px`,
             top: `${particle.y}px`,
