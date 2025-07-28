@@ -64,7 +64,7 @@ export default function CustomCursor() {
       {trail.map((particle) => (
         <div
           key={particle.id}
-          className="fixed w-2 h-2 rounded-full bg-pink-400 opacity-60 pointer-events-none z-[9998] animate-ping"
+          className="fixed w-4 h-4 rounded-full bg-pry opacity-60 pointer-events-none z-[9998] animate-ping"
           style={{
             left: `${particle.x}px`,
             top: `${particle.y}px`,
@@ -78,7 +78,7 @@ export default function CustomCursor() {
         className={`
           fixed top-0 left-0 z-[9999] pointer-events-none
           w-6 h-6 rounded-full mix-blend-difference transition-transform duration-150 ease-out
-          ${hovered ? 'bg-white scale-[1.8]' : 'bg-pink-500 scale-110'}
+          ${hovered ? 'bg-white scale-[1.8]' : 'bg-pry scale-110'}
           ${clicked ? 'scale-75' : ''}
         `}
         style={{

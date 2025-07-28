@@ -1,23 +1,37 @@
 'use client';
 import Link from "next/link";
 import { BiSupport } from "react-icons/bi";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   FaBars, FaTimes, FaUser, FaShoppingCart, FaTruck, FaHeart, FaSearch, FaAngleDown,
   FaRegUserCircle
 } from 'react-icons/fa';
 import { IoGitCompare } from "react-icons/io5";
 
+
 export default function MainHeader() {
   const [isOpen, setIsOpen] = useState(false);
+  const [show, setShow] = useState(false);
+  const [cat, setCat] = useState([]);
+  const baseURL = 'https://sellpixer.websolutionit.com/';
 
   const toggleMenu = () => setIsOpen(!isOpen);
+    useEffect(() => {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories`) 
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === 'success') {
+            setCat(data.data);
+           
+          }
+        });
+    }, []);
 
   return (
-    <div className="relative mb-2">
+    <div className="relative shadow-md mb-2">
       {/* === Header Section === */}
-      <div className="bg-white shadow-sm z-20 relative">
-        <header className="text-black shadow-md">
+      <div className="bg-white z-20 relative ">
+        <header className="text-black ">
           <nav className="w-10/12 mx-auto  grid grid-cols-1 md:grid-cols-3 items-center gap-2">
 
             {/* Logo + Mobile Toggle */}
@@ -26,7 +40,7 @@ export default function MainHeader() {
                 <FaBars />
               </button>
 
-             <Link href={'/'}> <img src="/images/sell-pixer.webp" alt="Logo" className="w-22 md:w-28" /></Link>
+              <Link href={'/'}> <img src="/images/sell-pixer.webp" alt="Logo" className="w-22 md:w-28 ml-4" /></Link>
 
               {/* Mobile Icons */}
               <div className="lg:hidden md:hidden flex gap-4">
@@ -41,51 +55,51 @@ export default function MainHeader() {
             </div>
 
             {/* Search Bar */}
-           <div className="flex w-full max-w-2xl border border-pry rounded-md overflow-hidden">
-          {/* Search Input */}
-          <input
-            type="text"
-            placeholder="Search"
-            className="w-full px-4 py-2 outline-none text-sm text-gray-700 placeholder:text-gray-400"
-          />
+            <div className="flex w-full max-w-2xl border border-pry rounded-md mb-2 lg:mb-0 overflow-hidden">
+              {/* Search Input */}
+              <input
+                type="text"
+                placeholder="Search"
+                className="w-full px-4 py-2 outline-none text-sm text-gray-700 placeholder:text-gray-400"
+              />
 
-          {/* Divider */}
-          <div className="w-[2px] bg-pry my-2" />
+              {/* Divider */}
+              <div className="w-[2px] bg-pry my-2" />
 
-          {/* Select Dropdown */}
-          <select className="text-sm px-3 outline-none bg-white text-black appearance-none">
-            <option>Select Category</option>
-            <option>Skincare</option>
-            <option>Makeup</option>
-          </select>
+              {/* Select Dropdown */}
+              <select className="text-sm px-3 outline-none bg-white text-black appearance-none">
+                <option>Select Category</option>
+                <option>Skincare</option>
+                <option>Makeup</option>
+              </select>
 
-          {/* Search Button */}
-          <button className="bg-pry text-white px-4 flex items-center justify-center">
-            <FaSearch className="text-lg" />
-          </button>
-        </div>
+              {/* Search Button */}
+              <button className="bg-pry text-white px-4 flex items-center justify-center">
+                <FaSearch className="text-lg" />
+              </button>
+            </div>
 
             {/* Desktop Icons */}
             <div className="hidden lg:flex items-center justify-end gap-4 text-sm col-span-1 text-black">
-                 <a href="#" className=" flex items-center gap-1">
-                <FaRegUserCircle className="text-[30px]"/>
+              <a href="#" className=" flex items-center gap-1">
+                <FaRegUserCircle className="text-[30px]" />
                 <span>
                   <p className="text-sm" >Hello, Sign In/Sign Up</p>
                   <p className="font-bold text-md ">Your Account</p>
                 </span>
               </a>
               <a href="#" className=" flex items-center gap-1">
-                <IoGitCompare className="text-[24px]"/>
+                <IoGitCompare className="text-[24px]" />
               </a>
-           
+
               <a href="#" className="relative ">
-                <FaHeart className="text-[24px]"/>
+                <FaHeart className="text-[24px]" />
                 <span className="absolute -top-2 -right-2 bg-pry text-wt text-xs px-1 rounded-full">0</span>
               </a>
               <a href="#" className="relative ">
                 <FaShoppingCart className="text-[24px]" />
                 <span className="absolute -top-2 -right-2 bg-pry text-wt text-xs px-1 rounded-full">0</span>
-             
+
               </a>
             </div>
           </nav>
@@ -116,16 +130,42 @@ export default function MainHeader() {
         ></div>
       )}
 
+      {/* === Category Dropdown === */}
+      {show && (
+        <div className="absolute left-0 top-full w-full   z-30 animate-slideDown">
+          <div className="w-10/12 mx-auto bg-white grid grid-cols-6 gap-4 py-6">
+            {/* Example Categories */}
+            {cat.map((category) => (
+              <Link key={category.id} href={`/products/${category.slug}`}>
+                <div className="flex flex-col items-center">
+                  <img
+                    src={`${baseURL}${category.image}`}
+                    alt={category.name}
+                    className="w-16 h-16 object-cover mb-2 rounded-full"
+                  />
+                  <span className="text-sm font-semibold">{category.name}</span>
+                </div>
+              </Link>
+            ))}
+            {/* ... Add more category items dynamically if needed */}
+          </div>
+        </div>
+      )}
+
+
       {/* === Main Menu Section === */}
       <div className="bg-sec shadow-sm">
-        <div className="w-10/12 mx-auto flex items-center justify-between py-2">
+        <div className="w-10/12 mx-auto flex items-center justify-between">
 
           {/* Categories - hidden on small screens */}
-          <div className="hidden lg:flex items-center bg-pry text-white px-4 py-2 rounded cursor-pointer">
+          <div
+            onClick={() => setShow(!show)}
+            className="hidden lg:flex items-center bg-pry text-white px-4 py-2 rounded cursor-pointer">
             <span className="mr-2 text-xl"><FaBars /></span>
             <span>Categories</span>
             <span className="ml-2 text-sm"><FaAngleDown /></span>
           </div>
+
 
           {/* Middle: Menu Items - always visible */}
           <ul className="flex items-center uppercase gap-2 lg:gap-6 text-[10px] md:text-[10px] lg:text-[15px] font-medium text-wt">

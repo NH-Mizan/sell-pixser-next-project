@@ -13,7 +13,7 @@ export default function TopCategories() {
   const baseURL = 'https://sellpixer.websolutionit.com/';
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories`) // ✅ এখানে তোমার API URL দাও
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories`) 
       .then(res => res.json())
       .then(data => {
         if (data.status === 'success') {
