@@ -149,7 +149,7 @@ export default function MainHeader() {
           <div className="w-10/12 mx-auto bg-white grid grid-cols-6 gap-4 py-6">
             {/* Example Categories */}
             {cat.map((category) => (
-              <Link key={category.id} href={`/products/${category.slug}`}>
+              <Link key={category.id} href={`/category/${category.id}`}>
                 <div className="flex flex-col items-center">
                   <img
                     src={`${baseURL}${category.image}`}

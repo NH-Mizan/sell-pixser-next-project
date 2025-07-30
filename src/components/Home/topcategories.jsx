@@ -44,7 +44,7 @@ export default function TopCategories() {
         {categories.map((cat) => (
           <SwiperSlide key={cat.id}>
             <Link
-              href={`/category/${cat.slug}`}
+              href={`/category/${cat.id}`}
               className="group block bg-white rounded-md shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300"
                data-aos="fade-up"
             data-aos-duration="500"
