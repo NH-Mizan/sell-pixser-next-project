@@ -124,7 +124,7 @@ export default function MainHeader() {
            {
             cat.map((category) => (
               <li key={category.id}>
-                <Link href={`/products/${category.slug}`} className="hover:text-[#ed145b]">
+                <Link href={`/category/${category.slug}`} className="hover:text-[#ed145b]">
                   {category.name}
                 </Link>
               </li>
