@@ -1,72 +1,87 @@
-// ✅ app/category/[id]/page.jsx
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-import ProductCard from '@/components/Home/ProductCard';
+import { useEffect, useState } from 'react';
 
-const baseURL = 'https://sellpixer.websolutionit.com/';
+export default function ProductFilter() {
+  const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedBrand, setSelectedBrand] = useState('');
+  const [sort, setSort] = useState('Relevance');
 
-export default function CategoryProductList({ params }) {
-  const [data, setData] = useState([]);
-  const [filtered, setFiltered] = useState([]);
-  const [category, setCategory] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  const { id } = params; // ✅ Correct way to extract dynamic param
-
+  // ✅ Load categories and brands from API
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/category/${id}`);
-        const json = await res.json();
-        setData(json.data);
-        setFiltered(json.data);
-        setCategory(json.category);
-        setLoading(false);
-      } catch (err) {
-        console.error('Error fetching category products:', err);
-        setLoading(false);
-      }
+      const catRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories`);
+      const brandRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/brands`);
+
+      const catData = await catRes.json();
+      const brandData = await brandRes.json();
+
+      setCategories(catData);
+      setBrands(brandData);
     };
 
     fetchData();
-  }, [id]);
+  }, []);
 
-  const handleFilter = (range) => {
-    if (range === 'all') {
-      setFiltered(data);
-    } else {
-      const [min, max] = range;
-      const result = data.filter((p) => p.new_price >= min && p.new_price <= max);
-      setFiltered(result);
-    }
+  // ✅ Handle Filter Change
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+    // filter or API call here
   };
 
-  if (loading) return <div className="p-4">Loading...</div>;
+  const handleBrandChange = (e) => {
+    setSelectedBrand(e.target.value);
+    // filter or API call here
+  };
+
+  const handleSortChange = (e) => {
+    setSort(e.target.value);
+    // filter or API call here
+  };
 
   return (
-    <div className="w-10/12 mx-auto">
-      <h2 className="text-xl font-bold mb-4">Category: {category?.name}</h2>
-
-      {/* Filters */}
-      <div className="flex gap-2 mb-4">
-        <button onClick={() => handleFilter('all')} className="px-3 py-1 border rounded">All</button>
-        <button onClick={() => handleFilter([0, 500])} className="px-3 py-1 border rounded">Under ৳500</button>
-        <button onClick={() => handleFilter([501, 1000])} className="px-3 py-1 border rounded">৳500 - ৳1000</button>
-        <button onClick={() => handleFilter([1001, 2000])} className="px-3 py-1 border rounded">৳1000 - ৳2000</button>
-      </div>
-
-      {/* Product Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-        {filtered.map((product) => (
-          <ProductCard 
-            key={product.id}
-            product={product}
-            baseURL={baseURL} />
+    <div className="flex flex-wrap items-center gap-4 my-4 aos-init aos-animate" data-aos="zoom-in" data-aos-duration="500">
+      {/* Category Filter */}
+      <select
+        value={selectedCategory}
+        onChange={handleCategoryChange}
+        className="border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+      >
+        <option value="">All Categories</option>
+        {categories.map((cat) => (
+          <option key={cat.id} value={cat.slug}>
+            {cat.name}
+          </option>
         ))}
-       
-      </div>
+      </select>
+
+      {/* Brand Filter */}
+      <select
+        value={selectedBrand}
+        onChange={handleBrandChange}
+        className="border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+      >
+        <option value="">All Brands</option>
+        {brands.map((brand) => (
+          <option key={brand.id} value={brand.slug}>
+            {brand.name}
+          </option>
+        ))}
+      </select>
+
+      {/* Sort Filter */}
+      <select
+        value={sort}
+        onChange={handleSortChange}
+        className="border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+      >
+        <option value="Relevance">Relevance</option>
+        <option value="lowToHigh">Price: Low to High</option>
+        <option value="highToLow">Price: High to Low</option>
+        <option value="topRated">Top Rated</option>
+      </select>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import MainHeader from "@/components/Layouts/Header";
 import Topline from "@/components/Layouts/topline";
 import SocialIcons from "@/components/Layouts/SocialIcon";
 import ScrollToTopButton from "@/components/Layouts/ScrollerTop";
+import { CartProvider } from "@/context/cartcontext";
 
 
 const geistSans = Geist({
@@ -28,14 +29,15 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-         
-          <Topline/>
-          <MainHeader/>
-       
-        <main className="">{children}</main>
-        <Footer/>
-        <SocialIcons/>
-        <ScrollToTopButton/>
+        <CartProvider>
+          <Topline />
+          <MainHeader />
+
+          <main className="">{children}</main>
+          <Footer />
+          <SocialIcons />
+          <ScrollToTopButton />
+        </CartProvider>
       </body>
     </html>
   );

@@ -1,8 +1,10 @@
 'use client';
+import { useCart } from '@/context/cartcontext';
 import Link from 'next/link';
 import { FaHeart, FaShoppingCart } from 'react-icons/fa';
 
 export default function ProductCard({ product, baseURL }) {
+    const { addToCart, addToWishlist } = useCart();
     const discount = product.old_price
         ? Math.round(((product.old_price - product.new_price) / product.old_price) * 100)
         : 0;
@@ -31,9 +33,10 @@ export default function ProductCard({ product, baseURL }) {
             </Link>
 
             {/* Wishlist Icon */}
-            <button
+           <button onClick={() => addToWishlist(product)}
+           type='button'
                 className="cursor-hover absolute top-2 right-2 bg-pry p-1 rounded-full text-wt hover:text-bk z-10 text-lg"
-                onClick={(e) => e.preventDefault()} // prevent Link trigger
+              // prevent Link trigger
             >
                 <FaHeart />
             </button>
@@ -57,11 +60,7 @@ export default function ProductCard({ product, baseURL }) {
                 {/* Add to Cart */}
                 <div className="mt-4 flex items-center justify-between gap-2">
                     {/* Add to Cart (icon only) */}
-                    <button
-                        onClick={(e) => {
-                            e.preventDefault();
-                            // handleAddToCart(product)
-                        }}
+                   <button onClick={() => addToCart(product)}
                         className="cursor-hover p-2 rounded-full bg-sec text-wt  transition"
                     >
                         <FaShoppingCart className="text-lg" />

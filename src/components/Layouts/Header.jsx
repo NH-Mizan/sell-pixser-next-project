@@ -7,6 +7,7 @@ import {
   FaRegUserCircle
 } from 'react-icons/fa';
 import { IoGitCompare } from "react-icons/io5";
+import { useCart } from "@/context/cartcontext";
 
 
 export default function MainHeader() {
@@ -14,18 +15,19 @@ export default function MainHeader() {
   const [show, setShow] = useState(false);
   const [cat, setCat] = useState([]);
   const baseURL = 'https://sellpixer.websolutionit.com/';
+  const { cartItems } = useCart();
 
   const toggleMenu = () => setIsOpen(!isOpen);
-    useEffect(() => {
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories`) 
-        .then(res => res.json())
-        .then(data => {
-          if (data.status === 'success') {
-            setCat(data.data);
-           
-          }
-        });
-    }, []);
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === 'success') {
+          setCat(data.data);
+
+        }
+      });
+  }, []);
 
   return (
     <div className="relative shadow-md mb-2">
@@ -49,7 +51,9 @@ export default function MainHeader() {
                 </a>
                 <a href="#" className="relative hover:text-yellow-400">
                   <FaShoppingCart />
-                  <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs px-1 rounded-full">0</span>
+                  <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs px-1 rounded-full"> {cartItems.map((item, idx) => (
+                    <div key={idx}>{item.name}</div>
+                  ))}</span>
                 </a>
               </div>
             </div>
@@ -114,22 +118,22 @@ export default function MainHeader() {
       {/* === Slide-in Mobile Drawer === */}
       <div className={`fixed top-0 left-0 h-full w-[260px] bg-black text-white z-50 transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex justify-between items-center p-4 border-b border-gray-700">
-           <Link href={'/'}> <img src="/images/sell-pixer.webp" alt="Logo" className="w-22 md:w-28 ml-4" /></Link>
+          <Link href={'/'}> <img src="/images/sell-pixer.webp" alt="Logo" className="w-22 md:w-28 ml-4" /></Link>
           <button onClick={toggleMenu} className="text-xl">
             <FaTimes />
           </button>
         </div>
         <ul className="flex flex-col gap-4 px-6 py-4">
           <li><Link href="#" className="hover:text-[#ed145b]">Home</Link></li>
-           {
+          {
             cat.map((category) => (
               <li key={category.id}>
-                <Link href={`/category/${category.slug}`} className="hover:text-[#ed145b]">
+                <Link href={`/category/${category.id}`} className="hover:text-[#ed145b]">
                   {category.name}
                 </Link>
               </li>
             ))
-           }
+          }
           <li><Link href="#" className="hover:text-[#ed145b]">Track Order</Link></li>
           <li><Link href="#" className="hhover:text-[#ed145b]">Login / Signup</Link></li>
         </ul>
@@ -197,10 +201,10 @@ export default function MainHeader() {
           {/* Hotline - hidden on small screens */}
           <div className="hidden lg:flex items-center gap-2 text-sm">
             <BiSupport className="text-[25px] text-bk" />
-            
+
             <a href="tel:+8801303779646" className="text-wt  ">
               <div className="text-bk text-[15px] mb-[-3px]">Hotline:</div>
-             <span className="text-sm"> +8801303-779646</span>
+              <span className="text-sm"> +8801303-779646</span>
             </a>
           </div>
 
