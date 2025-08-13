@@ -8,7 +8,7 @@ import { FaWhatsapp } from 'react-icons/fa';
 
 export function generateMetadata({ params }) {
   return {
-    title: `Product Details - ${params.slug}`,
+    title: `Product Details - ${params.id}`,
   };
 }
 
@@ -16,7 +16,7 @@ export default async function ProductDetailsPage({ params }) {
   const baseURL = 'https://sellpixer.websolutionit.com/';
   const { slug } = params;
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/details/${slug}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/details/${id}`, {
     cache: 'no-store',
   });
 
@@ -26,6 +26,7 @@ export default async function ProductDetailsPage({ params }) {
 
   const data = await res.json();
   const product = data?.data?.[0];
+  
 
 
   if (!product) {

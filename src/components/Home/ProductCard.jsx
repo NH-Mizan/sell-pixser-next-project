@@ -11,7 +11,7 @@ export default function ProductCard({ product, baseURL }) {
 
     return (
         <Link
-            href={`/product/${product.slug}`}
+            href={`/details/${product.id}`}
             data-aos="zoom-in"
             data-aos-duration="500"
             className="relative border border-red-300 rounded-lg shadow overflow-hidden transform group-hover:scale-105 transition duration-300 ease-in-out"
@@ -24,7 +24,7 @@ export default function ProductCard({ product, baseURL }) {
             )}
 
             {/* Image */}
-            <Link href={`/details/${product.slug}`}>
+            <Link href={`/details/${product.id}`}>
                 <img
                     src={`${baseURL}${product.image?.image}`}
                     alt={product.name}
@@ -43,7 +43,7 @@ export default function ProductCard({ product, baseURL }) {
 
             {/* Details */}
             <div className="p-4 space-y-2">
-                <Link href={`/details/${product.slug}`}>
+                <Link href={`/details/${product.id}`}>
                     <h3 className="text-sm h-16 font-semibold hover:text-blue-600 transition">
                         {product.name.length > 30 ? product.name.slice(0, 35) + '...' : product.name}
                     </h3>
