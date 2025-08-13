@@ -1,6 +1,7 @@
 // app/productDetails/[slug]/page.jsx
 import ProductInfoTabs from '@/components/ProductInfoTabs';
 import RelatedProducts from '@/components/RelatedProducts';
+import { resize } from 'framer-motion';
 import Link from 'next/link';
 
 import React from 'react';
@@ -14,7 +15,8 @@ export function generateMetadata({ params }) {
 
 export default async function ProductDetailsPage({ params }) {
   const baseURL = 'https://sellpixer.websolutionit.com/';
-  const { slug } = params;
+  const { id } = params;
+ 
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/details/${id}`, {
     cache: 'no-store',
@@ -25,8 +27,9 @@ export default async function ProductDetailsPage({ params }) {
   }
 
   const data = await res.json();
-  const product = data?.data?.[0];
-  
+  console.log(data)
+  const product = data?.data;
+  console.log(product)
 
 
   if (!product) {

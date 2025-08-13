@@ -5,6 +5,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Link from 'next/link';
 import { PiArrowFatLineRight } from "react-icons/pi";
+import Loader from '@/app/loading';
 
 const ProductCard = dynamic(() => import('./ProductCard'), { ssr: false });
 
@@ -32,9 +33,7 @@ export default function CategoryWiseProducts() {
   }, []);
 
   if (!mounted || categories.length === 0) {
-    return <div className="loading-wrapper">
-      <div className="runner" />
-    </div>;
+    return <Loader/>;
   }
 
   return (
