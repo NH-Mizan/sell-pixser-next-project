@@ -4,6 +4,7 @@ import { use } from "react";
 import { useEffect, useState } from "react";
 import ProductCard from "@/components/Home/ProductCard";
 import Link from "next/link";
+import Loader from "../loading";
 
 export default function RelatedProducts({ params }) {
   const { id } = use(params); // ✅ এখন params unwrap হলো
@@ -89,7 +90,7 @@ export default function RelatedProducts({ params }) {
           </div>
 
           {loading ? (
-            <div className="text-center py-20 text-gray-500">Loading...</div>
+            <Loader/>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
               {sortedProducts.map((product) => (
