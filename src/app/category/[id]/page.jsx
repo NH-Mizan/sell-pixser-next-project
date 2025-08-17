@@ -1,24 +1,30 @@
 "use client";
 
+import { use } from "react"; 
 import { useEffect, useState } from "react";
 import ProductCard from "@/components/Home/ProductCard";
 import Link from "next/link";
 
 export default function RelatedProducts({ params }) {
-  const { id } = params;
+  const { id } = use(params); // ✅ এখন params unwrap হলো
+
   const [products, setProducts] = useState([]);
   const [sortBy, setSortBy] = useState("");
   const [category, setCategory] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        setLoading(true);
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/category/${id}`);
         if (!res.ok) throw new Error("Failed to fetch product");
         const data = await res.json();
         setProducts(data?.data || []);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchProducts();
@@ -40,12 +46,8 @@ export default function RelatedProducts({ params }) {
 
   // sorting logic
   const sortedProducts = [...products].sort((a, b) => {
-    if (sortBy === "price") {
-      return a.new_price - b.new_price; // ascending by price
-    }
-    if (sortBy === "name") {
-      return a.name.localeCompare(b.name); // ascending by name
-    }
+    if (sortBy === "price") return a.new_price - b.new_price;
+    if (sortBy === "name") return a.name.localeCompare(b.name);
     return 0;
   });
 
@@ -60,10 +62,11 @@ export default function RelatedProducts({ params }) {
               <Link
                 href={`/category/${cate.id}`}
                 key={cate.id}
-                className={`block px-3 py-2 rounded-lg transition ${Number(id) === cate.id
+                className={`block px-3 py-2 rounded-lg transition ${
+                  Number(id) === cate.id
                     ? "bg-sec text-white font-medium"
                     : "hover:bg-gray-100"
-                  }`}
+                }`}
               >
                 {cate.name}
               </Link>
@@ -73,7 +76,6 @@ export default function RelatedProducts({ params }) {
 
         {/* Right Side - Products */}
         <div className="md:col-span-3">
-          {/* Sort Option */}
           <div className="flex justify-end items-center mb-4">
             <select
               className="border px-3 py-2 rounded-md shadow-sm"
@@ -86,16 +88,19 @@ export default function RelatedProducts({ params }) {
             </select>
           </div>
 
-          {/* Product Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-            {sortedProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                baseURL="https://sellpixer.websolutionit.com/"
-              />
-            ))}
-          </div>
+          {loading ? (
+            <div className="text-center py-20 text-gray-500">Loading...</div>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              {sortedProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  baseURL="https://sellpixer.websolutionit.com/"
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
