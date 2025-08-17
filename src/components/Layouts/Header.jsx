@@ -154,7 +154,7 @@ export default function MainHeader() {
             {/* Example Categories */}
             {cat.map((category) => (
               <Link key={category.id} href={`/category/${category.id}`}>
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center" onClick={() => setShow(!show)}>
                   <img
                     src={`${baseURL}${category.image}`}
                     alt={category.name}
