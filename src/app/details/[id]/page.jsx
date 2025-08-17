@@ -27,9 +27,8 @@ export default async function ProductDetailsPage({ params }) {
   }
 
   const data = await res.json();
-  console.log(data)
   const product = data?.data;
-  console.log(product)
+
 
 
   if (!product) {
