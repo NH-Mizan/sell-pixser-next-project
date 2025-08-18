@@ -1,7 +1,6 @@
 // app/productDetails/[slug]/page.jsx
 import ProductInfoTabs from '@/components/ProductInfoTabs';
 import RelatedProducts from '@/components/RelatedProducts';
-import { resize } from 'framer-motion';
 import Link from 'next/link';
 
 import React from 'react';
