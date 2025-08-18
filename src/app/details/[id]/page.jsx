@@ -134,8 +134,8 @@ export default async function ProductDetailsPage({ params }) {
       <div className="w-full mt-10">
         <ProductInfoTabs
           description={product?.description}
-          ingredients={product?.ingredients}
-          howToUse={product?.howToUse}
+          review={product?.review}
+          video={product?.video}
         />
       </div>
 

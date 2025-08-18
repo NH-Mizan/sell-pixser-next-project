@@ -8,12 +8,15 @@ import {
 } from 'react-icons/fa';
 import { IoGitCompare } from "react-icons/io5";
 import { useCart } from "@/context/cartcontext";
+import { useRouter } from "next/navigation";
 
 
 export default function MainHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const [show, setShow] = useState(false);
   const [cat, setCat] = useState([]);
+   const [selected, setSelected] = useState("");
+     const router = useRouter();
   const baseURL = 'https://sellpixer.websolutionit.com/';
   const { cartItems } = useCart();
 
@@ -28,6 +31,14 @@ export default function MainHeader() {
         }
       });
   }, []);
+   const handleChange = (e) => {
+    const value = e.target.value;
+    setSelected(value);
+
+    if (value !== "Select Category") {
+      router.push(value); // 👉 redirect to category page
+    }
+  };
 
   return (
     <div className="relative shadow-md mb-2">
@@ -71,15 +82,17 @@ export default function MainHeader() {
               <div className="w-[2px] bg-pry my-2" />
 
               {/* Select Dropdown */}
-              <select className="text-sm px-3 outline-none bg-white text-black appearance-none">
+              <select
+                className="text-sm px-3 outline-none bg-white text-black appearance-none"
+                value={selected}
+                onChange={handleChange}
+              >
                 <option>Select Category</option>
-                {
-                  cat.map((category) => (
-                    <option key={category.id} value={category.slug}>
-                      {category.name}
-                    </option>
-                  ))
-                }
+                {cat.map((category) => (
+                  <option key={category.id} value={`/category/${category.id}`}>
+                    {category.name}
+                  </option>
+                ))}
               </select>
 
               {/* Search Button */}
