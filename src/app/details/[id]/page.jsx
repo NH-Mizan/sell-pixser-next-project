@@ -109,9 +109,9 @@ export default async function ProductDetailsPage({ params }) {
         {/* Action Buttons */}
         <div className=" flex-wrap items-center gap-3 mt-4">
           <div className='flex gap-4 mb-2'>
-            <button className="bg-pink-600 text-white px-6 py-2 rounded hover:bg-pink-700 transition">Add To Cart</button>
-          <button className="bg-sky-500 text-white px-6 py-2 rounded hover:bg-sky-600 transition">Order Now</button></div>
-          <Link href="tel:01766950986" className="flex w-[275px] justify-center text-center items-center bg-green-500 text-white  px-4 py-2 rounded hover:bg-green-600 transition">
+            <button className="bg-pink-600 text-white px-4 lg:px-6 py-2 rounded hover:bg-pink-700 transition">Add To Cart</button>
+          <button className="bg-sky-500 text-white px-4 lg:px-6 py-2 rounded hover:bg-sky-600 transition">Order Now</button></div>
+          <Link href="tel:01766950986" className="flex w-[270px] lg:w-[275px]  justify-center text-center items-center bg-green-500 text-white  px-4 py-2 rounded hover:bg-green-600 transition">
             <FaWhatsapp className='mr-2 font-bold text-xl' /> 01766950986
           </Link>
         </div>
