@@ -2,13 +2,13 @@
 
 import { use } from "react"; 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation"; // ✅ router import
+import { useRouter } from "next/navigation"; 
 import ProductCard from "@/components/Home/ProductCard";
 import Loader from "../loading";
 
 export default function RelatedProducts({ params }) {
   const { id } = use(params); 
-  const router = useRouter(); // ✅ router ইনিশিয়ালাইজ
+  const router = useRouter(); 
 
   const [products, setProducts] = useState([]);
   const [sortBy, setSortBy] = useState("");
@@ -71,7 +71,7 @@ export default function RelatedProducts({ params }) {
                   name="category"
                   value={cate.id}
                   checked={Number(id) === cate.id}
-                  onChange={() => router.push(`/category/${cate.id}`)} // ✅ এখন কাজ করবে
+                  onChange={() => router.push(`/category/${cate.id}`)}
                   className="text-sec focus:ring-sec cursor-pointer"
                 />
                 <label
