@@ -103,13 +103,13 @@ export default function MainHeader() {
 
             {/* Desktop Icons */}
             <div className="hidden lg:flex items-center justify-end gap-4 text-sm col-span-1 text-black">
-              <a href="#" className=" flex items-center gap-1">
+              <Link href={'/login'} className=" flex items-center gap-1">
                 <FaRegUserCircle className="text-[30px]" />
                 <span>
                   <p className="text-sm" >Hello, Sign In/Sign Up</p>
                   <p className="font-bold text-md ">Your Account</p>
                 </span>
-              </a>
+              </Link>
               <a href="#" className=" flex items-center gap-1">
                 <IoGitCompare className="text-[24px]" />
               </a>
