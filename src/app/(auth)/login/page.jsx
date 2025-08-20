@@ -1,7 +1,7 @@
 // pages/login.js  OR  app/login/page.jsx
 export default function Login() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+    <div className="min-h-screen py-4 flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
         {/* Title */}
         <h2 className="text-3xl font-bold text-center text-gray-800">Welcome Back 👋</h2>
