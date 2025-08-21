@@ -44,7 +44,7 @@ export default function CategoryWiseProducts() {
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg lg:text-3xl font-bold text-gray-800 " data-aos="fade-right"
             data-aos-duration="500">{category.name}</h2>
-            <Link href={`/category/${category.slug}`} className="flex text-sm lg:text-lg items-center text-wt bg-pry px-4 py-1 rounded-lg hover:text-sec "data-aos="fade-left"
+            <Link href={`/category/${category.id}`} className="flex text-sm lg:text-lg items-center text-wt bg-pry px-4 py-1 rounded-lg hover:text-sec "data-aos="fade-left"
             data-aos-duration="500">
               View All <PiArrowFatLineRight className='ml-2'/>
             </Link>

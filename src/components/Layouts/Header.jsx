@@ -15,6 +15,7 @@ export default function MainHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const [show, setShow] = useState(false);
   const [cat, setCat] = useState([]);
+  const {wishlistItems} = useCart()
    const [selected, setSelected] = useState("");
      const router = useRouter();
   const baseURL = 'https://sellpixer.websolutionit.com/';
@@ -57,9 +58,9 @@ export default function MainHeader() {
 
               {/* Mobile Icons */}
               <div className="lg:hidden md:hidden flex gap-4">
-                <a href="#" className="hover:text-yellow-400 flex items-center gap-1">
+                <Link href={'/login'} className="hover:text-yellow-400 flex items-center gap-1">
                   <FaUser />
-                </a>
+                </Link>
                 <a href="#" className="relative hover:text-yellow-400">
                   <FaShoppingCart />
                   <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs px-1 rounded-full"> {cartItems.map((item, idx) => (
@@ -116,7 +117,7 @@ export default function MainHeader() {
 
               <a href="#" className="relative ">
                 <FaHeart className="text-[24px]" />
-                <span className="absolute -top-2 -right-2 bg-pry text-wt text-xs px-1 rounded-full">0</span>
+                <span className="absolute -top-2 -right-2 bg-pry text-wt text-xs px-1 rounded-full">{wishlistItems?.length}</span>
               </a>
               <a href="#" className="relative ">
                 <FaShoppingCart className="text-[24px]" />

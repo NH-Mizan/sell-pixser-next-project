@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { FaHeart, FaShoppingCart } from 'react-icons/fa';
 
 export default function ProductCard({ product, baseURL }) {
-    const { addToCart, addToWishlist } = useCart();
+      const { addToCart, addToWishlist } = useCart();
     const discount = product.old_price
         ? Math.round(((product.old_price - product.new_price) / product.old_price) * 100)
         : 0;

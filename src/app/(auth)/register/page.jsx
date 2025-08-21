@@ -13,7 +13,7 @@ export default function Register() {
 
       {/* Right Side - Form */}
       <div className="flex items-center justify-center bg-gray-50">
-        <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+        <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
           {/* Title */}
           <h2 className="text-3xl font-bold text-center text-gray-800">Create Account 🚀</h2>
           <p className="mt-2 text-center text-gray-500">Sign up to get started</p>
@@ -26,7 +26,7 @@ export default function Register() {
               <input
                 type="text"
                 placeholder="Enter your name"
-                className="mt-1 w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="mt-1 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
 
@@ -36,7 +36,7 @@ export default function Register() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="mt-1 w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="mt-1 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
 
@@ -46,7 +46,7 @@ export default function Register() {
               <input
                 type="password"
                 placeholder="Create a password"
-                className="mt-1 w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="mt-1 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
 
@@ -56,7 +56,7 @@ export default function Register() {
               <input
                 type="password"
                 placeholder="Confirm your password"
-                className="mt-1 w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="mt-1 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
 
@@ -74,7 +74,7 @@ export default function Register() {
             {/* Register Button */}
             <button
               type="submit"
-              className="w-full py-2 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition"
+              className="w-full py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
             >
               Register
             </button>
