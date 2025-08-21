@@ -1,6 +1,7 @@
 'use client';
 import { useCart } from '@/context/cartcontext';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
 import { FaHeart, FaShoppingCart } from 'react-icons/fa';
 
 export default function ProductCard({ product, baseURL }) {
@@ -8,6 +9,14 @@ export default function ProductCard({ product, baseURL }) {
     const discount = product.old_price
         ? Math.round(((product.old_price - product.new_price) / product.old_price) * 100)
         : 0;
+    const handleWishlist = () => {
+    addToWishlist(product);
+    toast.success(`${product.name} added to Wishlist!`);
+  };
+    const handleaddtocard = () => {
+    addToCart(product);
+    toast.success(`${product.name} added to Wishlist!`);
+  };
 
     return (
         <div
@@ -24,7 +33,7 @@ export default function ProductCard({ product, baseURL }) {
 
             {/* Wishlist Icon */}
             <button
-                onClick={() => addToWishlist(product)}
+                onClick={handleWishlist}
                 type="button"
                 className="cursor-hover absolute top-2 right-2 bg-pry p-1 rounded-full text-wt hover:text-bk z-10 text-lg"
             >
@@ -63,7 +72,7 @@ export default function ProductCard({ product, baseURL }) {
             {/* Actions (outside link so clicks don’t trigger navigation) */}
             <div className="px-4 pb-4 flex items-center justify-between gap-2">
                 <button
-                    onClick={() => addToCart(product)}
+                    onClick={handleaddtocard}
                     className="cursor-hover p-2 rounded-full bg-sec text-wt transition"
                 >
                     <FaShoppingCart className="text-lg" />

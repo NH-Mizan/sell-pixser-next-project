@@ -6,6 +6,7 @@ import Topline from "@/components/Layouts/topline";
 import SocialIcons from "@/components/Layouts/SocialIcon";
 import ScrollToTopButton from "@/components/Layouts/ScrollerTop";
 import { CartProvider } from "@/context/cartcontext";
+import { Toaster } from "react-hot-toast";
 
 
 const geistSans = Geist({
@@ -37,6 +38,7 @@ export default function RootLayout({ children }) {
           <Topline />
           <MainHeader />
           <main>{children}</main>
+          <Toaster position="top-right" reverseOrder={false} />
           <Footer />
           <SocialIcons />
           <ScrollToTopButton />

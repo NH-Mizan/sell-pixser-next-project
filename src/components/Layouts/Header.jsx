@@ -15,11 +15,11 @@ export default function MainHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const [show, setShow] = useState(false);
   const [cat, setCat] = useState([]);
-  const {wishlistItems} = useCart()
+  const {wishlistItems,cartItems} = useCart()
    const [selected, setSelected] = useState("");
      const router = useRouter();
   const baseURL = 'https://sellpixer.websolutionit.com/';
-  const { cartItems } = useCart();
+  
 
   const toggleMenu = () => setIsOpen(!isOpen);
   useEffect(() => {
@@ -117,11 +117,11 @@ export default function MainHeader() {
 
               <a href="#" className="relative ">
                 <FaHeart className="text-[24px]" />
-                <span className="absolute -top-2 -right-2 bg-pry text-wt text-xs px-1 rounded-full">{wishlistItems?.length}</span>
+                <span className="absolute -top-2 -right-2 bg-pry text-wt text-xs px-1 rounded-full">{wishlistItems?wishlistItems.length:0}</span>
               </a>
               <a href="#" className="relative ">
                 <FaShoppingCart className="text-[24px]" />
-                <span className="absolute -top-2 -right-2 bg-pry text-wt text-xs px-1 rounded-full">0</span>
+                <span className="absolute -top-2 -right-2 bg-pry text-wt text-xs px-1 rounded-full">{cartItems? cartItems.length:0}</span>
 
               </a>
             </div>

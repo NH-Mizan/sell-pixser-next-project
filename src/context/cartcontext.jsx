@@ -7,8 +7,7 @@ const CartContext = createContext();
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
-  console.log(cartItems)
-  console.log(wishlistItems)
+
 
   // Add to Cart
   const addToCart = (product) => {
