@@ -1,3 +1,4 @@
+import LottieAnimation from "@/components/LottieFils/RegisterBanner";
 import Link from "next/link";
 
 // pages/login.js  OR  app/login/page.jsx
@@ -66,11 +67,7 @@ export default function Login() {
 
       {/* Right Side - Image */}
       <div className="hidden md:flex items-center justify-center  ">
-        <img
-          src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1000&q=80"
-          alt="Login Banner"
-          className="w-4/5 h-auto rounded-2xl shadow-lg"
-        />
+        <LottieAnimation/>
       </div>
     </div>
     </div>

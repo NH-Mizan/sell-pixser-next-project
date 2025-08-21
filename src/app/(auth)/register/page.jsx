@@ -1,3 +1,4 @@
+import LottieAnimation from "@/components/LottieFils/RegisterBanner";
 import Link from "next/link";
 
 // pages/register.js  OR  app/register/page.jsx
@@ -7,11 +8,7 @@ export default function Register() {
         <div className="min-h-screen w-10/12 mx-auto grid grid-cols-1 md:grid-cols-2">
       {/* Left Side - Image */}
       <div className="hidden md:flex items-center justify-center ">
-        <img
-          src="https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1000&q=80"
-          alt="Register Banner"
-          className="w-4/5 h-auto rounded-2xl shadow-lg"
-        />
+        <LottieAnimation/>
       </div>
 
       {/* Right Side - Form */}
