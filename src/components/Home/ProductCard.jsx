@@ -1,8 +1,9 @@
 'use client';
 import { useCart } from '@/context/cartcontext';
 import Link from 'next/link';
-import toast from 'react-hot-toast';
+
 import { FaHeart, FaShoppingCart } from 'react-icons/fa';
+import { toast, Bounce } from 'react-toastify';
 
 export default function ProductCard({ product, baseURL }) {
       const { addToCart, addToWishlist } = useCart();
@@ -11,11 +12,29 @@ export default function ProductCard({ product, baseURL }) {
         : 0;
     const handleWishlist = () => {
     addToWishlist(product);
-    toast.success(`${product.name} added to Wishlist!`);
+    toast.success(`❤️ ${product.name} added to Wishlist!`, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+      transition: Bounce,
+    });
   };
     const handleaddtocard = () => {
     addToCart(product);
-    toast.success(`${product.name} added to Wishlist!`);
+    toast.success(` ${product.name} added to Add To Card!`, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "light",
+      transition: Bounce,
+    });
   };
 
     return (

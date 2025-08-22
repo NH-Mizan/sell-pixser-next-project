@@ -61,12 +61,10 @@ export default function MainHeader() {
                 <Link href={'/login'} className="hover:text-yellow-400 flex items-center gap-1">
                   <FaUser />
                 </Link>
-                <a href="#" className="relative hover:text-yellow-400">
+                <Link href="#" className="relative hover:text-yellow-400">
                   <FaShoppingCart />
-                  <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs px-1 rounded-full"> {cartItems.map((item, idx) => (
-                    <div key={idx}>{item.name}</div>
-                  ))}</span>
-                </a>
+                  <span className="absolute -top-2 -right-2 bg-pry text-wt text-xs px-1 rounded-full"> {cartItems?cartItems.length:0}</span>
+                </Link>
               </div>
             </div>
 
@@ -111,19 +109,19 @@ export default function MainHeader() {
                   <p className="font-bold text-md ">Your Account</p>
                 </span>
               </Link>
-              <a href="#" className=" flex items-center gap-1">
+              <Link href="#" className=" flex items-center gap-1">
                 <IoGitCompare className="text-[24px]" />
-              </a>
+              </Link>
 
-              <a href="#" className="relative ">
+              <Link href={'/wishlist'} className="relative ">
                 <FaHeart className="text-[24px]" />
                 <span className="absolute -top-2 -right-2 bg-pry text-wt text-xs px-1 rounded-full">{wishlistItems?wishlistItems.length:0}</span>
-              </a>
-              <a href="#" className="relative ">
+              </Link>
+              <Link href="#" className="relative ">
                 <FaShoppingCart className="text-[24px]" />
                 <span className="absolute -top-2 -right-2 bg-pry text-wt text-xs px-1 rounded-full">{cartItems? cartItems.length:0}</span>
 
-              </a>
+              </Link>
             </div>
           </nav>
         </header>
@@ -216,10 +214,10 @@ export default function MainHeader() {
           <div className="hidden lg:flex items-center gap-2 text-sm">
             <BiSupport className="text-[25px] text-bk" />
 
-            <a href="tel:+8801303779646" className="text-wt  ">
+            <Link href="tel:+8801303779646" className="text-wt  ">
               <div className="text-bk text-[15px] mb-[-3px]">Hotline:</div>
               <span className="text-sm"> +8801303-779646</span>
-            </a>
+            </Link>
           </div>
 
         </div>
