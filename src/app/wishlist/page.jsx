@@ -6,15 +6,13 @@ import { FaShoppingCart, FaTrash } from "react-icons/fa";
 import { Bounce, toast } from "react-toastify";
 
 export default function WishlistPage() {
-    const { wishlist, addToCart } = useShopStore();
+    const { wishlist, addToCart,removeFromWishlist } = useShopStore();
     const baseURL = 'https://sellpixer.websolutionit.com/';
 
-    const handleRemove = (id) => {
-        setWishlist((prev) => prev.filter((item) => item.id !== id));
-    };
+   
     const handleaddtocard = (product) => {
         addToCart(product); 
-            toast.success(` $ Success to Add To Card!`, {
+            toast.success(`  Success to Add To Card!`, {
               position: "top-right",
               autoClose: 3000,
               hideProgressBar: false,
@@ -26,6 +24,19 @@ export default function WishlistPage() {
             });
 
         }
+    const handleRemove = (id) => {
+       removeFromWishlist(id); 
+        toast.error(`💔 Removed from Wishlist!`, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "colored",
+            transition: Bounce,
+        });
+    }
 
     if (wishlist.length === 0) {
         return (
