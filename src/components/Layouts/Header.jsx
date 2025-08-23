@@ -7,15 +7,15 @@ import {
   FaRegUserCircle
 } from 'react-icons/fa';
 import { IoGitCompare } from "react-icons/io5";
-import { useCart } from "@/context/cartcontext";
 import { useRouter } from "next/navigation";
+import useShopStore from "@/context/cardStore";
 
 
 export default function MainHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const [show, setShow] = useState(false);
   const [cat, setCat] = useState([]);
-  const {wishlistItems,cartItems} = useCart()
+  const { cart, wishlist, compare } = useShopStore();
    const [selected, setSelected] = useState("");
      const router = useRouter();
   const baseURL = 'https://sellpixer.websolutionit.com/';
@@ -63,7 +63,7 @@ export default function MainHeader() {
                 </Link>
                 <Link href="#" className="relative hover:text-yellow-400">
                   <FaShoppingCart />
-                  <span className="absolute -top-2 -right-2 bg-pry text-wt text-xs px-1 rounded-full"> {cartItems?cartItems.length:0}</span>
+                  <span className="absolute -top-2 -right-2 bg-pry text-wt text-xs px-1 rounded-full"> {cart?cart.length:0}</span>
                 </Link>
               </div>
             </div>
@@ -115,11 +115,11 @@ export default function MainHeader() {
 
               <Link href={'/wishlist'} className="relative ">
                 <FaHeart className="text-[24px]" />
-                <span className="absolute -top-2 -right-2 bg-pry text-wt text-xs px-1 rounded-full">{wishlistItems?wishlistItems.length:0}</span>
+                <span className="absolute -top-2 -right-2 bg-pry text-wt text-xs px-1 rounded-full">{wishlist?wishlist.length:0}</span>
               </Link>
               <Link href="#" className="relative ">
                 <FaShoppingCart className="text-[24px]" />
-                <span className="absolute -top-2 -right-2 bg-pry text-wt text-xs px-1 rounded-full">{cartItems? cartItems.length:0}</span>
+                <span className="absolute -top-2 -right-2 bg-pry text-wt text-xs px-1 rounded-full">{cart? cart.length:0}</span>
 
               </Link>
             </div>

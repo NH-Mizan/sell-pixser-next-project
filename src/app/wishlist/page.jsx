@@ -1,15 +1,16 @@
 "use client";
 
-import { useCart } from "@/context/cartcontext";
+import useShopStore from "@/context/cardStore";
+
 import { FaShoppingCart, FaTrash } from "react-icons/fa";
 import { Bounce, toast } from "react-toastify";
 
 export default function WishlistPage() {
-    const { wishlistItems, addToCart, setWishlistItems } = useCart();
+    const { wishlist, addToCart } = useShopStore();
     const baseURL = 'https://sellpixer.websolutionit.com/';
 
     const handleRemove = (id) => {
-        setWishlistItems((prev) => prev.filter((item) => item.id !== id));
+        setWishlist((prev) => prev.filter((item) => item.id !== id));
     };
     const handleaddtocard = (product) => {
         addToCart(product); 
@@ -26,7 +27,7 @@ export default function WishlistPage() {
 
         }
 
-    if (wishlistItems.length === 0) {
+    if (wishlist.length === 0) {
         return (
             <div className="p-10 text-center">
                 <h2 className="text-2xl font-semibold text-gray-600">
@@ -53,7 +54,7 @@ export default function WishlistPage() {
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
-                        {wishlistItems.map((item) => (
+                        {wishlist.map((item) => (
                             <tr
                                 key={item.id}
                                 className="hover:bg-gray-50 transition-colors duration-200"

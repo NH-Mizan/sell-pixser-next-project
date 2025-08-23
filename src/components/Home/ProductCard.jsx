@@ -1,12 +1,14 @@
 'use client';
-import { useCart } from '@/context/cartcontext';
+import useShopStore from '@/context/cardStore';
 import Link from 'next/link';
+
 
 import { FaHeart, FaShoppingCart } from 'react-icons/fa';
 import { toast, Bounce } from 'react-toastify';
 
 export default function ProductCard({ product, baseURL }) {
-      const { addToCart, addToWishlist } = useCart();
+    const { addToCart, addToWishlist, addToCompare } = useShopStore();
+
     const discount = product.old_price
         ? Math.round(((product.old_price - product.new_price) / product.old_price) * 100)
         : 0;
@@ -24,7 +26,7 @@ export default function ProductCard({ product, baseURL }) {
     });
   };
     const handleaddtocard = () => {
-    addToCart(product);
+      addToCart(product);
     toast.success(` ${product.name} added to Add To Card!`, {
       position: "top-right",
       autoClose: 3000,

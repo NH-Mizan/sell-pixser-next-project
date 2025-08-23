@@ -5,7 +5,6 @@ import MainHeader from "@/components/Layouts/Header";
 import Topline from "@/components/Layouts/topline";
 import SocialIcons from "@/components/Layouts/SocialIcon";
 import ScrollToTopButton from "@/components/Layouts/ScrollerTop";
-import { CartProvider } from "@/context/cartcontext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -36,7 +35,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <CartProvider>
+     
           <Topline />
           <MainHeader />
           <main>{children}</main>
@@ -44,7 +43,7 @@ export default function RootLayout({ children }) {
           <Footer />
           <SocialIcons />
           <ScrollToTopButton />
-        </CartProvider>
+       
       </body>
     </html>
   );
