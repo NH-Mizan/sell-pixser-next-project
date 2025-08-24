@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import { FaHeart, FaShoppingCart } from 'react-icons/fa';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { useCart } from '@/context/cartcontext';
+
 
 export default function ProductsPage() {
-    const { addToCart, addToWishlist } = useCart();
+
   const [products, setProducts] = useState([]);
   const baseURL = 'https://sellpixer.websolutionit.com/';
 
