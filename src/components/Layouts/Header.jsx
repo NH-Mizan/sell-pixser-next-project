@@ -59,10 +59,10 @@ export default function MainHeader() {
 
               {/* Mobile Icons */}
               <div className="lg:hidden md:hidden flex gap-4">
-                <Link href={'/login'} className="hover:text-yellow-400 flex items-center gap-1">
+                <Link href={'/login'} className="flex items-center gap-1">
                   <FaUser />
                 </Link>
-                <Link href="#" className="relative hover:text-yellow-400">
+                <Link href={'/checkout'} className="relative">
                   <FaShoppingCart />
                   <span className="absolute -top-2 -right-2 bg-pry text-wt text-xs px-1 rounded-full"> {cart?cart.length:0}</span>
                 </Link>
