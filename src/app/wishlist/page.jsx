@@ -28,7 +28,7 @@ export default function WishlistPage() {
   // ❌ Remove from Wishlist
   const handleRemove = (id) => {
     removeFromWishlist(id);
-    toast.error("💔 Removed from Wishlist!", {
+    toast.error(" Removed from Wishlist!", {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
@@ -42,9 +42,9 @@ export default function WishlistPage() {
 
   if (wishlist.length === 0) {
     return (
-      <div className="p-10 text-center">
+      <div className=" min-h-screen w-10/12 mx-auto justify-center items-center flex flex-col gap-4">
         <h2 className="text-2xl font-semibold text-gray-600">
-          💔 Your Wishlist is Empty
+           Your Wishlist is Empty
         </h2>
         <p className="text-gray-500 mt-2">Browse products and add to wishlist!</p>
       </div>
@@ -53,7 +53,7 @@ export default function WishlistPage() {
 
   return (
     <div className="container w-10/12 mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">My Wishlist ❤️</h1>
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">My Wishlist </h1>
 
       <div className="overflow-hidden rounded-xl shadow-lg border border-gray-200">
         <table className="min-w-full">

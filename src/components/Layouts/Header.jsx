@@ -3,9 +3,10 @@ import Link from "next/link";
 import { BiSupport } from "react-icons/bi";
 import { useEffect, useState } from 'react';
 import {
-  FaBars, FaTimes, FaUser, FaShoppingCart, FaTruck, FaHeart, FaSearch, FaAngleDown,
+  FaBars, FaTimes, FaUser, FaShoppingCart, FaSearch, FaAngleDown,
   FaRegUserCircle
 } from 'react-icons/fa';
+import { GoHeart } from "react-icons/go";
 import { IoGitCompare } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 import useShopStore from "@/context/cardStore";
@@ -114,7 +115,9 @@ export default function MainHeader() {
               </Link>
 
               <Link href={'/wishlist'} className="relative ">
-                <FaHeart className="text-[24px]" />
+             
+                  <GoHeart className="text-[24px]" />
+              
                 <span className="absolute -top-2 -right-2 bg-pry text-wt text-xs px-1 rounded-full">{wishlist?wishlist.length:0}</span>
               </Link>
               <Link href={'/checkout'} className="relative ">
