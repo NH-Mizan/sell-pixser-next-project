@@ -15,7 +15,7 @@ export default function ProductCard({ product, baseURL }) {
     const handleWishlist = () => {
     addToWishlist(product);
     toast.success(`❤️ ${product.name} added to Wishlist!`, {
-      position: "top-right",
+      position: "bottom-right",
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -28,7 +28,7 @@ export default function ProductCard({ product, baseURL }) {
     const handleaddtocard = () => {
       addToCart(product);
     toast.success(` ${product.name} added to Add To Card!`, {
-      position: "top-right",
+      position: "bottom-right",
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -56,7 +56,7 @@ export default function ProductCard({ product, baseURL }) {
             <button
                 onClick={handleWishlist}
                 type="button"
-                className="cursor-hover absolute top-2 right-2 bg-pry p-1 rounded-full text-wt hover:text-bk z-10 text-lg"
+                className="hover-bg-sec absolute top-2 right-2 bg-pry p-1 rounded-full text-wt hover:text-bk z-10 text-lg"
             >
                 <FaHeart />
             </button>
@@ -72,7 +72,7 @@ export default function ProductCard({ product, baseURL }) {
 
                 {/* Details */}
                 <div className="p-4 space-y-2">
-                    <h3 className="text-sm h-16 font-semibold hover:text-blue-600 transition">
+                    <h3 className="text-sm h-16 font-semibold hover-text-sec transition">
                         {product.name.length > 30
                             ? product.name.slice(0, 35) + '...'
                             : product.name}
@@ -94,7 +94,7 @@ export default function ProductCard({ product, baseURL }) {
             <div className="px-4 pb-4 flex items-center justify-between gap-2">
                 <button
                     onClick={handleaddtocard}
-                    className="cursor-hover p-2 rounded-full bg-sec text-wt transition"
+                    className="hover-bg-pry p-2 rounded-full bg-sec text-wt transition"
                 >
                     <FaShoppingCart className="text-lg" />
                 </button>
@@ -104,7 +104,7 @@ export default function ProductCard({ product, baseURL }) {
                         e.preventDefault();
                         // handleOrderNow(product)
                     }}
-                    className="cursor-hover flex-1 bg-sec text-wt text-[11px] lg:text-sm font-semibold py-2 rounded-lg transition"
+                    className="hover-bg-pry flex-1 bg-sec text-wt text-[11px] lg:text-sm font-semibold py-2 rounded-lg transition"
                 >
                     Order Now
                 </button>

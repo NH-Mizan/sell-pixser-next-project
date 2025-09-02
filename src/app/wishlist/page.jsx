@@ -14,7 +14,7 @@ export default function WishlistPage() {
     removeFromWishlist(product.id); // ✅ সাথে সাথেই Wishlist থেকে কমে যাবে
 
     toast.success("🛒 Added to Cart!", {
-      position: "top-right",
+      position: "bottom-right",
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -29,7 +29,7 @@ export default function WishlistPage() {
   const handleRemove = (id) => {
     removeFromWishlist(id);
     toast.error(" Removed from Wishlist!", {
-      position: "top-right",
+      position: "bottom-right",
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
