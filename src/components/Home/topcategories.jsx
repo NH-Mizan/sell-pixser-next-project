@@ -28,10 +28,10 @@ export default function TopCategories() {
             data-aos-duration="500">TOP CATEGORIES</h2>
 
       <Swiper
-        slidesPerView={2}
+        slidesPerView={3}
         spaceBetween={20}
         breakpoints={{
-          640: { slidesPerView: 3 },
+          640: { slidesPerView: 4 },
           768: { slidesPerView: 4 },
           1024: { slidesPerView: 5 },
         }}
@@ -45,19 +45,19 @@ export default function TopCategories() {
           <SwiperSlide key={cat.id}>
             <Link
               href={`/category/${cat.id}`}
-              className="group block bg-white rounded-md shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300"
+              className="group block bg-white  rounded-md shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300"
                data-aos="fade-up"
             data-aos-duration="500"
             >
-              <div className="h-36 flex items-center justify-center overflow-hidden bg-gray-50">
+              <div className="h-24 lg:h-36 flex items-center justify-center overflow-hidden bg-gray-50">
                 <img
                   src={`${baseURL}${cat.image}`}
                   alt={cat.name}
                   className="object-contain h-full transition-transform duration-300 group-hover:scale-115"
                 />
               </div>
-              <div className="p-3 text-center">
-                <p className="text-sm font-medium text-gray-800 group-hover:text-primary">
+              <div className="p-3 h-16 text-center">
+                <p className="text-sm  font-medium text-gray-800 group-hover:text-red-400 transition">
                   {cat.name}
                 </p>
               </div>

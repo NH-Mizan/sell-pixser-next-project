@@ -43,7 +43,7 @@ export default function MainHeader() {
   };
 
   return (
-    <div className="relative shadow-md mb-2">
+    <div className="sticky top-0 z-50  shadow-md mb-2">
       {/* === Header Section === */}
       <div className="bg-white z-20 relative ">
         <header className="text-black ">
@@ -139,18 +139,18 @@ export default function MainHeader() {
           </button>
         </div>
         <ul className="flex flex-col gap-4 px-6 py-4">
-          <li><Link href="#" className="hover:text-[#ed145b]">Home</Link></li>
+          <li><Link href="#" className="hover-text-pry">Home</Link></li>
           {
             cat.map((category) => (
               <li key={category.id}>
-                <Link href={`/category/${category.id}`} className="hover:text-[#ed145b]">
+                <Link href={`/category/${category.id}`} className="hover-text-pry">
                   {category.name}
                 </Link>
               </li>
             ))
           }
-          <li><Link href="#" className="hover:text-[#ed145b]">Track Order</Link></li>
-          <li><Link href="#" className="hhover:text-[#ed145b]">Login / Signup</Link></li>
+          <li><Link href="#" className="hover-text-pry">Track Order</Link></li>
+          <li><Link href="#" className="hover-text-pry">Login / Signup</Link></li>
         </ul>
       </div>
 
@@ -201,16 +201,16 @@ export default function MainHeader() {
 
           {/* Middle: Menu Items - always visible */}
           <ul className="flex items-center uppercase gap-2 lg:gap-6 text-[9px]  lg:text-[15px] font-medium text-wt">
-            <li className="hover:text-[#ed145b] cursor-pointer"><Link href={'/'}>Home</Link></li>
-            <li className="hover:text-[#ed145b] cursor-pointer"><Link href={'/products'}>Products</Link></li>
-            <li className="hover:text-[#ed145b] cursor-pointer flex items-center">
+            <li className="hover-text-pry cursor-pointer"><Link href={'/'}>Home</Link></li>
+            <li className="hover-text-pry cursor-pointer"><Link href={'/products'}>Products</Link></li>
+            <li className="hover-text-pry cursor-pointer flex items-center">
               Brands <span><FaAngleDown /></span>
             </li>
-            <li className="hover:text-[#ed145b] cursor-pointer flex items-center ">
+            <li className="hover-text-pry cursor-pointer flex items-center ">
               Skin Care <span><FaAngleDown /></span>
             </li>
-            <li className="hover:text-[#ed145b] cursor-pointer">Offers</li>
-            <li className="hover:text-[#ed145b] cursor-pointer">Best Seller</li>
+            <li className="hover-text-pry cursor-pointer">Offers</li>
+            <li className="hover-text-pry cursor-pointer">Best Seller</li>
           </ul>
 
           {/* Hotline - hidden on small screens */}
