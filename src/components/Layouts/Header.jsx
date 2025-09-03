@@ -192,7 +192,7 @@ export default function MainHeader() {
           {/* Categories - hidden on small screens */}
           <div
             onClick={() => setShow(!show)}
-            className="hidden lg:flex items-center bg-pry text-white px-4 py-2  rounded cursor-pointer">
+            className="hidden lg:flex items-center bg-pry text-white px-4 py-2  cursor-pointer">
             <span className="mr-2 text-xl"><FaBars /></span>
             <span>Categories</span>
             <span className="ml-2 text-sm"><FaAngleDown /></span>

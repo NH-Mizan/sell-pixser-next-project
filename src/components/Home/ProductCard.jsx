@@ -6,6 +6,7 @@ import { FaHeart, FaShoppingCart } from 'react-icons/fa';
 import { toast, Bounce } from 'react-toastify';
 import Swal from 'sweetalert2';
 import { useState } from 'react';
+import { GoHeart } from 'react-icons/go';
 
 export default function ProductCard({ product, baseURL }) {
     const { addToCart, addToWishlist, addToCompare } = useShopStore();
@@ -125,11 +126,11 @@ const handleOrderNow = () => {
         <div
             data-aos="zoom-in"
             data-aos-duration="500"
-            className="relative border border-red-300 rounded-lg shadow overflow-hidden transform group-hover:scale-105 transition duration-300 ease-in-out"
+            className="relative border border-red-300 rounded-md shadow overflow-hidden transform group-hover:scale-105 transition duration-300 ease-in-out"
         >
             {/* Discount Badge */}
             {discount > 0 && (
-                <span className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded z-10">
+                <span className="absolute top-2 left-2 bg-pry text-white text-xs px-2 py-1 rounded z-10">
                     SAVE {discount}%
                 </span>
             )}
@@ -138,9 +139,9 @@ const handleOrderNow = () => {
             <button
                 onClick={handleWishlist}
                 type="button"
-                className="hover-bg-sec absolute top-2 right-2 bg-pry p-1 rounded-full text-wt hover:text-bk z-10 text-lg"
+                className="hover-bg-pry absolute top-2 bg-sec  right-2 border-2 border-white p-1 rounded-full text-wt  z-10 text-lg"
             >
-                <FaHeart />
+                <GoHeart  />
             </button>
 
             {/* Clickable Content (single Link wrapper) */}
@@ -176,14 +177,14 @@ const handleOrderNow = () => {
             <div className="px-4 pb-4 flex items-center justify-between gap-2">
                 <button
                     onClick={handleaddtocard}
-                    className="hover-bg-pry p-2 rounded-full bg-sec text-wt transition"
+                    className="hover-bg-pry p-2 rounded-md bg-sec text-wt transition"
                 >
                     <FaShoppingCart className="text-lg" />
                 </button>
 
                 <button
                     onClick={handleOrderNow}
-                    className="hover-bg-pry flex-1 bg-sec text-wt text-[11px] lg:text-sm font-semibold py-2 rounded-lg transition"
+                    className="hover-bg-pry flex-1 bg-sec text-wt text-[11px] lg:text-sm font-semibold py-2 rounded-md transition"
                 >
                     Order Now
                 </button>
