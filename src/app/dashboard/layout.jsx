@@ -32,7 +32,7 @@ export default function DashboardLayout({ children }) {
           <NavItem href="/dashboard" icon={<FaTachometerAlt />} label="Overview" />
           <NavItem href="/dashboard/profile" icon={<FaUser />} label="Profile" />
           <NavItem href="/dashboard/orders" icon={<FaShoppingCart />} label="Orders" />
-          <NavItem href="/dashboard/settings" icon={<FaCog />} label="Settings" />
+          
         </nav>
       </aside>
 
