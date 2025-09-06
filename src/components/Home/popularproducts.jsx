@@ -40,7 +40,7 @@ const [loading, setLoading] = useState(true)
       <h2 className="text-3xl font-bold text-center mb-8"   
               data-aos="fade-down"
             data-aos-duration="500">
-        <span className="text-pink-500 italic block text-base"> Shop Bangladesh</span>
+        <span className="text-pry italic block text-base"> Shop Bangladesh</span>
         Popular Product
       </h2>
 
