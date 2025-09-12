@@ -91,7 +91,7 @@ export default function Profile() {
           </div>
           <div>
             <p className="text-gray-500">TAX ID</p>
-            <p className="font-semibold">AS4568384</p>
+            <p className="font-semibold">555</p>
           </div>
         </div>
       </div>
