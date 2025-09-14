@@ -79,19 +79,19 @@ export default function Profile() {
         <div className="grid md:grid-cols-2 gap-6 text-sm">
           <div>
             <p className="text-gray-500">Country</p>
-            <p className="font-semibold">United Kingdom</p>
+            <p className="font-semibold">Bangladesh</p>
           </div>
           <div>
             <p className="text-gray-500">City/State</p>
-            <p className="font-semibold">Leeds, East London</p>
+            <p className="font-semibold">Dinajpur, Rongpur</p>
           </div>
           <div>
             <p className="text-gray-500">Postal Code</p>
-            <p className="font-semibold">ERT 2489</p>
+            <p className="font-semibold"> 2489</p>
           </div>
           <div>
             <p className="text-gray-500">TAX ID</p>
-            <p className="font-semibold">555</p>
+            <p className="font-semibold">5555</p>
           </div>
         </div>
       </div>
