@@ -18,7 +18,7 @@ export default function ForgotPassword() {
       {/* Form Section */}
       <div className="relative z-10 w-full max-w-md bg-white/90 backdrop-blur-md p-8 rounded-2xl shadow-lg">
         <h2 className="text-2xl font-bold text-center text-gray-800">
-          Forgot Password 🔑
+          Forgot Password 
         </h2>
         <p className="mt-2 text-center text-gray-600 text-sm">
           Enter your email and we’ll send you a reset link.

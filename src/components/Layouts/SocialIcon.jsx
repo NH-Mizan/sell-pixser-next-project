@@ -18,7 +18,7 @@ export default function SocialIcons() {
   const [showIcons, setShowIcons] = useState(false);
 
   return (
-    <div className="fixed bottom-14 right-4 z-50">
+    <div className="fixed fixed_right_section bottom-14 right-4 z-50">
       {/* Social Buttons */}
       <div
         className={`flex flex-col items-end gap-3 transition-all duration-500 ease-in-out ${

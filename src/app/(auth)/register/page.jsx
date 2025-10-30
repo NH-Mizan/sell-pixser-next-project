@@ -15,7 +15,7 @@ export default function Register() {
       <div className="flex items-center justify-center bg-gray-50">
         <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
           {/* Title */}
-          <h2 className="text-3xl font-bold text-center text-gray-800">Create Account 🚀</h2>
+          <h2 className="text-3xl font-bold text-center text-gray-800">Create Account </h2>
           <p className="mt-2 text-center text-gray-500">Sign up to get started</p>
 
           {/* Form */}

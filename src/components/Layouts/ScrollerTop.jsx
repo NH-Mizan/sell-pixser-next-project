@@ -26,7 +26,7 @@ export default function ScrollToTopButton() {
     show && (
       <button
         onClick={scrollToTop}
-        className="fixed bottom-1 right-4 z-50 w-12 h-12 bg-color hover:bg-green-600 text-white rounded-full flex items-center justify-center shadow-lg transition"
+        className="fixed fixed_right_section bottom-1 right-4 z-50 w-12 h-12 bg-color hover:bg-green-600 text-white rounded-full flex items-center justify-center shadow-lg transition"
         title="Scroll to top"
       >
         <FaAngleUp  />
