@@ -206,9 +206,7 @@ export default function MainHeader() {
             <li className="hover-text-pry cursor-pointer flex items-center">
               Brands <span><FaAngleDown /></span>
             </li>
-            <li className="hover-text-pry cursor-pointer flex items-center ">
-              Skin Care <span><FaAngleDown /></span>
-            </li>
+        
             <li className="hover-text-pry cursor-pointer">Offers</li>
             <li className="hover-text-pry cursor-pointer">Best Seller</li>
           </ul>
@@ -217,9 +215,9 @@ export default function MainHeader() {
           <div className="hidden lg:flex items-center gap-2 text-sm">
             <BiSupport className="text-[25px] text-bk" />
 
-            <Link href="tel:+8801303779646" className="text-wt  ">
+            <Link href="tel:+8801846494272" className="text-wt  ">
               <div className="text-bk text-[15px] mb-[-3px]">Hotline:</div>
-              <span className="text-sm"> +8801303-779646</span>
+              <span className="text-sm"> +8801846494272</span>
             </Link>
           </div>
 
