@@ -1,8 +1,17 @@
-"use client"; // client component করতে হবে
+"use client";
 
+import { useEffect, useState } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 const LottieAnimation = () => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
   return (
     <div className="w-[400px] h-[400px]">
       <DotLottieReact
