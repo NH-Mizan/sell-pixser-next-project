@@ -1,3 +1,4 @@
+"use client";
 import LottieAnimation from "@/components/LottieFils/RegisterBanner";
 import Link from "next/link";
 

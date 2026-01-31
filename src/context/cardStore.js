@@ -8,7 +8,7 @@ const useShopStore = create(
       wishlist: [],
       compare: [],
 
-      // ✅ Add to Cart
+      //  Add to Cart
       addToCart: (product) =>
         set((state) => {
           const alreadyExist = state.cart.find((item) => item.id === product.id);
@@ -39,7 +39,7 @@ const useShopStore = create(
           })),
 
 
-        // ✅ Add to Wishlist
+        //  Add to Wishlist
       addToWishlist: (product) =>
         set((state) => {
           const alreadyExist = state.wishlist.find((item) => item.id === product.id);
@@ -47,7 +47,7 @@ const useShopStore = create(
           return { wishlist: [...state.wishlist, product] };
         }),
 
-        // ✅ Add to Compare
+        //  Add to Compare
       addToCompare: (product) =>
         set((state) => {
           const alreadyExist = state.compare.find((item) => item.id === product.id);
@@ -56,7 +56,7 @@ const useShopStore = create(
         }),
 
 
-      // ✅ Add to Cart and Remove from Wishlist
+      //  Add to Cart and Remove from Wishlist
       addToCartFromWishlist: (product) =>
         set((state) => {
           const alreadyExist = state.cart.find((item) => item.id === product.id);
@@ -78,7 +78,7 @@ const useShopStore = create(
           };
         }),
 
-      // ✅ Add to Cart and Remove from Compare
+      //  Add to Cart and Remove from Compare
       addToCartFromCompare: (product) =>
         set((state) => {
           const alreadyExist = state.cart.find((item) => item.id === product.id);
@@ -101,22 +101,22 @@ const useShopStore = create(
         }),
 
 
-      // ✅ Remove from Cart
+      //  Remove from Cart
       removeFromCart: (id) =>
         set((state) => ({
           cart: state.cart.filter((item) => item.id !== id),
         })),
 
-      // ✅ Clear Cart
+      //  Clear Cart
       clearCart: () => set({ cart: [] }),
 
-      // ✅ Remove from Wishlist
+      //  Remove from Wishlist
       removeFromWishlist: (id) =>
         set((state) => ({
           wishlist: state.wishlist.filter((item) => item.id !== id),
         })),
 
-      // ✅ Remove from Compare
+      //  Remove from Compare
       removeFromCompare: (id) =>
         set((state) => ({
           compare: state.compare.filter((item) => item.id !== id),

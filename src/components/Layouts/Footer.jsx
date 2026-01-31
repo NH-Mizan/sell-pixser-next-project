@@ -6,9 +6,9 @@ export default function Footer() {
                 <aside>
                     <img src="/images/sell-pixer.webp" alt="hello" className='w-[100px]' />
                     <p className="text-bk">
-                        ACME Industries Ltd.
+                        Web solution it.
                         <br />
-                        Providing reliable tech since 1992
+                        Dinajpur city collage more , Sadar , Dinajpur
                     </p>
                 </aside>
                 <nav>

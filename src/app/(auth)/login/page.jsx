@@ -6,7 +6,6 @@ import Link from "next/link";
 export default function Login() {
   const loginInfoData = async (e) => {
       e.preventDefault();
-
       const form = e.target;
 
       const phone = form.phone.value;
@@ -33,7 +32,7 @@ export default function Login() {
         if (data.token) {
         
           localStorage.setItem("token", data.token);
-
+          window.location.href = "/dashboard";
           console.log("Login success", data);
         } else {
           console.log("Login failed", data);

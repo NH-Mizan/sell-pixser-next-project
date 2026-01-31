@@ -11,7 +11,7 @@ export default async function RelatedProducts({ currentProductId }) {
   }
 
   const data = await res.json();
-  const products = data?.data.slice(0,10); // ✅ Use full array
+  const products = data?.data.slice(0,10); 
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-5 gap-4">

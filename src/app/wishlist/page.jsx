@@ -8,7 +8,7 @@ export default function WishlistPage() {
   const { wishlist, addToCart, removeFromWishlist } = useShopStore();
   const baseURL = "https://sellpixer.websolutionit.com/";
 
-  // 🛒 Add to Cart + Remove from Wishlist
+  //  Add to Cart + Remove from Wishlist
   const handleAddToCart = (product) => {
     addToCart(product);
     removeFromWishlist(product.id); // ✅ সাথে সাথেই Wishlist থেকে কমে যাবে
@@ -25,7 +25,7 @@ export default function WishlistPage() {
     });
   };
 
-  // ❌ Remove from Wishlist
+  //  Remove from Wishlist
   const handleRemove = (id) => {
     removeFromWishlist(id);
     toast.error(" Removed from Wishlist!", {

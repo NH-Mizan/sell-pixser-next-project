@@ -5,7 +5,6 @@ import {
   FaTachometerAlt,
   FaUser,
   FaShoppingCart,
-  FaCog,
   FaBars,
   FaTimes,
   FaBell,
