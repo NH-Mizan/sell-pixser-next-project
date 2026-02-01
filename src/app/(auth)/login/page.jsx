@@ -33,9 +33,27 @@ export default function Login() {
         
           localStorage.setItem("token", data.token);
           window.location.href = "/dashboard";
-          console.log("Login success", data);
+            toast.success("Login successful!", {
+            position: "bottom-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "light",
+            transition: Bounce,
+          });
         } else {
-          console.log("Login failed", data);
+          toast.error(" Login failed!", {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                theme: "colored",
+                transition: Bounce,
+              }); 
         }
       } catch (error) {
         console.error("Error:", error);
@@ -90,7 +108,7 @@ export default function Login() {
            
             <button
               type="submit"
-              className="w-full py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
+              className="w-full py-2 bg-pry text-white font-semibold rounded-lg hover-bg-sec transition"
             >
               Login
             </button>

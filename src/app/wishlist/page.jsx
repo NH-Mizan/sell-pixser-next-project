@@ -11,7 +11,7 @@ export default function WishlistPage() {
   //  Add to Cart + Remove from Wishlist
   const handleAddToCart = (product) => {
     addToCart(product);
-    removeFromWishlist(product.id); // ✅ সাথে সাথেই Wishlist থেকে কমে যাবে
+    removeFromWishlist(product.id); 
 
     toast.success("🛒 Added to Cart!", {
       position: "bottom-right",
