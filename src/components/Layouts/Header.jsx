@@ -16,7 +16,7 @@ export default function MainHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const [show, setShow] = useState(false);
   const [cat, setCat] = useState([]);
-  const { cart, wishlist, compare } = useShopStore();
+  const { cart, wishlist } = useShopStore();
    const [selected, setSelected] = useState("");
      const router = useRouter();
   const baseURL = 'https://sellpixer.websolutionit.com/';

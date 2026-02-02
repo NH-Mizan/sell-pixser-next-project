@@ -5,11 +5,12 @@ import { useRouter } from 'next/navigation';
 import { FaHeart, FaShoppingCart } from 'react-icons/fa';
 import { toast, Bounce } from 'react-toastify';
 import Swal from 'sweetalert2';
-import { useState } from 'react';
 import { GoHeart } from 'react-icons/go';
 
 export default function ProductCard({ product, baseURL }) {
-    const { addToCart, addToWishlist, addToCompare } = useShopStore();
+    const { wishlist, addToCart, addToWishlist } = useShopStore();
+    const isWishlisted = wishlist.some(item => item.id === product.id);
+
      const router = useRouter();
 
     const discount = product.old_price
@@ -17,7 +18,7 @@ export default function ProductCard({ product, baseURL }) {
         : 0;
     const handleWishlist = () => {
     addToWishlist(product);
-    toast.success(`❤️ ${product.name} added to Wishlist!`, {
+    toast.success(`${product.name} added to Wishlist!`, {
       position: "bottom-right",
       autoClose: 3000,
       hideProgressBar: false,
@@ -104,7 +105,7 @@ const handleOrderNow = () => {
         }
     }).then((result) => {
         if (result.isConfirmed) {
-            // Quantity অনুযায়ী cart এ add
+            
             for (let i = 0; i < result.value; i++) {
                 addToCart(product);
             }
@@ -139,7 +140,7 @@ const handleOrderNow = () => {
             <button
                 onClick={handleWishlist}
                 type="button"
-                className="hover-bg-pry absolute top-2 bg-sec  right-2 border-2 border-white p-1 rounded-full text-wt  z-10 text-lg"
+                className={`hover:bg-pry absolute top-2  right-2 border-2  border-white p-1 rounded-full text-wt  z-10 text-lg ${isWishlisted ? "bg-pry" : "bg-sec"}`}
             >
                 <GoHeart  />
             </button>
