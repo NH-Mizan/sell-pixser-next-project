@@ -119,7 +119,7 @@ export default function Register() {
                 placeholder="Email Address"
                 onChange={handleChange}
                 className="w-full px-4 py-2 border rounded-lg"
-                required
+               
               />
 
               {/* Password */}

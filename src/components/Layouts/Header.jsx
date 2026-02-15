@@ -103,7 +103,7 @@ export default function MainHeader() {
 
             {/* Desktop Icons */}
             <div className="hidden lg:flex items-center justify-end gap-4 text-sm col-span-1 text-black">
-              <Link href={'/login'} className=" flex items-center gap-1">
+              <Link href={'/otp-login'} className=" flex items-center gap-1">
                 <FaRegUserCircle className="text-[30px]" />
                 <span>
                   <p className="text-sm" >Hello, Sign In/Sign Up</p>
@@ -150,7 +150,7 @@ export default function MainHeader() {
             ))
           }
           <li><Link href="#" className="hover-text-pry">Track Order</Link></li>
-          <li><Link href="#" className="hover-text-pry">Login / Signup</Link></li>
+          <li><Link href="/otp-login" className="hover-text-pry">Login / Signup</Link></li>
         </ul>
       </div>
 

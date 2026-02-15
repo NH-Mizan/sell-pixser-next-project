@@ -21,16 +21,16 @@ export default function ForgotPassword() {
           Forgot Password 
         </h2>
         <p className="mt-2 text-center text-gray-600 text-sm">
-          Enter your email and we’ll send you a reset link.
+          Enter your phone number and we’ll send you a reset link.
         </p>
 
         <form className="mt-6 space-y-4">
           {/* Email */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">Email</label>
+            <label className="block text-sm font-medium text-gray-700">Number</label>
             <input
-              type="email"
-              placeholder="Enter your email"
+              type="text"
+              placeholder="Enter your phone number"
               className="mt-1 w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
