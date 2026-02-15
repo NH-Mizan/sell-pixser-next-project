@@ -1,6 +1,6 @@
 "use client";
-import LottieAnimation from "@/components/LottieFils/RegisterBanner";
 import Link from "next/link";
+import { Bounce,toast } from "react-toastify";
 
 
 export default function Login() {
@@ -32,7 +32,7 @@ export default function Login() {
         if (data.token) {
         
           localStorage.setItem("token", data.token);
-          window.location.href = "/dashboard";
+          
             toast.success("Login successful!", {
             position: "bottom-right",
             autoClose: 3000,
@@ -43,6 +43,7 @@ export default function Login() {
             theme: "light",
             transition: Bounce,
           });
+          window.location.href = "/dashboard";
         } else {
           toast.error(" Login failed!", {
                 position: "bottom-right",
@@ -126,7 +127,7 @@ export default function Login() {
 
       {/* Right Side - Image */}
       <div className="hidden md:flex items-center justify-center  ">
-        <LottieAnimation/>
+        <img src="/login.png" alt="Login Banner" className="w-full h-auto" />
       </div>
     </div>
     </div>

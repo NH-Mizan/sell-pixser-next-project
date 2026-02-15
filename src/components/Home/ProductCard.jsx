@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 import { GoHeart } from 'react-icons/go';
 
 export default function ProductCard({ product, baseURL }) {
-    const { wishlist, addToCart, addToWishlist } = useShopStore();
+    const { wishlist, addToCart, addToWishlist, removeFromWishlist } = useShopStore();
     const isWishlisted = wishlist.some(item => item.id === product.id);
 
      const router = useRouter();
@@ -17,7 +17,22 @@ export default function ProductCard({ product, baseURL }) {
         ? Math.round(((product.old_price - product.new_price) / product.old_price) * 100)
         : 0;
     const handleWishlist = () => {
+    if (isWishlisted) {
+      removeFromWishlist(product.id);
+      toast.error(" Removed from Wishlist!", {  
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+        transition: Bounce,
+      });
+      return;
+    }
     addToWishlist(product);
+
     toast.success(`${product.name} added to Wishlist!`, {
       position: "bottom-right",
       autoClose: 3000,
@@ -140,7 +155,7 @@ const handleOrderNow = () => {
             <button
                 onClick={handleWishlist}
                 type="button"
-                className={`hover:bg-pry absolute top-2  right-2 border-2  border-white p-1 rounded-full text-wt  z-10 text-lg ${isWishlisted ? "bg-pry" : "bg-sec"}`}
+                className={`hover-bg-pry absolute top-2  right-2 border-2  border-white p-1 rounded-full text-wt  z-10 text-lg ${isWishlisted ? "bg-pry" : "bg-sec"}`}
             >
                 <GoHeart  />
             </button>
@@ -158,7 +173,7 @@ const handleOrderNow = () => {
                 <div className="p-4 space-y-2">
                     <h3 className="text-sm h-16 font-semibold hover-text-sec transition">
                         {product.name.length > 30
-                            ? product.name.slice(0, 35) + '...'
+                            ? product.name.slice(0, 50) + '...'
                             : product.name}
                     </h3>
 

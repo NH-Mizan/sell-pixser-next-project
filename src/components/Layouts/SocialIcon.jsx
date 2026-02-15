@@ -9,9 +9,9 @@ import {
 import { MdOutlineMessage } from "react-icons/md";
 
 const contact = {
-  hotline: '+8801846494272',
-  whatsapp: '+8801846494272',
-  facebook_link: 'https://m.me/codenest24',
+  hotline: '8801846494272',
+  whatsapp: '8801846494272',
+  facebook_link: 'https://m.me/websolutionit',
 };
 
 export default function SocialIcons() {

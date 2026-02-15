@@ -123,7 +123,7 @@ const useShopStore = create(
         })),
     }),
     {
-      name: "shop-storage", // localStorage key
+      name: "shop-storage",
     }
   )
 );

@@ -29,7 +29,7 @@ export default function TopCategories() {
 
       <Swiper
         slidesPerView={3}
-        spaceBetween={20}
+        spaceBetween={10}
         breakpoints={{
           640: { slidesPerView: 4 },
           768: { slidesPerView: 4 },
@@ -56,8 +56,8 @@ export default function TopCategories() {
                   className="object-contain h-full transition-transform duration-300 group-hover:scale-115"
                 />
               </div>
-              <div className="p-3 h-16 text-center">
-                <p className="text-sm  font-medium text-gray-800 group-hover:text-red-400 transition">
+              <div className="home_categorics text-center">
+                <p className=" group-hover:text-red-400 transition">
                   {cat.name}
                 </p>
               </div>

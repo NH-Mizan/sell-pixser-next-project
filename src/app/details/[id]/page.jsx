@@ -6,9 +6,12 @@ import Link from 'next/link';
 import React from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
 
-export function generateMetadata({ params }) {
+export async function generateMetadata({ params }) {
+  const product = await getProduct(params.id);
+
   return {
-    title: `Product Details - ${params.id}`,
+    title: product.name,
+    description: product.description,
   };
 }
 
