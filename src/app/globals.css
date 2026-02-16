@@ -151,17 +151,30 @@ button {
     font-size: 14px;
     font-weight: 500;
 }
+
+.product_image{
+   position: relative;
+    overflow: hidden;
+  
+   
+}
+.product_image img{
+   z-index: -1 !important;
+    
+  
+   
+}
 .wishlist_btn {
-    z-index: 10;
     color: var(--wt-color);
     border: 1px solid #fff;
+    border-radius: 29px 0 0;
     padding: 10px 7px 5px 13px;
     font-size: 18px;
     transition: background-color .3s;
     position: absolute;
-    bottom: 0px;
+    top: 158px;
     right: -1px;
-    border-radius: 29px 0 0;
+    z-index: 999 !important;
 }
 
 

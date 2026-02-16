@@ -150,20 +150,7 @@ const handleOrderNow = () => {
                     SAVE {discount}%
                 </span>
             )}
-
-            
-          
-
-            {/* Clickable Content (single Link wrapper) */}
-            <Link href={`/details/${product.id}`} className="block">
-                {/* Image */}
-                <div className="relative overflow-hidden">
-                <img
-                    src={`${baseURL}${product.image?.image}`}
-                    alt={product.name}
-                    className=" w-full h-38 lg:h-48 group-hover:scale-110 transition-transform duration-500 ease-in-out"
-                />
-                  {/* Wishlist Icon */}
+             {/* Wishlist Icon */}
                   <button
                 onClick={handleWishlist}
                 type="button"
@@ -171,6 +158,18 @@ const handleOrderNow = () => {
             >
                 <GoHeart  />
             </button>
+            
+          
+
+            {/* Clickable Content (single Link wrapper) */}
+            <Link href={`/details/${product.id}`} className="product_card block">
+                {/* Image */}
+                <div className="product_image">
+                <img
+                    src={`${baseURL}${product.image?.image}`}
+                    alt={product.name}
+                    className=" w-full h-38 lg:h-48 group-hover:scale-110 transition-transform duration-500 ease-in-out"
+                />
                 </div>
               
 
