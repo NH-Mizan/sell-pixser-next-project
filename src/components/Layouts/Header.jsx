@@ -10,10 +10,12 @@ import { GoHeart } from "react-icons/go";
 import { IoGitCompare } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 import useShopStore from "@/context/cardStore";
+import OtpLoginModal from "../OtpLoginModal ";
 
 
 export default function MainHeader() {
   const [isOpen, setIsOpen] = useState(false);
+  const [loginModal, setLoginModal] = useState(false);
   const [show, setShow] = useState(false);
   const [cat, setCat] = useState([]);
   const { cart, wishlist } = useShopStore();
@@ -103,13 +105,13 @@ export default function MainHeader() {
 
             {/* Desktop Icons */}
             <div className="hidden lg:flex items-center justify-end gap-4 text-sm col-span-1 text-black">
-              <Link href={'/otp-login'} className=" flex items-center gap-1">
+              <button  onClick={() => setLoginModal(true)} className=" flex items-center gap-1">
                 <FaRegUserCircle className="text-[30px]" />
                 <span>
                   <p className="text-sm" >Hello, Sign In/Sign Up</p>
                   <p className="font-bold text-md ">Your Account</p>
                 </span>
-              </Link>
+              </button>
               <Link href="#" className=" flex items-center gap-1">
                 <IoGitCompare className="text-[24px]" />
               </Link>
@@ -126,9 +128,11 @@ export default function MainHeader() {
 
               </Link>
             </div>
+
           </nav>
         </header>
       </div>
+      {loginModal && <OtpLoginModal onClose={() => setLoginModal(false)} />}
 
       {/* === Slide-in Mobile Drawer === */}
       <div className={`fixed top-0 left-0 h-full w-[260px] bg-black text-white z-50 transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>

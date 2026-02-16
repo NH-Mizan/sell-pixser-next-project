@@ -151,23 +151,28 @@ const handleOrderNow = () => {
                 </span>
             )}
 
-            {/* Wishlist Icon */}
-            <button
-                onClick={handleWishlist}
-                type="button"
-                className={`hover-bg-pry absolute top-2  right-2 border-2  border-white p-1 rounded-full text-wt  z-10 text-lg ${isWishlisted ? "bg-pry" : "bg-sec"}`}
-            >
-                <GoHeart  />
-            </button>
+            
+          
 
             {/* Clickable Content (single Link wrapper) */}
             <Link href={`/details/${product.id}`} className="block">
                 {/* Image */}
+                <div className="relative overflow-hidden">
                 <img
                     src={`${baseURL}${product.image?.image}`}
                     alt={product.name}
-                    className="w-full h-38 lg:h-48 group-hover:scale-110 transition-transform duration-500 ease-in-out"
+                    className=" w-full h-38 lg:h-48 group-hover:scale-110 transition-transform duration-500 ease-in-out"
                 />
+                  {/* Wishlist Icon */}
+                  <button
+                onClick={handleWishlist}
+                type="button"
+                className={`wishlist_btn ${isWishlisted ?  "bg-sec" : "bg-pry"}`}
+            >
+                <GoHeart  />
+            </button>
+                </div>
+              
 
                 {/* Details */}
                 <div className="p-4 space-y-2">
@@ -193,14 +198,14 @@ const handleOrderNow = () => {
             <div className="px-4 pb-4 flex items-center justify-between gap-2">
                 <button
                     onClick={handleaddtocard}
-                    className="hover-bg-pry p-2 rounded-md bg-sec text-wt transition"
+                    className="hover-bg-sec p-2 rounded-md bg-pry text-wt transition"
                 >
                     <FaShoppingCart className="text-lg" />
                 </button>
 
                 <button
                     onClick={handleOrderNow}
-                    className="hover-bg-pry flex-1 bg-sec text-wt text-[11px] lg:text-sm font-semibold py-2 rounded-md transition"
+                    className="hover-bg-sec flex-1 bg-pry text-wt text-[11px] lg:text-sm font-semibold py-2 rounded-md transition"
                 >
                     Order Now
                 </button>

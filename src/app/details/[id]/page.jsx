@@ -1,23 +1,26 @@
 // app/productDetails/[slug]/page.jsx
 import ProductInfoTabs from '@/components/ProductInfoTabs';
 import RelatedProducts from '@/components/RelatedProducts';
+
+
 import Link from 'next/link';
 
 import React from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
 
-export async function generateMetadata({ params }) {
-  const product = await getProduct(params.id);
+export function generateMetadata({ params }) {
 
   return {
-    title: product.name,
-    description: product.description,
+    title: `Product Details - ${params.id}`
+   
+  
   };
 }
 
 export default async function ProductDetailsPage({ params }) {
   const baseURL = 'https://sellpixer.websolutionit.com/';
   const { id } = params;
+  
  
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/details/${id}`, {

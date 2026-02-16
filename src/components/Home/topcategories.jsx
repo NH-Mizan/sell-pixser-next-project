@@ -45,11 +45,11 @@ export default function TopCategories() {
           <SwiperSlide key={cat.id}>
             <Link
               href={`/category/${cat.id}`}
-              className="group block bg-white  rounded-md shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300"
+              className="group block bg-gray-300  rounded-md shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300"
                data-aos="fade-up"
             data-aos-duration="500"
             >
-              <div className="h-24 lg:h-36 flex items-center justify-center overflow-hidden bg-gray-50">
+              <div className="h-24 lg:h-36 flex items-center justify-center overflow-hidden bg-gray-100">
                 <img
                   src={`${baseURL}${cat.image}`}
                   alt={cat.name}
