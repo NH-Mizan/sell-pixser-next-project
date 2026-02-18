@@ -8,10 +8,10 @@ import Link from 'next/link';
 import React from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
 
-export function generateMetadata({ params }) {
-
+export async function generateMetadata({ params }) {
+  const { id } =await params;
   return {
-    title: `Product Details - ${params.id}`
+    title: `Product Details - ${id}`
    
   
   };
@@ -19,8 +19,10 @@ export function generateMetadata({ params }) {
 
 export default async function ProductDetailsPage({ params }) {
   const baseURL = 'https://sellpixer.websolutionit.com/';
-  const { id } = params;
-  
+  const { id } =await params;
+
+   console.log("Server ID:", params?.id);
+  console.log("Server Type:", typeof params?.id);
  
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/details/${id}`, {
@@ -33,6 +35,8 @@ export default async function ProductDetailsPage({ params }) {
 
   const data = await res.json();
   const product = data?.data;
+
+ 
 
 
 

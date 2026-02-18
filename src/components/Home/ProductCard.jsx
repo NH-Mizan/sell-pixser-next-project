@@ -168,7 +168,7 @@ const handleOrderNow = () => {
                 <img
                     src={`${baseURL}${product.image?.image}`}
                     alt={product.name}
-                    className=" w-full h-38 lg:h-48 group-hover:scale-110 transition-transform duration-500 ease-in-out"
+                    className=" w-full pro_img group-hover:scale-110 transition-transform duration-500 ease-in-out"
                 />
                 </div>
               
