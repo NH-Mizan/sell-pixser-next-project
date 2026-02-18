@@ -18,7 +18,7 @@ export default function Checkout() {
 
   return (
     <div className="bg-gray-100 min-h-screen py-8">
-      <div className="w-11/12 mx-auto space-y-8">
+      <div className="w-10/12 mx-auto space-y-8">
 
         {/* Top Section */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -216,7 +216,7 @@ export default function Checkout() {
         </div>
 
       </div>
-      <div className="bg-white w-11/12 mx-auto rounded-lg shadow-md p-4 md:p-6 mt-4">
+      <div className="bg-white w-10/12 mx-auto rounded-lg shadow-md p-4 md:p-6 mt-4">
 
         {/* ================= Desktop Header ================= */}
         <div className="hidden md:grid grid-cols-5 font-semibold text-gray-700 border-b pb-3 mb-4 text-base">
