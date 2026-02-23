@@ -64,11 +64,12 @@ const handleOrderNow = () => {
     Swal.fire({
         title: "",
         html: `
-            <div style="padding:15px; text-align:center; font-family: 'Poppins', sans-serif;">
+            <div style="display:flex;  align-items:center; gap:15px;">
                 <img src="${baseURL}${product.image?.image}" 
                      alt="${product.name}" 
-                     style="width:100%; max-height:220px; object-fit:cover; border-radius:12px; margin-bottom:15px;" />
+                     style="width:100%; max-height:220px; object-fit:contain; border-radius:12px; margin-bottom:15px;" />
                 
+                <div>
                 <h2 style="font-size:18px; font-weight:600; margin-bottom:5px; color:#1f2937;">
                     ${product.name}
                 </h2>
@@ -91,6 +92,7 @@ const handleOrderNow = () => {
                         +
                     </button>
                 </div>
+                </div>
             </div>
         `,
         showCancelButton: true,
@@ -99,7 +101,7 @@ const handleOrderNow = () => {
         focusConfirm: false,
         customClass: {
             popup: "rounded-2xl shadow-lg",
-            confirmButton: "bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-lg",
+            confirmButton: "bg-pry  hover-bg-sec text-white font-semibold px-6 py-2 rounded-lg",
             cancelButton: "bg-gray-300 hover:bg-gray-400 text-black font-medium px-6 py-2 rounded-lg ml-2",
         },
         didOpen: () => {

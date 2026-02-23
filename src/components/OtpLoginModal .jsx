@@ -56,43 +56,47 @@ export default function OtpLoginModal({ onClose }) {
   };
 
   /* Verify OTP */
-  const handleVerifyOtp = async () => {
-    const finalOtp = otp.join("");
-    if (finalOtp.length !== 4) {
-      alert("Enter full OTP");
-      return;
-    }
+const handleVerifyOtp = async () => {
+  const finalOtp = otp.join("");
+  if (finalOtp.length !== 4) {
+    alert("Enter full OTP");
+    return;
+  }
 
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/customer/verify`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({ phone, otp: finalOtp }),
-        }
-      );
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
-
-      if (data.token) {
-        localStorage.setItem("token", data.token);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/customer/verify`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ phone, otp: finalOtp }),
       }
+    );
 
-      onClose();
-      router.push("/dashboard");
-    } catch (err) {
-      alert(err.message || "OTP verification failed");
-    } finally {
-      setLoading(false);
+    // safe JSON parse
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) throw new Error(data?.message || "OTP verification failed");
+
+    if (data?.token) {
+      localStorage.setItem("token", data.token);
+     
     }
-  };
+
+    onClose();
+    router.push("/dashboard");
+  } catch (err) {
+    alert(err.message || "OTP verification failed");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   /* OTP Input */
   const handleOtpChange = (value, index) => {
