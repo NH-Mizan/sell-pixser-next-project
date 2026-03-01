@@ -7,8 +7,57 @@ export default function Checkout() {
   const [shipping, setShipping] = useState(70);
   const [payment, setPayment] = useState("cod");
   const baseURL = "https://sellpixer.websolutionit.com/";
+  const token = localStorage.getItem("token");
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    address: "",
+    note: "",
+  });
+   const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
 
-  // Use new_price for calculations
+    });
+  };
+   const handleSubmit = async () => {
+    if (!formData.name || !formData.phone || !formData.address) {
+      alert("Name, phone, and address required!");
+      return;
+    }
+
+
+  const formattedCart = cart.map((item) => ({
+      product_id: item.id,
+      name: item.name,
+      quantity: item.quantity,
+      options: [],
+    }));
+
+    const orderData = {
+      ...formData,
+      area: 1,
+      discount: 0,
+      cart: formattedCart,
+    };
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/order-save`, {
+      method: "POST",
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`, 
+       },
+      body: JSON.stringify(orderData),
+    });
+
+    const data = await res.json();
+    alert(data.message);
+  };
+
+
+
+  
   const subtotal = cart.reduce(
     (sum, item) => sum + (Number(item.new_price) || 0) * item.quantity,
     0
@@ -38,8 +87,11 @@ export default function Checkout() {
                 <label className="text-sm font-medium text-gray-700 mb-1">
                   Name (নাম)
                 </label>
-                <input
+                <input 
                   type="text"
+                    name="name" 
+                  value={formData.name}
+                  onChange={handleChange}
                   className="w-full border border-gray-300 rounded-lg px-4 py-3 
                  focus:border-purple-600 focus:ring-2 focus:ring-purple-200 
                  outline-none transition"
@@ -53,6 +105,9 @@ export default function Checkout() {
                 </label>
                 <input
                   type="text"
+                  name="phone"
+                   value={formData.phone}
+                  onChange={handleChange}
                   className="w-full border border-gray-300 rounded-lg px-4 py-3 
                  focus:border-purple-600 focus:ring-2 focus:ring-purple-200 
                  outline-none transition"
@@ -71,6 +126,9 @@ export default function Checkout() {
                   Delivery Address (ঠিকানা)
                 </label>
                 <textarea
+                  name="address"
+                value={formData.address}
+                 onChange={handleChange}
                   className="w-full border border-gray-300 rounded-lg px-4 py-3 h-28 
                  focus:border-purple-600 focus:ring-2 focus:ring-purple-200 
                  outline-none transition resize-none"
@@ -83,6 +141,10 @@ export default function Checkout() {
                   Note (optional)
                 </label>
                 <textarea
+                    name="note"
+                value={formData.note || ""}
+                 onChange={handleChange}
+                  placeholder="Any specific instructions for delivery?"
                   className="w-full border border-gray-300 rounded-lg px-4 py-3 h-28 
                  focus:border-purple-600 focus:ring-2 focus:ring-purple-200 
                  outline-none transition resize-none"
@@ -150,7 +212,7 @@ export default function Checkout() {
             </div>
 
             {/* Order Button */}
-            <button className="w-full bg-pry hover-bg-sec transition text-white py-3 rounded-lg font-semibold text-lg">
+            <button  onClick={handleSubmit} className="w-full bg-pry hover-bg-sec transition text-white py-3 rounded-lg font-semibold text-lg">
               অর্ডার করুন (৳{total})
             </button>
 

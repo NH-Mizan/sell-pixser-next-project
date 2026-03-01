@@ -23,6 +23,7 @@ const useShopStore = create(
           }
           return { cart: [...state.cart, { ...product, quantity: 1 }] };
         }),
+       
         
         increaseQty: (id) =>
           set((state) => ({

@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { Bounce, toast } from "react-toastify";
 
 export default function OtpLoginModal({ onClose }) {
   const router = useRouter();
@@ -21,16 +22,16 @@ export default function OtpLoginModal({ onClose }) {
     return () => clearInterval(interval);
   }, [timer]);
 
+
+
   /* Send OTP */
   const handleSendOtp = async () => {
     if (phone.length < 10) {
       alert("Valid phone number required");
       return;
     }
-
     try {
       setLoading(true);
-
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/customer/store`,
         {
@@ -81,17 +82,47 @@ const handleVerifyOtp = async () => {
     // safe JSON parse
     const data = await res.json().catch(() => ({}));
 
-    if (!res.ok) throw new Error(data?.message || "OTP verification failed");
+    if (!res.ok){
+      toast.error(data?.message || "OTP verification failed", {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "light",
+      transition: Bounce,
+    });
+    } 
 
     if (data?.token) {
       localStorage.setItem("token", data.token);
-     
+      toast.success("Login successful!", {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "light",
+      transition: Bounce,
+    });
+     router.push("/dashboard");
     }
 
     onClose();
-    router.push("/dashboard");
+   
   } catch (err) {
-    alert(err.message || "OTP verification failed");
+      toast.error(err?.message || "OTP verification failed", {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "light",
+      transition: Bounce,
+    });
   } finally {
     setLoading(false);
   }
