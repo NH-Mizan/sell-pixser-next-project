@@ -1,13 +1,18 @@
 "use client";
 import useShopStore from "@/context/cardStore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Checkout() {
   const { cart, increaseQty, decreaseQty, removeFromCart } = useShopStore();
   const [shipping, setShipping] = useState(70);
   const [payment, setPayment] = useState("cod");
   const baseURL = "https://sellpixer.websolutionit.com/";
-  const token = localStorage.getItem("token");
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    setToken(storedToken);
+  }, []);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -28,13 +33,12 @@ export default function Checkout() {
     }
 
 
-  const formattedCart = cart.map((item) => ({
-      product_id: item.id,
-      name: item.name,
-      quantity: item.quantity,
-      options: [],
-    }));
-
+ const formattedCart = cart.map((item) => ({
+  product_id: item.id,
+  name: item.name,
+  quantity: item.quantity,
+  options: item.options || [], // ✅
+}));
     const orderData = {
       ...formData,
       area: 1,
