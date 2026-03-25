@@ -37,7 +37,7 @@ export default function Checkout() {
   product_id: item.id,
   name: item.name,
   quantity: item.quantity,
-  options: item.options || [], // ✅
+  options: item.options || [], 
 }));
     const orderData = {
       ...formData,

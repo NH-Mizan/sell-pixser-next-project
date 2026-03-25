@@ -1,4 +1,5 @@
 // app/productDetails/[slug]/page.jsx
+import ProductGallery from '@/components/ProductGallery';
 import ProductInfoTabs from '@/components/ProductInfoTabs';
 import RelatedProducts from '@/components/RelatedProducts';
 
@@ -20,11 +21,6 @@ export async function generateMetadata({ params }) {
 export default async function ProductDetailsPage({ params }) {
   const baseURL = 'https://sellpixer.websolutionit.com/';
   const { id } =await params;
-
-   console.log("Server ID:", params?.id);
-  console.log("Server Type:", typeof params?.id);
- 
-
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/details/${id}`, {
     cache: 'no-store',
   });
@@ -32,13 +28,8 @@ export default async function ProductDetailsPage({ params }) {
   if (!res.ok) {
     return <div className="text-center py-20 text-red-600">Failed to fetch product</div>;
   }
-
   const data = await res.json();
   const product = data?.data;
-
- 
-
-
 
   if (!product) {
     return <div className="text-center py-20 text-red-600">Product Not Found</div>;
@@ -51,27 +42,7 @@ export default async function ProductDetailsPage({ params }) {
   return (
     <section className="w-10/12 mx-auto my-10">
       <div className="w-full flex flex-col md:flex-row gap-6 p-4 bg-white shadow-md rounded-lg">
-      {/* Left: Product Image Section */}
-      <div className="w-full md:w-1/2">
-        {product.images && product.images.length > 0 && (
-          <img
-            src={`${baseURL}${product.images[0].image}`}
-            alt={product?.name}
-            className="w-full h-auto rounded-lg object-cover"
-          />
-        )}
-        {/* Optional thumbnails */}
-        <div className="flex gap-2 mt-3">
-          {product.images?.slice(0, 3).map((img, i) => (
-            <img
-              key={i}
-              src={`${baseURL}${img.image}`}
-              alt={`thumb-${i}`}
-              className="w-20 h-20 border rounded-md object-cover cursor-pointer"
-            />
-          ))}
-        </div>
-      </div>
+      <ProductGallery product={product} baseURL={baseURL} />
 
       {/* Right: Product Info */}
       <div className="w-full md:w-1/2">
