@@ -1,6 +1,7 @@
 "use client";
 import useShopStore from "@/context/cardStore";
 import { useEffect, useState } from "react";
+import { Bounce, toast } from "react-toastify";
 
 export default function Checkout() {
   const { cart, increaseQty, decreaseQty, removeFromCart } = useShopStore();
@@ -56,6 +57,29 @@ export default function Checkout() {
     });
 
     const data = await res.json();
+    if(data.success){
+      toast.success("🛒 Order placed successfully!", {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "light",
+      transition: Bounce,
+    });
+    } else {
+      toast.error("Failed to place order. Please try again.", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+        transition: Bounce,
+      });
+    }
     console.log('data:', data);
   };
 

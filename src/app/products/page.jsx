@@ -30,6 +30,7 @@ export default function ProductsPage() {
 
     fetchproduct();
   }, []);
+  
 
   return (
     <section className="w-10/12 mx-auto my-10">

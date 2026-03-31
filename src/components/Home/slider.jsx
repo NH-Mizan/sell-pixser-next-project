@@ -11,9 +11,11 @@ import Link from 'next/link';
 export default function AutoSlider() {
   const [images, setImages] = useState([]);
   const sliderRef = useRef();
+ const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchSliderImages = async () => {
+      setLoading(true);
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/slider`);
         const data = await res.json();
@@ -22,11 +24,14 @@ export default function AutoSlider() {
         }
       } catch (error) {
         console.error('Slider fetch error:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchSliderImages();
   }, []);
+  
 
   return (
     <div
