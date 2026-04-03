@@ -57,7 +57,7 @@ export default function Checkout() {
     });
 
     const data = await res.json();
-    if(data.success){
+    if(data.status === "success"){
       toast.success("🛒 Order placed successfully!", {
       position: "bottom-right",
       autoClose: 3000,
@@ -80,7 +80,7 @@ export default function Checkout() {
         transition: Bounce,
       });
     }
-    console.log('data:', data);
+  
   };
 
 
