@@ -66,8 +66,7 @@ export default async function ProductDetailsPage({ params }) {
 
           <div className="mb-2">
             <strong>Color:</strong>
-            {colors.length > 0 ? (
-              {
+            {colors.length > 0 ? (             
                 colors.map((color, index) => (
                   <span
                     key={index}
@@ -76,8 +75,7 @@ export default async function ProductDetailsPage({ params }) {
                     {color.color}
                   </span>
                 ))
-              }
-            ) : (
+              ) : (
               <span className="ml-2 text-gray-400">No Color</span>
             )}
           </div>
