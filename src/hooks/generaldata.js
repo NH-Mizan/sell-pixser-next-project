@@ -7,7 +7,6 @@ export async function getServerSideProps() {
       props: {
         generalData: response.data || [],
         
-        
       },
     };
   } catch (error) {

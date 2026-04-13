@@ -20,26 +20,26 @@ export default function Checkout() {
     address: "",
     note: "",
   });
-   const handleChange = (e) => {
+  const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
 
     });
   };
-   const handleSubmit = async () => {
+  const handleSubmit = async () => {
     if (!formData.name || !formData.phone || !formData.address) {
       alert("Name, phone, and address required!");
       return;
     }
 
 
- const formattedCart = cart.map((item) => ({
-  product_id: item.id,
-  name: item.name,
-  quantity: item.quantity,
-  options: item.options || [], 
-}));
+    const formattedCart = cart.map((item) => ({
+      product_id: item.id,
+      name: item.name,
+      quantity: item.quantity,
+      options: item.options || [],
+    }));
     const orderData = {
       ...formData,
       area: 1,
@@ -49,25 +49,25 @@ export default function Checkout() {
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/order-save`, {
       method: "POST",
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`, 
-       },
+        "Authorization": `Bearer ${token}`,
+      },
       body: JSON.stringify(orderData),
     });
 
     const data = await res.json();
-    if(data.status === "success"){
+    if (data.status === "success") {
       toast.success("🛒 Order placed successfully!", {
-      position: "bottom-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "light",
-      transition: Bounce,
-    });
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+        transition: Bounce,
+      });
     } else {
       toast.error("Failed to place order. Please try again.", {
         position: "bottom-right",
@@ -80,12 +80,12 @@ export default function Checkout() {
         transition: Bounce,
       });
     }
-  
+
   };
 
 
 
-  
+
   const subtotal = cart.reduce(
     (sum, item) => sum + (Number(item.new_price) || 0) * item.quantity,
     0
@@ -115,9 +115,9 @@ export default function Checkout() {
                 <label className="text-sm font-medium text-gray-700 mb-1">
                   Name (নাম)
                 </label>
-                <input 
+                <input
                   type="text"
-                    name="name" 
+                  name="name"
                   value={formData.name}
                   onChange={handleChange}
                   className="w-full border border-gray-300 rounded-lg px-4 py-3 
@@ -134,7 +134,7 @@ export default function Checkout() {
                 <input
                   type="text"
                   name="phone"
-                   value={formData.phone}
+                  value={formData.phone}
                   onChange={handleChange}
                   className="w-full border border-gray-300 rounded-lg px-4 py-3 
                  focus:border-purple-600 focus:ring-2 focus:ring-purple-200 
@@ -155,8 +155,8 @@ export default function Checkout() {
                 </label>
                 <textarea
                   name="address"
-                value={formData.address}
-                 onChange={handleChange}
+                  value={formData.address}
+                  onChange={handleChange}
                   className="w-full border border-gray-300 rounded-lg px-4 py-3 h-28 
                  focus:border-purple-600 focus:ring-2 focus:ring-purple-200 
                  outline-none transition resize-none"
@@ -169,9 +169,9 @@ export default function Checkout() {
                   Note (optional)
                 </label>
                 <textarea
-                    name="note"
-                value={formData.note || ""}
-                 onChange={handleChange}
+                  name="note"
+                  value={formData.note || ""}
+                  onChange={handleChange}
                   placeholder="Any specific instructions for delivery?"
                   className="w-full border border-gray-300 rounded-lg px-4 py-3 h-28 
                  focus:border-purple-600 focus:ring-2 focus:ring-purple-200 
@@ -240,7 +240,7 @@ export default function Checkout() {
             </div>
 
             {/* Order Button */}
-            <button  onClick={handleSubmit} className="w-full bg-pry hover-bg-sec transition text-white py-3 rounded-lg font-semibold text-lg">
+            <button onClick={handleSubmit} className="w-full bg-pry hover-bg-sec transition text-white py-3 rounded-lg font-semibold text-lg">
               অর্ডার করুন (৳{total})
             </button>
 
@@ -299,7 +299,7 @@ export default function Checkout() {
               </div>
             </div>
 
-            
+
 
           </div>
 
@@ -319,7 +319,7 @@ export default function Checkout() {
         {/* ================= Products ================= */}
         {cart.map((item) => (
           <div
-            key={item.id}
+            key={`${item.id}-${item.size}-${item.color}`}
             className="border-b py-4"
           >
 
@@ -340,6 +340,20 @@ export default function Checkout() {
                 <h4 className="font-medium truncate max-w-[250px]">
                   {item.name}
                 </h4>
+
+                <div className="flex gap-2 mt-1">
+                  {item.color && (
+                    <span className="px-3 py-[2px] text-xs rounded-full bg-pink-100 text-pink-600 font-medium">
+                      {item.color}
+                    </span>
+                  )}
+
+                  {item.size && (
+                    <span className="px-3 py-[2px] text-xs rounded-full bg-blue-100 text-blue-600 font-medium">
+                      {item.size}
+                    </span>
+                  )}
+                </div>
               </div>
 
               {/* Price */}
@@ -350,14 +364,14 @@ export default function Checkout() {
               {/* Quantity */}
               <div className="flex justify-center items-center gap-2">
                 <button
-                  onClick={() => decreaseQty(item.id)}
+                  onClick={() => decreaseQty(item)}
                   className="w-8 h-8 border rounded-md hover:bg-gray-100"
                 >
                   -
                 </button>
                 <span>{item.quantity}</span>
                 <button
-                  onClick={() => increaseQty(item.id)}
+                  onClick={() => increaseQty(item)}
                   className="w-8 h-8 border rounded-md hover:bg-gray-100"
                 >
                   +
@@ -372,7 +386,7 @@ export default function Checkout() {
               {/* Remove */}
               <div className="text-right">
                 <button
-                  onClick={() => removeFromCart(item.id)}
+                  onClick={() => removeFromCart(item)}
                   className="text-red-500 hover:text-red-700 text-lg"
                 >
                   🗑
@@ -399,6 +413,19 @@ export default function Checkout() {
                   <h4 className="font-medium text-sm">
                     {item.name}
                   </h4>
+                      <div className="flex gap-2 mt-1">
+                  {item.color && (
+                    <span className="px-3 py-[2px] text-xs rounded-full bg-pink-100 text-pink-600 font-medium">
+                      {item.color}
+                    </span>
+                  )}
+
+                  {item.size && (
+                    <span className="px-3 py-[2px] text-xs rounded-full bg-blue-100 text-blue-600 font-medium">
+                      {item.size}
+                    </span>
+                  )}
+                </div>
                   <p className="text-sm text-gray-500">
                     Price: ৳{Number(item.new_price) || 0}
                   </p>
@@ -410,14 +437,14 @@ export default function Checkout() {
                 {/* Quantity */}
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => decreaseQty(item.id)}
+                    onClick={() => decreaseQty(item)}
                     className="w-8 h-8 border rounded-md"
                   >
                     -
                   </button>
                   <span>{item.quantity}</span>
                   <button
-                    onClick={() => increaseQty(item.id)}
+                    onClick={() => increaseQty(item)}
                     className="w-8 h-8 border rounded-md"
                   >
                     +
@@ -430,7 +457,7 @@ export default function Checkout() {
                   </span>
 
                   <button
-                    onClick={() => removeFromCart(item.id)}
+                    onClick={() => removeFromCart(item)}
                     className="text-red-500 text-lg"
                   >
                     🗑

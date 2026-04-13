@@ -11,36 +11,56 @@ const useShopStore = create(
       //  Add to Cart
       addToCart: (product) =>
         set((state) => {
-          const alreadyExist = state.cart.find((item) => item.id === product.id);
+          // 👉 same product + size + color match
+          const alreadyExist = state.cart.find(
+            (item) =>
+              item.id === product.id &&
+              item.size === product.size &&
+              item.color === product.color
+          );
+
           if (alreadyExist) {
             return {
               cart: state.cart.map((item) =>
-                item.id === product.id
+                item.id === product.id &&
+                  item.size === product.size &&
+                  item.color === product.color
                   ? { ...item, quantity: item.quantity + 1 }
                   : item
               ),
             };
           }
-          return { cart: [...state.cart, { ...product, quantity: 1 }] };
+
+          return {
+            cart: [...state.cart, { ...product, quantity: 1 }],
+          };
         }),
-       
-        
-        increaseQty: (id) =>
-          set((state) => ({
-            cart: state.cart.map((item) =>
-              item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-            ),
-          })),
-
-        decreaseQty: (id) =>
-          set((state) => ({
-            cart: state.cart.map((item) =>
-              item.id === id && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item
-            ),
-          })),
 
 
-        //  Add to Wishlist
+      increaseQty: (product) =>
+        set((state) => ({
+          cart: state.cart.map((item) =>
+            item.id === product.id &&
+              item.size === product.size &&
+              item.color === product.color
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          ),
+        })),
+
+      decreaseQty: (product) =>
+        set((state) => ({
+          cart: state.cart.map((item) =>
+            item.id === product.id &&
+              item.size === product.size &&
+              item.color === product.color &&
+              item.quantity > 1
+              ? { ...item, quantity: item.quantity - 1 }
+              : item
+          ),
+        })),
+
+      //  Add to Wishlist
       addToWishlist: (product) =>
         set((state) => {
           const alreadyExist = state.wishlist.find((item) => item.id === product.id);
@@ -48,7 +68,7 @@ const useShopStore = create(
           return { wishlist: [...state.wishlist, product] };
         }),
 
-        //  Add to Compare
+      //  Add to Compare
       addToCompare: (product) =>
         set((state) => {
           const alreadyExist = state.compare.find((item) => item.id === product.id);
@@ -103,9 +123,17 @@ const useShopStore = create(
 
 
       //  Remove from Cart
-      removeFromCart: (id) =>
+      removeFromCart: (product) =>
         set((state) => ({
-          cart: state.cart.filter((item) => item.id !== id),
+          cart: state.cart.filter(
+            (item) =>
+              !(
+                item.id === product.id &&
+                item.size === product.size &&
+                item.color === product.color
+              )
+          ),
+          
         })),
 
       //  Clear Cart
