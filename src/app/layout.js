@@ -7,6 +7,8 @@ import SocialIcons from "@/components/Layouts/SocialIcon";
 import ScrollToTopButton from "@/components/Layouts/ScrollerTop";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Suspense } from "react";
+import Loader from "./loading";
 
 
 
@@ -86,7 +88,9 @@ export default function RootLayout({ children }) {
      
           <Topline />
           <MainHeader />
+          <Suspense fallback={<Loader/>}>
           <main>{children}</main>
+          </Suspense>
            <ToastContainer />
           <Footer />
           <SocialIcons />

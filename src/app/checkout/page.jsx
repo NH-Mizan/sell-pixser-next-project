@@ -29,7 +29,12 @@ export default function Checkout() {
   };
   const handleSubmit = async () => {
     if (!formData.name || !formData.phone || !formData.address) {
-      alert("Name, phone, and address required!");
+        toast.error("Name, phone, and address required!", {
+                position: "bottom-right",
+                autoClose: 3000,
+                theme: "colored",
+                transition: Bounce,
+            });
       return;
     }
 
@@ -38,7 +43,11 @@ export default function Checkout() {
       product_id: item.id,
       name: item.name,
       quantity: item.quantity,
-      options: item.options || [],
+      color : item.color?? '',
+      size : item.size?? '',
+      image : item.image.image?? '',
+
+      
     }));
     const orderData = {
       ...formData,
@@ -61,22 +70,15 @@ export default function Checkout() {
       toast.success("🛒 Order placed successfully!", {
         position: "bottom-right",
         autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "light",
+        theme: "colored",
         transition: Bounce,
       });
     } else {
       toast.error("Failed to place order. Please try again.", {
         position: "bottom-right",
         autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "light",
+  
+        theme: "colored",
         transition: Bounce,
       });
     }
