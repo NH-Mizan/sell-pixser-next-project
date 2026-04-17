@@ -46,8 +46,9 @@ export default function OtpLoginModal({ onClose }) {
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
-
+      
       setStep("otp");
+      alert(`OTP: ${data.verify}`);
       setTimer(60);
     } catch (err) {
       alert(err.message || "OTP send failed");
@@ -85,11 +86,6 @@ const handleVerifyOtp = async () => {
     if (!res.ok){
       toast.error(data?.message || "OTP verification failed", {
       position: "bottom-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
       theme: "light",
       transition: Bounce,
     });
@@ -99,12 +95,6 @@ const handleVerifyOtp = async () => {
       localStorage.setItem("token", data.token);
       toast.success("Login successful!", {
       position: "bottom-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "light",
       transition: Bounce,
     });
      router.push("/dashboard");
@@ -115,11 +105,6 @@ const handleVerifyOtp = async () => {
   } catch (err) {
       toast.error(err?.message || "OTP verification failed", {
       position: "bottom-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
       theme: "light",
       transition: Bounce,
     });

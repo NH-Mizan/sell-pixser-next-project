@@ -161,15 +161,15 @@ const handleOrderNow = () => {
               
 
                 {/* Details */}
-                <div className="p-4 space-y-2">
-                    <h3 className="text-sm h-16 font-semibold hover-text-sec transition">
+                <div className="product_info">
+                    <h3 className="product_name hover-text-sec">
                         {product.name.length > 30
-                            ? product.name.slice(0, 50) + '...'
+                            ? product.name.slice(0, 60) + '...'
                             : product.name}
                     </h3>
 
                     {/* Price */}
-                    <div className="text-pry font-bold text-base">
+                    <div className="product_price text-pry font-bold text-base">
                         ৳{product.new_price}
                         {product.old_price && (
                             <span className="ml-2 text-gray-400 line-through">
@@ -181,7 +181,7 @@ const handleOrderNow = () => {
             </Link>
 
             {/* Actions (outside link so clicks don’t trigger navigation) */}
-            <div className="px-4 pb-4 flex items-center justify-between gap-2">
+            <div className="product_btn">
                 <button
                     onClick={handleaddtocard}
                     className="hover-bg-sec p-2 rounded-md bg-pry text-wt transition "

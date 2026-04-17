@@ -23,7 +23,7 @@ export default function TopCategories() {
   }, []);
 
   return (
-    <section className="w-10/12 mx-auto my-10">
+    <section className="w-11/12 mx-auto my-10">
       <h2 className="text-xl font-bold mb-5" >TOP CATEGORIES</h2>
 
       <Swiper

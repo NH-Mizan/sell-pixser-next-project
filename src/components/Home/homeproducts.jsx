@@ -37,9 +37,9 @@ export default function CategoryWiseProducts() {
   }
 
   return (
-    <section className="w-10/12 mx-auto py-10 space-y-16">
+    <section className="w-11/12 mx-auto ">
       {categories.map(category => (
-        <div key={category.id}>
+        <div key={category.id} className='my-4'>
           {/* Header */}
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg lg:text-3xl font-bold text-gray-800 " data-aos="fade-right"

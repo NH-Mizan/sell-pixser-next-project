@@ -49,7 +49,7 @@ export default function MainHeader() {
       {/* === Header Section === */}
       <div className="bg-white z-20 relative ">
         <header className="text-black ">
-          <nav className="w-10/12 mx-auto  grid grid-cols-1 md:grid-cols-3 items-center gap-2">
+          <nav className="w-11/12 mx-auto  grid grid-cols-1 md:grid-cols-3 items-center gap-2">
 
             {/* Logo + Mobile Toggle */}
             <div className="flex items-center justify-between md:justify-start col-span-1">
