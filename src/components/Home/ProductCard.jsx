@@ -22,10 +22,6 @@ export default function ProductCard({ product, baseURL }) {
       toast.error(" Removed from Wishlist!", {  
         position: "bottom-right",
         autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
         theme: "colored",
         transition: Bounce,
       });
@@ -36,10 +32,6 @@ export default function ProductCard({ product, baseURL }) {
     toast.success(`${product.name} added to Wishlist!`, {
       position: "bottom-right",
       autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
       theme: "colored",
       transition: Bounce,
     });
@@ -49,10 +41,6 @@ export default function ProductCard({ product, baseURL }) {
     toast.success(` ${product.name} added to Add To Card!`, {
       position: "bottom-right",
       autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
       theme: "light",
       transition: Bounce,
     });
@@ -141,10 +129,7 @@ const handleOrderNow = () => {
 
 
     return (
-        <div
-            data-aos="zoom-in"
-            data-aos-duration="500"
-            className="relative border border-red-300 rounded-md shadow overflow-hidden transform group-hover:scale-105 transition duration-300 ease-in-out"
+        <div className="relative border border-red-300 rounded-md shadow overflow-hidden transform group-hover:scale-105 transition "
         >
             {/* Discount Badge */}
             {discount > 0 && (
@@ -170,7 +155,7 @@ const handleOrderNow = () => {
                 <img
                     src={`${baseURL}${product.image?.image}`}
                     alt={product.name}
-                    className=" w-full pro_img group-hover:scale-110 transition-transform duration-500 ease-in-out"
+                    className=" w-full pro_img group-hover:scale-110 transition-transform "
                 />
                 </div>
               
@@ -199,7 +184,7 @@ const handleOrderNow = () => {
             <div className="px-4 pb-4 flex items-center justify-between gap-2">
                 <button
                     onClick={handleaddtocard}
-                    className="hover-bg-sec p-2 rounded-md bg-pry text-wt transition"
+                    className="hover-bg-sec p-2 rounded-md bg-pry text-wt transition "
                 >
                     <FaShoppingCart className="text-lg" />
                 </button>

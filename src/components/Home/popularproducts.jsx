@@ -1,8 +1,6 @@
 "use client";
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 import Loader from '@/app/loading';
 const ProductCard = dynamic(() => import('./ProductCard'), { ssr: false });
 
@@ -11,9 +9,7 @@ export default function PopularProducts() {
 const [loading, setLoading] = useState(true)
   const baseURL = 'https://sellpixer.websolutionit.com/';
 
-  useEffect(() => {
-    AOS.init();
-  }, []);
+
   useEffect(() => {
     const fetchproduct = async () => {
       try {
@@ -37,9 +33,7 @@ const [loading, setLoading] = useState(true)
    <div className="">
      {
       loading? <Loader/>:<section className="w-10/12 mx-auto my-10">
-      <h2 className="text-3xl font-bold text-center mb-8"   
-              data-aos="fade-down"
-            data-aos-duration="500">
+      <h2 className="text-3xl font-bold text-center mb-8">
         <span className="text-pry italic block text-base"> Shop Bangladesh</span>
         Popular Product
       </h2>

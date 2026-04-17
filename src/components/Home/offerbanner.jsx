@@ -1,25 +1,20 @@
 'use client';
 
-import AOS from 'aos';
+
 import 'aos/dist/aos.css';
-import { useEffect } from 'react';
+
 
 export default function OfferBanner()  {
-  useEffect(() => {
-    AOS.init();
-  }, []);
+
 
   return (
     <div className="w-10/12 mx-auto  py-8">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8"  data-aos="zoom-out-up" >Special Offers</h1>
+      <h1 className="text-3xl font-bold text-gray-800 mb-8"  >Special Offers</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Card 1 */}
         <div
           className="relative rounded-2xl overflow-hidden shadow-md h-64 md:h-80 flex items-center"
-          data-aos="fade-up"
-          data-aos-delay="0"
-          data-aos-duration="700"
           style={{
             backgroundImage: "url('/images/2.jpg')",
             backgroundSize: 'cover',
@@ -50,9 +45,6 @@ export default function OfferBanner()  {
         {/* Card 2 */}
         <div
           className="relative rounded-2xl overflow-hidden shadow-md h-64 md:h-80 flex items-center"
-          data-aos="fade-up"
-          data-aos-delay="100"
-          data-aos-duration="700"
           style={{
             backgroundImage: "url('/images/1.jpg')",
             backgroundSize: 'cover',

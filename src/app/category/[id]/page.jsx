@@ -4,7 +4,7 @@ import { use } from "react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation"; 
 import ProductCard from "@/components/Home/ProductCard";
-import Loader from "../loading";
+import Loader from "@/app/loading";
 
 export default function RelatedProducts({ params }) {
   const { id } = use(params); 

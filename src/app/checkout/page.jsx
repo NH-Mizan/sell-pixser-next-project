@@ -2,6 +2,7 @@
 import useShopStore from "@/context/cardStore";
 import { useEffect, useState } from "react";
 import { Bounce, toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export default function Checkout() {
   const { cart, increaseQty, decreaseQty, removeFromCart } = useShopStore();
@@ -9,6 +10,8 @@ export default function Checkout() {
   const [payment, setPayment] = useState("cod");
   const baseURL = "https://sellpixer.websolutionit.com/";
   const [token, setToken] = useState(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -29,60 +32,53 @@ export default function Checkout() {
   };
   const handleSubmit = async () => {
     if (!formData.name || !formData.phone || !formData.address) {
-        toast.error("Name, phone, and address required!", {
-                position: "bottom-right",
-                autoClose: 3000,
-                theme: "colored",
-                transition: Bounce,
-            });
+      toast.error("Name, phone, and address required!");
       return;
     }
 
+    setIsProcessing(true);
 
-    const formattedCart = cart.map((item) => ({
-      product_id: item.id,
-      name: item.name,
-      quantity: item.quantity,
-      color : item.color?? '',
-      size : item.size?? '',
-      image : item.image.image?? '',
+    try {
+      const formattedCart = cart.map((item) => ({
+        product_id: item.id,
+        name: item.name,
+        quantity: item.quantity,
+        color: item.color ?? "",
+        size: item.size ?? "",
+        image: item.image.image ?? "",
+      }));
 
-      
-    }));
-    const orderData = {
-      ...formData,
-      area: 1,
-      discount: 0,
-      cart: formattedCart,
-    };
+      const orderData = {
+        ...formData,
+        area: 1,
+        discount: 0,
+        cart: formattedCart,
+      };
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/order-save`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      },
-      body: JSON.stringify(orderData),
-    });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/order-save`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(orderData),
+        }
+      );
 
-    const data = await res.json();
-    if (data.status === "success") {
-      toast.success("🛒 Order placed successfully!", {
-        position: "bottom-right",
-        autoClose: 3000,
-        theme: "colored",
-        transition: Bounce,
-      });
-    } else {
-      toast.error("Failed to place order. Please try again.", {
-        position: "bottom-right",
-        autoClose: 3000,
-  
-        theme: "colored",
-        transition: Bounce,
-      });
+      const data = await res.json();
+
+      if (data.status === "success") {
+        router.push(`/ordersuccess?orderId=${data.order.id}`);
+      } else {
+        toast.error("Failed to place order.");
+        setIsProcessing(false);
+      }
+    } catch (error) {
+      toast.error("Something went wrong!");
+      setIsProcessing(false);
     }
-
   };
 
 
@@ -94,6 +90,23 @@ export default function Checkout() {
   );
   const discount = 0;
   const total = subtotal + shipping - discount;
+
+
+  if (isProcessing) {
+    return (
+      <div className="min-h-screen flex flex-col justify-center items-center bg-white">
+        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+
+        <h2 className="mt-6 text-xl font-semibold text-gray-800">
+          Processing Your Order...
+        </h2>
+
+        <p className="text-gray-500 mt-2">
+          Please wait while we confirm your order
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gray-100 min-h-screen py-8">
@@ -190,52 +203,112 @@ export default function Checkout() {
             <div className="grid md:grid-cols-2 gap-6">
 
               {/* Shipping */}
-              <div>
-                <h3 className="font-semibold mb-3">Your Shipping Location :</h3>
-                <div className="space-y-2">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="shipping"
-                      checked={shipping === 70}
-                      onChange={() => setShipping(70)}
-                    />
-                    Inside Dhaka - 70৳
+              <div className="">
+                <h3 className="font-semibold text-lg mb-4 text-gray-800">
+                  Shipping Location
+                </h3>
+
+                <div className="space-y-3">
+
+                  {/* Inside Dhaka */}
+                  <label
+                    className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition 
+                    ${shipping === 70 ? "border-primary bg-primary/5" : "border-gray-200 hover:border-primary"}`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="radio"
+                        name="shipping"
+                        checked={shipping === 70}
+                        onChange={() => setShipping(70)}
+                        className="accent-primary w-4 h-4"
+                      />
+                      <div>
+                        <p className="font-medium text-gray-800">Inside Dhaka</p>
+                        <p className="text-sm text-gray-500">Delivery within 1-2 days</p>
+                      </div>
+                    </div>
+
+                    <span className="font-semibold text-primary">৳70</span>
                   </label>
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="shipping"
-                      checked={shipping === 120}
-                      onChange={() => setShipping(120)}
-                    />
-                    Outside Dhaka - 120৳
+
+                  {/* Outside Dhaka */}
+                  <label
+                    className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition 
+                  ${shipping === 120 ? "border-primary bg-primary/5" : "border-gray-200 hover:border-primary"}`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="radio"
+                        name="shipping"
+                        checked={shipping === 120}
+                        onChange={() => setShipping(120)}
+                        className="accent-primary w-4 h-4"
+                      />
+                      <div>
+                        <p className="font-medium text-gray-800">Outside Dhaka</p>
+                        <p className="text-sm text-gray-500">Delivery within 3-5 days</p>
+                      </div>
+                    </div>
+
+                    <span className="font-semibold text-primary">৳120</span>
                   </label>
+
                 </div>
               </div>
 
               {/* Payment */}
-              <div>
-                <h3 className="font-semibold mb-3">Payment Method :</h3>
-                <div className="space-y-2">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="payment"
-                      checked={payment === "cod"}
-                      onChange={() => setPayment("cod")}
-                    />
-                    Cash On Delivery
+              <div className="">
+                <h3 className="font-semibold text-lg mb-4 text-gray-800">
+                  Payment Method
+                </h3>
+
+                <div className="space-y-3">
+
+                  {/* Cash on Delivery */}
+                  <label
+                    className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition 
+                    ${payment === "cod" ? "border-primary bg-primary/5" : "border-gray-200 hover:border-primary"}`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="radio"
+                        name="payment"
+                        checked={payment === "cod"}
+                        onChange={() => setPayment("cod")}
+                        className="accent-primary w-4 h-4"
+                      />
+                      <div>
+                        <p className="font-medium text-gray-800">Cash on Delivery</p>
+                        <p className="text-sm text-gray-500">Pay when you receive</p>
+                      </div>
+                    </div>
+
+                    <span className="text-sm font-semibold text-gray-600">COD</span>
                   </label>
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="payment"
-                      checked={payment === "bkash"}
-                      onChange={() => setPayment("bkash")}
-                    />
-                    Bkash
+
+                  {/* Bkash */}
+                  <label
+                    className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition 
+                 ${payment === "bkash" ? "border-primary bg-primary/5" : "border-gray-200 hover:border-primary"}`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="radio"
+                        name="payment"
+                        checked={payment === "bkash"}
+                        onChange={() => setPayment("bkash")}
+                        className="accent-primary w-4 h-4"
+                      />
+                      <div>
+                        <p className="font-medium text-gray-800">bKash</p>
+                        <p className="text-sm text-gray-500">Pay securely via mobile banking</p>
+                      </div>
+                    </div>
+
+                    <span className="text-sm font-semibold text-pink-500">bKash</span>
                   </label>
+
                 </div>
               </div>
 
@@ -415,19 +488,19 @@ export default function Checkout() {
                   <h4 className="font-medium text-sm">
                     {item.name}
                   </h4>
-                      <div className="flex gap-2 mt-1">
-                  {item.color && (
-                    <span className="px-3 py-[2px] text-xs rounded-full bg-pink-100 text-pink-600 font-medium">
-                      {item.color}
-                    </span>
-                  )}
+                  <div className="flex gap-2 mt-1">
+                    {item.color && (
+                      <span className="px-3 py-[2px] text-xs rounded-full bg-pink-100 text-pink-600 font-medium">
+                        {item.color}
+                      </span>
+                    )}
 
-                  {item.size && (
-                    <span className="px-3 py-[2px] text-xs rounded-full bg-blue-100 text-blue-600 font-medium">
-                      {item.size}
-                    </span>
-                  )}
-                </div>
+                    {item.size && (
+                      <span className="px-3 py-[2px] text-xs rounded-full bg-blue-100 text-blue-600 font-medium">
+                        {item.size}
+                      </span>
+                    )}
+                  </div>
                   <p className="text-sm text-gray-500">
                     Price: ৳{Number(item.new_price) || 0}
                   </p>
