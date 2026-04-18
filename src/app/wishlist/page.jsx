@@ -42,7 +42,7 @@ export default function WishlistPage() {
 
   if (wishlist.length === 0) {
     return (
-      <div className=" min-h-screen w-10/12 mx-auto justify-center items-center flex flex-col gap-4">
+      <div className=" min-h-screen container justify-center items-center flex flex-col gap-4">
         <h2 className="text-2xl font-semibold text-gray-600">
            Your Wishlist is Empty
         </h2>

@@ -43,7 +43,7 @@ export default async function ProductDetailsPage({ params }) {
     : 0;
 
   return (
-    <section className="w-11/12 mx-auto my-10">
+    <section className="container my-10">
       <div className="w-full flex flex-col md:flex-row gap-6 p-4 bg-white shadow-md rounded-lg">
 
         <ProductGallery 

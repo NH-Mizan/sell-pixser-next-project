@@ -37,7 +37,7 @@ export default function CategoryWiseProducts() {
   }
 
   return (
-    <section className="w-11/12 mx-auto ">
+    <section className="container">
       {categories.map(category => (
         <div key={category.id} className='my-4'>
           {/* Header */}

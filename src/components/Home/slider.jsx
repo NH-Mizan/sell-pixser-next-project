@@ -35,7 +35,7 @@ export default function AutoSlider() {
 
   return (
     <div
-      className="group relative w-11/12  mx-auto rounded-lg overflow-hidden"
+      className="group relative container rounded-lg overflow-hidden"
       ref={sliderRef}
     >
       <Swiper

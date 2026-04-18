@@ -32,7 +32,7 @@ const [loading, setLoading] = useState(true)
   return (
    <div className="">
      {
-      loading? <Loader/>:<section className="w-11/12 mx-auto ">
+      loading? <Loader/>:<section className="container">
       <h2 className="text-3xl font-bold text-center mb-8">
         <span className="text-pry italic block text-base"> Shop Bangladesh</span>
         Popular Product

@@ -56,7 +56,7 @@ export default function RelatedProducts({ params }) {
   });
 
   return (
-    <div className="w-11/12 mx-auto min-h-screen py-6">
+    <div className="container min-h-screen py-6">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         
         {/* Left Side - Categories */}

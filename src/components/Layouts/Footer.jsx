@@ -2,7 +2,7 @@ import { FaFacebookF, FaInstagram, FaYoutube, FaWhatsapp, FaFacebookMessenger } 
 export default function Footer() {
     return (
         <div className="bg-black text-white">
-            <footer className="w-11/12 mx-auto py-10 flex flex-col sm:flex-row sm:justify-between gap-10 sm:gap-0">
+            <footer className="container py-10 flex flex-col sm:flex-row sm:justify-between gap-10 sm:gap-0">
                 {/* Left Section */}
                 <div className="flex flex-col gap-2">
                     <img src="/images/sell-pixer.webp" alt="sell pixer" className="w-[100px]" />

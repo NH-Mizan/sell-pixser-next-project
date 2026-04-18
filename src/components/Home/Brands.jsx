@@ -34,8 +34,8 @@ export default function Brands() {
   }, []);
 
   return (
-    <section className="my-10 w-11/12 mx-auto" data-aos="fade-up">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8"  data-aos="zoom-out-up" >Shop From Brand</h1>
+    <section className="brand_area container " data-aos="fade-up">
+        <h1 className="text-3xl font-bold text-gray-800 mb-2"  data-aos="zoom-out-up" >Shop From Brand</h1>
       <Swiper
         slidesPerView={2}
         spaceBetween={20}
