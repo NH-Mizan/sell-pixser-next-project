@@ -530,12 +530,12 @@ export default function Checkout() {
                     ৳{(Number(item.new_price) || 0) * item.quantity}
                   </span>
 
-                  <button
-                    onClick={() => removeFromCart(item)}
-                    className="text-red-500 text-lg"
-                  >
-                    🗑
-                  </button>
+                 <button
+                  onClick={() => removeFromCart(item)}
+                  className="text-red-500 hover:text-red-700 text-lg"
+                >
+                  🗑
+                </button>
                 </div>
 
               </div>

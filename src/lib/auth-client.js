@@ -1,9 +1,11 @@
 export async function apiRequest(path, options = {}) {
+  const isFormData = typeof FormData !== "undefined" && options.body instanceof FormData;
+
   const response = await fetch(path, {
     ...options,
     headers: {
       Accept: "application/json",
-      ...(options.body ? { "Content-Type": "application/json" } : {}),
+      ...(!isFormData && options.body ? { "Content-Type": "application/json" } : {}),
       ...options.headers,
     },
     credentials: "include",

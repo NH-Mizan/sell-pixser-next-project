@@ -1,6 +1,8 @@
 "use client";
 
+import { useAuthSession } from "@/components/Auth/AuthSessionProvider";
 import { apiRequest } from "@/lib/auth-client";
+import { getAssetUrl } from "@/lib/api";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -9,6 +11,7 @@ import {
   FaBars,
   FaBell,
   FaCog,
+  FaHome,
   FaShoppingCart,
   FaTachometerAlt,
   FaTimes,
@@ -23,10 +26,13 @@ const navigation = [
 ];
 
 export default function DashboardShell({ user, children }) {
+  const sessionUser = useAuthSession();
   const pathname = usePathname();
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const currentUser = sessionUser || user;
 
   async function handleLogout() {
     try {
@@ -40,10 +46,10 @@ export default function DashboardShell({ user, children }) {
   }
 
   return (
-    <div className="min-h-screen bg-slate-100">
-      <div className="mx-auto flex min-h-screen max-w-[1440px]">
+    <div className="min-h-screen bg-[linear-gradient(180deg,#f8fafc_0%,#eef4ff_100%)]">
+      <div className="mx-auto flex min-h-screen max-w-[1480px]">
         <aside
-          className={`fixed inset-y-0 left-0 z-40 w-72 border-r border-slate-200 bg-white px-5 py-6 shadow-xl transition-transform duration-200 lg:static lg:translate-x-0 ${
+          className={`fixed inset-y-0 left-0 z-40 w-72 border-r border-slate-200 bg-[linear-gradient(180deg,#0f172a_0%,#111827_100%)] px-5 py-6 text-white shadow-2xl transition-transform duration-200 lg:static lg:translate-x-0 ${
             sidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
@@ -54,13 +60,13 @@ export default function DashboardShell({ user, children }) {
                 alt="SellPixser"
                 width={96}
                 height={48}
-                className="h-auto w-24"
+                className="h-auto w-24 rounded-xl bg-white p-1"
               />
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-pry">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-rose-300">
                   Account
                 </p>
-                <h2 className="text-lg font-bold text-slate-900">Dashboard</h2>
+                <h2 className="text-lg font-bold text-white">Dashboard</h2>
               </div>
             </div>
             <button className="lg:hidden" onClick={() => setSidebarOpen(false)}>
@@ -68,14 +74,32 @@ export default function DashboardShell({ user, children }) {
             </button>
           </div>
 
-          <div className="mb-8 rounded-3xl bg-gradient-to-br from-pink-50 to-sky-50 p-4">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Signed in as</p>
-            <h3 className="mt-2 text-lg font-bold text-slate-900">
-              {user?.name || "Customer"}
+          <div className="mb-8 rounded-[1.75rem] border border-white/10 bg-white/5 p-4 backdrop-blur">
+            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Signed in as</p>
+            <h3 className="mt-2 text-lg font-bold text-white">
+              {currentUser?.name || "Customer"}
             </h3>
-            <p className="mt-1 text-sm text-slate-600">
-              {user?.phone || user?.email || "Secure OTP session"}
+            <p className="mt-1 text-sm text-slate-300">
+              {currentUser?.phone || currentUser?.email || "Secure OTP session"}
             </p>
+            <div className="mt-4 flex items-center gap-3 rounded-2xl bg-white/10 px-3 py-3">
+              <div className="relative h-12 w-12 overflow-hidden rounded-2xl border border-white/10 bg-slate-800">
+                <Image
+                  src={getAssetUrl(currentUser?.image)}
+                  alt={currentUser?.name || "Customer"}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-white">
+                  {currentUser?.status === "active" ? "Active customer" : "Customer"}
+                </p>
+                <p className="text-xs text-slate-300">
+                  {Number(currentUser?.verify) === 1 ? "Phone verified" : "Verification pending"}
+                </p>
+              </div>
+            </div>
           </div>
 
           <nav className="space-y-2">
@@ -88,8 +112,8 @@ export default function DashboardShell({ user, children }) {
                   href={href}
                   className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition ${
                     isActive
-                      ? "bg-slate-900 text-white"
-                      : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                      ? "bg-white text-slate-950 shadow-lg"
+                      : "text-slate-300 hover:bg-white/10 hover:text-white"
                   }`}
                   onClick={() => setSidebarOpen(false)}
                 >
@@ -104,15 +128,15 @@ export default function DashboardShell({ user, children }) {
             type="button"
             onClick={handleLogout}
             disabled={isLoggingOut}
-            className="mt-8 w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 disabled:opacity-60"
+            className="mt-8 w-full rounded-2xl border border-white/15 px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/10 disabled:opacity-60"
           >
             {isLoggingOut ? "Signing out..." : "Logout"}
           </button>
         </aside>
 
         <div className="flex min-h-screen flex-1 flex-col">
-          <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/90 px-4 py-4 backdrop-blur md:px-6">
-            <div className="flex items-center justify-between">
+          <header className="sticky top-0 z-30 border-b border-white/60 bg-white/70 px-4 py-4 backdrop-blur-xl md:px-6">
+            <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <button className="lg:hidden" onClick={() => setSidebarOpen(true)}>
                   <FaBars />
@@ -122,25 +146,37 @@ export default function DashboardShell({ user, children }) {
                     Welcome back
                   </p>
                   <h1 className="text-xl font-bold text-slate-900">
-                    {user?.name || "Customer"}
+                    {currentUser?.name || "Customer"}
                   </h1>
                 </div>
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="grid h-10 w-10 place-items-center rounded-full bg-slate-100 text-slate-600">
+                <Link
+                  href="/"
+                  className="hidden items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm md:inline-flex"
+                >
+                  <FaHome className="text-slate-500" />
+                  Back to shop
+                </Link>
+                <div className="grid h-10 w-10 place-items-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-sm">
                   <FaBell />
                 </div>
-                <div className="flex items-center gap-3 rounded-full border border-slate-200 bg-white px-3 py-2">
-                  <div className="grid h-10 w-10 place-items-center rounded-full bg-slate-900 text-sm font-semibold text-white">
-                    {(user?.name || "U").slice(0, 1).toUpperCase()}
+                <div className="flex items-center gap-3 rounded-full border border-slate-200 bg-white px-3 py-2 shadow-sm">
+                  <div className="relative h-10 w-10 overflow-hidden rounded-full bg-slate-900">
+                    <Image
+                      src={getAssetUrl(currentUser?.image)}
+                      alt={currentUser?.name || "User"}
+                      fill
+                      className="object-cover"
+                    />
                   </div>
                   <div className="hidden text-left sm:block">
                     <p className="text-sm font-semibold text-slate-900">
-                      {user?.name || "User"}
+                      {currentUser?.name || "User"}
                     </p>
                     <p className="text-xs text-slate-500">
-                      {user?.phone || user?.email || "Authenticated"}
+                      {currentUser?.phone || currentUser?.email || "Authenticated"}
                     </p>
                   </div>
                 </div>

@@ -20,6 +20,7 @@ import { IoGitCompare } from "react-icons/io5";
 import useShopStore from "@/context/cardStore";
 import OtpLoginModal from "../OtpLoginModal ";
 import MobileCategoryMenu from "./MobileCategoryMenu";
+import { useAuthSession } from "../Auth/AuthSessionProvider";
 
 export default function MainHeader({ initialCategories = [] }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,6 +30,7 @@ export default function MainHeader({ initialCategories = [] }) {
   const [isHydrated, setIsHydrated] = useState(false);
   const cartCount = useShopStore((state) => state.cart.length);
   const wishlistCount = useShopStore((state) => state.wishlist.length);
+  const user = useAuthSession();
   const router = useRouter();
 
   useEffect(() => {
@@ -102,13 +104,20 @@ export default function MainHeader({ initialCategories = [] }) {
             </div>
 
             <div className="hidden lg:flex items-center justify-end gap-4 text-sm col-span-1 text-black">
-              <button onClick={() => setLoginModal(true)} className="flex items-center gap-1">
-                <FaRegUserCircle className="text-[30px]" />
-                <div>
-                  <p className="text-sm">Hello, Sign In/Sign Up</p>
-                  <p className="font-bold text-md">Your Account</p>
-                </div>
-              </button>
+              {
+                user ? (
+                  <Link href="/dashboard" className="flex items-center gap-1">
+                    <FaRegUserCircle className="text-[30px]" />
+                       <p className="text-sm">{user.name}</p>
+                  </Link>
+                ) : (
+                  <button onClick={() => setLoginModal(true)} className="flex items-center gap-1">
+                    <FaRegUserCircle className="text-[30px]" />
+                     <p className="text-sm">Login / Register</p>
+                  </button>
+                )
+              }
+            
               <Link href="#" className="flex items-center gap-1" aria-label="Compare">
                 <IoGitCompare className="text-[24px]" />
               </Link>

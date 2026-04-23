@@ -1,4 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import { AuthSessionProvider } from "@/components/Auth/AuthSessionProvider";
 import Footer from "@/components/Layouts/Footer";
 import MainHeader from "@/components/Layouts/Header";
 import Topline from "@/components/Layouts/topline";
@@ -8,6 +9,7 @@ import ToastProvider from "@/components/Providers/ToastProvider";
 import { Suspense } from "react";
 import { HomePageSkeleton } from "@/components/Skeletons";
 import { getCategories, SITE_URL } from "@/lib/api";
+import { getAuthenticatedUser } from "@/lib/auth";
 import "./globals.css";
 
 
@@ -80,24 +82,27 @@ export const metadata = {
 
 
 export default async function RootLayout({ children }) {
-  const categories = await getCategories();
+  const [categories, user] = await Promise.all([
+    getCategories(),
+    getAuthenticatedUser(),
+  ]);
 
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-     
+        <AuthSessionProvider user={user}>
           <Topline />
           <MainHeader initialCategories={categories} />
           <Suspense fallback={<HomePageSkeleton />}>
-          <main>{children}</main>
+            <main>{children}</main>
           </Suspense>
-           <ToastProvider />
+          <ToastProvider />
           <Footer />
           <SocialIcons />
           <ScrollToTopButton />
-       
+        </AuthSessionProvider>
       </body>
     </html>
   );

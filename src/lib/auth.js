@@ -13,6 +13,10 @@ function getApiBaseUrl() {
   return baseUrl;
 }
 
+export function normalizeAuthenticatedUser(data) {
+  return data?.profile ?? data?.data ?? data?.user ?? data ?? null;
+}
+
 export function getTokenCookieName() {
   return TOKEN_COOKIE_NAME;
 }
@@ -28,11 +32,13 @@ export function getSessionCookieOptions(maxAge = DEFAULT_SESSION_MAX_AGE) {
 }
 
 export async function laravelFetch(path, { token, headers, ...init } = {}) {
+  const isFormData = typeof FormData !== "undefined" && init.body instanceof FormData;
+
   const response = await fetch(`${getApiBaseUrl()}${path}`, {
     ...init,
     headers: {
       Accept: "application/json",
-      ...(init.body ? { "Content-Type": "application/json" } : {}),
+      ...(!isFormData && init.body ? { "Content-Type": "application/json" } : {}),
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...headers,
     },
@@ -72,7 +78,7 @@ export async function getAuthenticatedUser() {
       return null;
     }
 
-    return data?.data ?? data?.user ?? data ?? null;
+    return normalizeAuthenticatedUser(data);
   } catch {
     return null;
   }
