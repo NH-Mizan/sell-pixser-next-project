@@ -1,30 +1,18 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import Link from 'next/link';
+import Image from 'next/image';
+import { getAssetUrl } from '@/lib/api';
 
-export default function TopCategories() {
-  const [categories, setCategories] = useState([]);
-  const baseURL = 'https://sellpixer.websolutionit.com/';
-
-  useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories`) 
-      .then(res => res.json())
-      .then(data => {
-        if (data.status === 'success') {
-          setCategories(data.data);
-        }
-      });
-  }, []);
-
+export default function TopCategories({ categories = [] }) {
   return (
     <section className="container my-10">
-      <h2 className="text-xl font-bold mb-5" >TOP CATEGORIES</h2>
+      <h2 className="category_title" >TOP CATEGORIES</h2>
 
       <Swiper
         slidesPerView={3}
@@ -47,10 +35,13 @@ export default function TopCategories() {
               className="group block bg-gray-300  rounded-md shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300" 
             >
               <div className="h-24 lg:h-36 flex items-center justify-center overflow-hidden bg-gray-100">
-                <img
-                  src={`${baseURL}${cat.image}`}
+                <Image
+                  src={getAssetUrl(cat.image)}
                   alt={cat.name}
-                  className="object-contain h-full transition-transform duration-300 group-hover:scale-115"
+                  width={220}
+                  height={144}
+                  sizes="(max-width: 768px) 33vw, 220px"
+                  className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-110"
                 />
               </div>
               <div className="home_categorics text-center">

@@ -1,37 +1,17 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import Link from 'next/link';
+import Image from 'next/image';
+import { getAssetUrl } from '@/lib/api';
 
-export default function AutoSlider() {
-  const [images, setImages] = useState([]);
+export default function AutoSlider({ images = [] }) {
   const sliderRef = useRef();
- const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchSliderImages = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/slider`);
-        const data = await res.json();
-        if (data?.data) {
-          setImages(data.data);
-        }
-      } catch (error) {
-        console.error('Slider fetch error:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSliderImages();
-  }, []);
-  
 
   return (
     <div
@@ -50,12 +30,18 @@ export default function AutoSlider() {
         className="w-full h-[200px] lg:h-[500px] slider-height"
       >
         {images.map((item, index) => (
-          <SwiperSlide key={index}>
-           <Link href={`${item.link}`} > <img
-              src={`https://sellpixer.websolutionit.com/${item.image}`}
-              alt={`Slide ${index + 1}`}
-              className="w-full h-[450px]  sm:h-96 "
-            /></Link>
+          <SwiperSlide key={item.id ?? index}>
+            <Link href={item.link || "/"}>
+              <Image
+                src={getAssetUrl(item.image)}
+                alt={item.title || `Slide ${index + 1}`}
+                width={1260}
+                height={500}
+                priority={index === 0}
+                sizes="(max-width: 768px) 100vw, 1260px"
+                className="h-[200px] w-full object-cover sm:h-96 lg:h-[500px]"
+              />
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>

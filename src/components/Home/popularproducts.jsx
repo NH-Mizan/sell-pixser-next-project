@@ -1,38 +1,11 @@
 "use client";
-import { useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
-import Loader from '@/app/loading';
-const ProductCard = dynamic(() => import('./ProductCard'), { ssr: false });
+import ProductCard from './ProductCard';
+import { ASSET_BASE_URL } from '@/lib/api';
 
-export default function PopularProducts() {
-  const [products, setProducts] = useState([]);
-const [loading, setLoading] = useState(true)
-  const baseURL = 'https://sellpixer.websolutionit.com/';
-
-
-  useEffect(() => {
-    const fetchproduct = async () => {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/hotdeal-product`);
-        const data = await res.json();
-        if (data?.data) {
-          setProducts(data.data.slice(0, 10));
-          setLoading(false)
-        }
-      } catch (error) {
-        console.error('Slider fetch error:', error);
-      }
-    };
-
-    fetchproduct();
-  }, []);
-
-
+export default function PopularProducts({ products = [] }) {
 
   return (
-   <div className="">
-     {
-      loading? <Loader/>:<section className="container">
+   <section className="container">
       <h2 className="text-3xl font-bold text-center mb-8">
         <span className="text-pry italic block text-base"> Shop Bangladesh</span>
         Popular Product
@@ -43,11 +16,9 @@ const [loading, setLoading] = useState(true)
           <ProductCard 
             key={product.id}
             product={product}
-            baseURL={baseURL} />
+            baseURL={`${ASSET_BASE_URL}/`} />
         ))}
       </div>
     </section>
-    }
-   </div>
   );
 }

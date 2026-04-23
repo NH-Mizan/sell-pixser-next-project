@@ -1,14 +1,14 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
 import Footer from "@/components/Layouts/Footer";
 import MainHeader from "@/components/Layouts/Header";
 import Topline from "@/components/Layouts/topline";
 import SocialIcons from "@/components/Layouts/SocialIcon";
 import ScrollToTopButton from "@/components/Layouts/ScrollerTop";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import ToastProvider from "@/components/Providers/ToastProvider";
 import { Suspense } from "react";
-import Loader from "./loading";
+import { HomePageSkeleton } from "@/components/Skeletons";
+import { getCategories, SITE_URL } from "@/lib/api";
+import "./globals.css";
 
 
 
@@ -23,7 +23,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  metadataBase: new URL("https://yourdomain.com"),
+  metadataBase: new URL(SITE_URL),
 
   title: {
     default: "Sell-Pixers | Best Online Shopping Platform",
@@ -51,7 +51,7 @@ export const metadata = {
     title: "Sell-Pixers | Best Online Shopping Platform",
     description:
       "Shop smart with Sell-Pixers. Discover quality products at affordable prices.",
-    url: "https://yourdomain.com",
+    url: SITE_URL,
     siteName: "Sell-Pixers",
     images: [
       {
@@ -79,7 +79,9 @@ export const metadata = {
 };
 
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const categories = await getCategories();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -87,11 +89,11 @@ export default function RootLayout({ children }) {
       >
      
           <Topline />
-          <MainHeader />
-          <Suspense fallback={<Loader/>}>
+          <MainHeader initialCategories={categories} />
+          <Suspense fallback={<HomePageSkeleton />}>
           <main>{children}</main>
           </Suspense>
-           <ToastContainer />
+           <ToastProvider />
           <Footer />
           <SocialIcons />
           <ScrollToTopButton />

@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint src next.config.mjs eslint.config.mjs"
   },
   "dependencies": {
     "@lottiefiles/dotlottie-react": "^0.15.0",

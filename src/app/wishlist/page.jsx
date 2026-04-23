@@ -3,10 +3,32 @@
 import useShopStore from "@/context/cardStore";
 import { FaShoppingCart, FaTrash } from "react-icons/fa";
 import { Bounce, toast } from "react-toastify";
+import { SkeletonBlock, TableSkeleton } from "@/components/Skeletons";
+import { useEffect, useState } from "react";
+
+function WishlistSkeleton() {
+  return (
+    <div className="container w-10/12 mx-auto p-6 space-y-6">
+      <SkeletonBlock className="h-9 w-40 rounded-md" />
+      <TableSkeleton rows={4} columns={5} />
+    </div>
+  );
+}
 
 export default function WishlistPage() {
-  const { wishlist, addToCart, removeFromWishlist } = useShopStore();
+  const wishlist = useShopStore((state) => state.wishlist);
+  const addToCart = useShopStore((state) => state.addToCart);
+  const removeFromWishlist = useShopStore((state) => state.removeFromWishlist);
+  const [hydrated, setHydrated] = useState(false);
   const baseURL = "https://sellpixer.websolutionit.com/";
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  if (!hydrated) {
+    return <WishlistSkeleton />;
+  }
 
   //  Add to Cart + Remove from Wishlist
   const handleAddToCart = (product) => {

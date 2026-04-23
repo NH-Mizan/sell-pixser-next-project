@@ -1,135 +1,52 @@
-"use client";
-import Link from "next/link";
-import { Bounce,toast } from "react-toastify";
+import OtpAuthForm from "@/components/Auth/OtpAuthForm";
+import { getAuthenticatedUser } from "@/lib/auth";
+import Image from "next/image";
+import { redirect } from "next/navigation";
 
+export default async function LoginPage() {
+  const user = await getAuthenticatedUser();
 
-export default function Login() {
-  const loginInfoData = async (e) => {
-      e.preventDefault();
-      const form = e.target;
-
-      const phone = form.phone.value;
-      const password = form.password.value;
-
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/customer/login`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-            body: JSON.stringify({
-              phone,
-              password,
-            }),
-          }
-        );
-
-        const data = await res.json();
-
-        if (data.token) {
-        
-          localStorage.setItem("token", data.token);
-          
-            toast.success("Login successful!", {
-            position: "bottom-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            theme: "light",
-            transition: Bounce,
-          });
-          window.location.href = "/dashboard";
-        } else {
-          toast.error(" Login failed!", {
-                position: "bottom-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                theme: "colored",
-                transition: Bounce,
-              }); 
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
+  if (user) {
+    redirect("/dashboard");
+  }
 
   return (
-    <div className="bg-gray-50">
-        <div className="min-h-screen w-10/12 mx-auto grid grid-cols-1 md:grid-cols-2">
-      
-      <div className="flex items-center justify-center ">
-        <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
-         
-          <h2 className="text-3xl font-bold text-center text-gray-800">Welcome Back </h2>
-          <p className="mt-2 text-center text-gray-500">Login to your account</p>
+    <div className="min-h-screen bg-[linear-gradient(180deg,#fff7f9_0%,#f8fbff_100%)]">
+      <div className="container grid min-h-screen grid-cols-1 gap-10 py-10 md:grid-cols-2 md:items-center">
+        <div className="order-2 md:order-1">
+          <OtpAuthForm />
+        </div>
 
-        
-          <form onSubmit={loginInfoData} className="mt-6 space-y-4">
-           
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Phone </label>
-              <input
-                type="number"
-                name="phone"
-                placeholder="Enter your Number"
-                className="mt-1 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              />
+        <div className="order-1 flex items-center justify-center md:order-2">
+          <div className="relative w-full max-w-xl overflow-hidden rounded-[2rem] border border-white/60 bg-white/70 p-6 shadow-2xl backdrop-blur">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(244,83,136,0.14),_transparent_40%),radial-gradient(circle_at_bottom_left,_rgba(0,173,241,0.14),_transparent_35%)]" />
+            <div className="relative space-y-6">
+              <div className="space-y-3">
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-pry">
+                  SellPixser Account
+                </p>
+                <h2 className="text-4xl font-bold text-slate-900">
+                  Fast login, protected dashboard, secure session.
+                </h2>
+                <p className="max-w-lg text-sm leading-6 text-slate-600">
+                  We verify your phone with a short-lived OTP and keep the token in
+                  an HTTP-only cookie so your session stays out of browser storage.
+                </p>
+              </div>
+
+              <div className="overflow-hidden rounded-[1.5rem] bg-white p-3 shadow-lg">
+                <Image
+                  src="/images/sell-pixer.webp"
+                  alt="SellPixser"
+                  width={720}
+                  height={420}
+                  className="h-auto w-full rounded-[1.25rem] object-contain"
+                />
+              </div>
             </div>
-
-            {/* Password */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Password</label>
-              <input
-                type="password"
-                name="password"
-                placeholder="Enter your password"
-                className="mt-1 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              />
-            </div>
-
-           
-            <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center gap-2">
-                <input type="checkbox" className="checkbox checkbox-sm" />
-                Remember me
-              </label>
-              <Link href={'/forgot-password'} className="text-blue-600 hover:underline">
-                Forgot password?
-              </Link>
-            </div>
-
-           
-            <button
-              type="submit"
-              className="w-full py-2 bg-pry text-white font-semibold rounded-lg hover-bg-sec transition"
-            >
-              Login
-            </button>
-          </form>
-
-          {/* Register Link */}
-          <p className="mt-6 text-center text-sm text-gray-600">
-            Don’t have an account?{" "}
-            <Link href="/register" className="text-blue-600 hover:underline">
-              Register
-            </Link>
-          </p>
+          </div>
         </div>
       </div>
-
-      {/* Right Side - Image */}
-      <div className="hidden md:flex items-center justify-center  ">
-        <img src="/login.png" alt="Login Banner" className="w-full h-auto" />
-      </div>
-    </div>
     </div>
   );
 }

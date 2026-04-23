@@ -1,51 +1,18 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 import Link from 'next/link';
 import { PiArrowFatLineRight } from "react-icons/pi";
-import Loader from '@/app/loading';
+import ProductCard from './ProductCard';
+import { ASSET_BASE_URL } from '@/lib/api';
 
-const ProductCard = dynamic(() => import('./ProductCard'), { ssr: false });
-
-const baseURL = 'https://sellpixer.websolutionit.com/';
-const allowedSlugs = ['mens-fashion', 'womens-fashion', 'cosmetics', 'gadgets', 'grocery', 'home-lifestyle'];
-
-export default function CategoryWiseProducts() {
-  const [categories, setCategories] = useState([]);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      AOS.init();
-    }
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/homepage-product`)
-      .then(res => res.json())
-      .then(data => {
-        const filtered = data.data.filter(cat => allowedSlugs.includes(cat.slug));
-        setCategories(filtered);
-      });
-  }, []);
-
-  if (!mounted || categories.length === 0) {
-    return <Loader/>;
-  }
-
+export default function CategoryWiseProducts({ categories = [] }) {
   return (
     <section className="container">
       {categories.map(category => (
         <div key={category.id} className='my-4'>
           {/* Header */}
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg lg:text-3xl font-bold text-gray-800 " data-aos="fade-right"
-            data-aos-duration="500">{category.name}</h2>
-            <Link href={`/category/${category.id}`} className="flex text-sm lg:text-lg items-center text-wt bg-pry px-4 py-1 rounded-md hover:text-sec "data-aos="fade-left"
-            data-aos-duration="500">
+            <h2 className="text-lg lg:text-3xl font-bold text-gray-800 ">{category.name}</h2>
+            <Link href={`/category/${category.id}`} className="flex text-sm lg:text-lg items-center text-wt bg-pry px-4 py-1 rounded-md hover:text-sec ">
               View All <PiArrowFatLineRight className='ml-2'/>
             </Link>
           </div>
@@ -53,7 +20,7 @@ export default function CategoryWiseProducts() {
           {/* Products Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-2 lg:gap-4">
             {category.products?.slice(0, 10).map(product => (
-              <ProductCard key={product.id} product={product} baseURL={baseURL} />
+              <ProductCard key={product.id} product={product} baseURL={`${ASSET_BASE_URL}/`} />
             ))}
           </div>
         </div>

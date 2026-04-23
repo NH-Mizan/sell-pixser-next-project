@@ -1,25 +1,19 @@
 import ProductCard from "./Home/ProductCard";
-
+import { ASSET_BASE_URL, getRelatedProducts } from "@/lib/api";
 
 export default async function RelatedProducts({ currentProductId }) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/related-product/${currentProductId}`, {
-    cache: 'no-store',
-  });
+  const products = (await getRelatedProducts(currentProductId)).slice(0, 10);
 
-  if (!res.ok) {
-    return <div className="text-center py-20 text-red-600">Failed to fetch product</div>;
-  }
-
-  const data = await res.json();
-  const products = data?.data.slice(0,10); 
+  if (!products.length) return null;
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-      {products.map(product => (
-        <ProductCard 
+      {products.map((product) => (
+        <ProductCard
           key={product.id}
           product={product}
-          baseURL="https://sellpixer.websolutionit.com/"/>
+          baseURL={`${ASSET_BASE_URL}/`}
+        />
       ))}
     </div>
   );

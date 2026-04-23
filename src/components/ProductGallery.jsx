@@ -1,11 +1,10 @@
 "use client";
 
-import React from "react";
+import { getAssetUrl } from "@/lib/api";
+import Image from "next/image";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 
-
-//  Autoplay Plugin (ALADA)
 function AutoPlayPlugin(slider) {
   let timeout;
   let mouseOver = false;
@@ -42,8 +41,6 @@ function AutoPlayPlugin(slider) {
   slider.on("updated", nextTimeout);
 }
 
-
-//  Thumbnail Plugin (same)
 function ThumbnailPlugin(mainRef) {
   return (slider) => {
     function removeActive() {
@@ -51,6 +48,7 @@ function ThumbnailPlugin(mainRef) {
         slide.classList.remove("active");
       });
     }
+
     function addActive(idx) {
       slider.slides[idx]?.classList.add("active");
     }
@@ -76,15 +74,13 @@ function ThumbnailPlugin(mainRef) {
   };
 }
 
-export default function ProductGallery({ product, baseURL }) {
-
-  // 🔥 এখানে autoplay add করা হয়েছে
+export default function ProductGallery({ product }) {
   const [sliderRef, instanceRef] = useKeenSlider(
     {
       initial: 0,
       loop: true,
     },
-    [AutoPlayPlugin] // ✅ IMPORTANT
+    [AutoPlayPlugin]
   );
 
   const [thumbnailRef] = useKeenSlider(
@@ -98,33 +94,37 @@ export default function ProductGallery({ product, baseURL }) {
     [ThumbnailPlugin(instanceRef)]
   );
 
-  if (!product?.images || product.images.length === 0) return null;
+  if (!product?.images?.length) return null;
 
   return (
     <div className="w-full md:w-1/2">
-      {/* Main Slider */}
       <div ref={sliderRef} className="keen-slider rounded-lg overflow-hidden">
-        {product.images.map((img, i) => (
-          <div key={i} className="keen-slider__slide">
-            <img
-              src={`${baseURL}${img.image}`}
-              alt={product?.name}
-              className="w-full "
+        {product.images.map((img, index) => (
+          <div key={img.id ?? index} className="keen-slider__slide">
+            <Image
+              src={getAssetUrl(img.image)}
+              alt={product.name}
+              width={640}
+              height={640}
+              priority={index === 0}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="w-full h-auto"
             />
           </div>
         ))}
       </div>
 
-      {/* Thumbnail */}
       <div ref={thumbnailRef} className="keen-slider mt-3 thumbnail">
-        {product.images.map((img, i) => (
+        {product.images.map((img, index) => (
           <div
-            key={i}
+            key={img.id ?? index}
             className="keen-slider__slide cursor-pointer border rounded-md overflow-hidden"
           >
-            <img
-              src={`${baseURL}${img.image}`}
-              alt={`thumb-${i}`}
+            <Image
+              src={getAssetUrl(img.image)}
+              alt={`${product.name} thumbnail ${index + 1}`}
+              width={120}
+              height={80}
               className="w-full h-20 object-cover"
             />
           </div>
@@ -133,7 +133,7 @@ export default function ProductGallery({ product, baseURL }) {
 
       <style jsx>{`
         .thumbnail .keen-slider__slide.active {
-          border: 2px solid #ec4899; 
+          border: 2px solid #ec4899;
         }
       `}</style>
     </div>

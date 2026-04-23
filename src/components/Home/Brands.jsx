@@ -1,41 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 import Link from 'next/link';
+import Image from 'next/image';
+import { getAssetUrl } from '@/lib/api';
 
-const baseURL = 'https://sellpixer.websolutionit.com/';
-
-export default function Brands() {
-  const [brands, setBrands] = useState([]);
-
-  useEffect(() => {
-    const fetchBrands = async () => {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/brands`);
-        const data = await res.json();
-        if (data?.data) {
-          setBrands(data.data);
-        }
-      } catch (error) {
-        console.error('Slider fetch error:', error);
-      }
-    };
-
-    fetchBrands();
-  }, []);
-
-  useEffect(() => {
-    AOS.init({ duration: 800 });
-  }, []);
-
+export default function Brands({ brands = [] }) {
   return (
-    <section className="brand_area container " data-aos="fade-up">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2"  data-aos="zoom-out-up" >Shop From Brand</h1>
+    <section className="brand_area container ">
+        <h1 className="text-3xl font-bold text-gray-800 mb-2">Shop From Brand</h1>
       <Swiper
         slidesPerView={2}
         spaceBetween={20}
@@ -54,13 +29,16 @@ export default function Brands() {
         className="brand-slider"
       >
         {brands.map((brand, index) => (
-          <SwiperSlide key={index}>
+          <SwiperSlide key={brand.id ?? index}>
             <Link href={`/${brand.slug}`}>
               <div className="border rounded-xl p-4 flex justify-center items-center h-28 bg-white hover:shadow-lg transition-all duration-300 cursor-pointer overflow-hidden group">
-                <img
-                  src={`${baseURL}${brand.image}`}
+                <Image
+                  src={getAssetUrl(brand.image)}
                   alt={brand.name}
-                  className="h-full object-contain group-hover:scale-110 transition-transform duration-500 ease-in-out"
+                  width={180}
+                  height={96}
+                  sizes="(max-width: 768px) 50vw, 180px"
+                  className="h-full w-full object-contain group-hover:scale-110 transition-transform duration-500 ease-in-out"
                 />
               </div>
             </Link>

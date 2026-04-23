@@ -3,19 +3,27 @@ import useShopStore from "@/context/cardStore";
 import { useEffect, useState } from "react";
 import { Bounce, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { CheckoutSkeleton } from "@/components/Skeletons";
 
 export default function Checkout() {
-  const { cart, increaseQty, decreaseQty, removeFromCart } = useShopStore();
+  const cart = useShopStore((state) => state.cart);
+  const increaseQty = useShopStore((state) => state.increaseQty);
+  const decreaseQty = useShopStore((state) => state.decreaseQty);
+  const removeFromCart = useShopStore((state) => state.removeFromCart);
+  const [hydrated, setHydrated] = useState(false);
   const [shipping, setShipping] = useState(70);
   const [payment, setPayment] = useState("cod");
   const baseURL = "https://sellpixer.websolutionit.com/";
   const [token, setToken] = useState(null);
+  const [tokenReady, setTokenReady] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     setToken(storedToken);
+    setTokenReady(true);
+    setHydrated(true);
   }, []);
   const [formData, setFormData] = useState({
     name: "",
@@ -91,21 +99,12 @@ export default function Checkout() {
   const discount = 0;
   const total = subtotal + shipping - discount;
 
+  if (!hydrated || !tokenReady) {
+    return <CheckoutSkeleton />;
+  }
 
   if (isProcessing) {
-    return (
-      <div className="min-h-screen flex flex-col justify-center items-center bg-white">
-        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-
-        <h2 className="mt-6 text-xl font-semibold text-gray-800">
-          Processing Your Order...
-        </h2>
-
-        <p className="text-gray-500 mt-2">
-          Please wait while we confirm your order
-        </p>
-      </div>
-    );
+    return <CheckoutSkeleton />;
   }
 
   return (

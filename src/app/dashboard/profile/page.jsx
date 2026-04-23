@@ -1,108 +1,53 @@
 "use client";
-import { FaFacebookF, FaXTwitter, FaLinkedinIn, FaInstagram } from "react-icons/fa6";
-import { FaEdit } from "react-icons/fa";
 
-export default function Profile() {
+import { useAuthSession } from "@/components/Auth/AuthSessionProvider";
+import { FaEnvelope, FaMapMarkerAlt, FaPhone, FaShieldAlt } from "react-icons/fa";
+
+function InfoCard({ label, value, icon }) {
   return (
-    <div className="space-y-6">
-      {/* Profile Card */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="flex flex-col md:flex-row items-center justify-between">
-          {/* Left: Image + Info */}
-          <div className="flex items-center gap-4">
-            <img
-              src="https://i.pravatar.cc/100"
-              alt="Profile"
-              className="w-20 h-20 rounded-full border"
-            />
-            <div>
-              <h2 className="text-xl font-bold">Nh Mizan</h2>
-              <p className="text-gray-500">
-                Team Manager | Leeds, United Kingdom
-              </p>
-            </div>
-          </div>
-
-          {/* Right: Social + Edit */}
-          <div className="flex items-center gap-3 mt-4 md:mt-0">
-            <SocialIcon icon={<FaFacebookF />} />
-            <SocialIcon icon={<FaXTwitter />} />
-            <SocialIcon icon={<FaLinkedinIn />} />
-            <SocialIcon icon={<FaInstagram />} />
-            <button className="flex items-center gap-2 border px-3 py-1 rounded-lg text-sm text-gray-600 hover:bg-gray-50">
-              <FaEdit /> Edit
-            </button>
-          </div>
-        </div>
+    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+      <div className="mb-3 flex items-center gap-3 text-slate-500">
+        <span className="grid h-9 w-9 place-items-center rounded-full bg-white">
+          {icon}
+        </span>
+        <span className="text-sm font-medium">{label}</span>
       </div>
-
-      {/* Personal Info */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold">Personal Information</h3>
-          <button className="flex items-center gap-2 border px-3 py-1 rounded-lg text-sm text-gray-600 hover:bg-gray-50">
-            <FaEdit /> Edit
-          </button>
-        </div>
-        <div className="grid md:grid-cols-2 gap-6 text-sm">
-          <div>
-            <p className="text-gray-500">First Name</p>
-            <p className="font-semibold">Nh</p>
-          </div>
-          <div>
-            <p className="text-gray-500">Last Name</p>
-            <p className="font-semibold">Mizan</p>
-          </div>
-          <div>
-            <p className="text-gray-500">Email</p>
-            <p className="font-semibold">nhmizan999@gmail.com</p>
-          </div>
-          <div>
-            <p className="text-gray-500">Phone</p>
-            <p className="font-semibold">+09 363 398 46</p>
-          </div>
-          <div className="md:col-span-2">
-            <p className="text-gray-500">Bio</p>
-            <p className="font-semibold">Team Manager</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Address */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold">Address</h3>
-          <button className="flex items-center gap-2 border px-3 py-1 rounded-lg text-sm text-gray-600 hover:bg-gray-50">
-            <FaEdit /> Edit
-          </button>
-        </div>
-        <div className="grid md:grid-cols-2 gap-6 text-sm">
-          <div>
-            <p className="text-gray-500">Country</p>
-            <p className="font-semibold">Bangladesh</p>
-          </div>
-          <div>
-            <p className="text-gray-500">City/State</p>
-            <p className="font-semibold">Dinajpur, Rongpur</p>
-          </div>
-          <div>
-            <p className="text-gray-500">Postal Code</p>
-            <p className="font-semibold"> 2489</p>
-          </div>
-          <div>
-            <p className="text-gray-500">TAX ID</p>
-            <p className="font-semibold"></p>
-          </div>
-        </div>
-      </div>
+      <p className="text-base font-semibold text-slate-900">{value || "Not available"}</p>
     </div>
   );
 }
 
-function SocialIcon({ icon }) {
+export default function ProfilePage() {
+  const user = useAuthSession();
+
   return (
-    <button className="w-8 h-8 flex items-center justify-center rounded-full border text-gray-600 hover:bg-gray-50">
-      {icon}
-    </button>
+    <div className="space-y-6">
+      <section className="rounded-[2rem] bg-white p-6 shadow-sm">
+        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center gap-4">
+            <div className="grid h-20 w-20 place-items-center rounded-full bg-slate-900 text-2xl font-bold text-white">
+              {(user?.name || "U").slice(0, 1).toUpperCase()}
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold text-slate-900">{user?.name || "Customer"}</h2>
+              <p className="text-sm text-slate-500">
+                Secure OTP verified account
+              </p>
+            </div>
+          </div>
+
+          <div className="rounded-2xl bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-700">
+            Session active
+          </div>
+        </div>
+      </section>
+
+      <section className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <InfoCard label="Phone" value={user?.phone} icon={<FaPhone />} />
+        <InfoCard label="Email" value={user?.email} icon={<FaEnvelope />} />
+        <InfoCard label="Address" value={user?.address} icon={<FaMapMarkerAlt />} />
+        <InfoCard label="Security" value="OTP + cookie session" icon={<FaShieldAlt />} />
+      </section>
+    </div>
   );
 }
