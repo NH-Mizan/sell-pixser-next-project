@@ -63,36 +63,7 @@ export default function DashboardOverviewPage() {
         </div>
       </section>
 
-      <section className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
-        <StatCard
-          label="Account Status"
-          value={accountStatus}
-          accent="text-emerald-600"
-          helper="Current account availability"
-          icon={<FaShieldAlt />}
-        />
-        <StatCard
-          label="Verification"
-          value={verificationStatus}
-          accent="text-sky-600"
-          helper="Phone verification state"
-          icon={<FaCheckCircle />}
-        />
-        <StatCard
-          label="Primary Phone"
-          value={user?.phone || "Not set"}
-          accent="text-slate-900"
-          helper="Main contact number"
-          icon={<FaPhoneAlt />}
-        />
-        <StatCard
-          label="Location"
-          value={user?.district || user?.address || "Not set"}
-          accent="text-slate-900"
-          helper="Saved delivery area"
-          icon={<FaMapMarkerAlt />}
-        />
-      </section>
+   
     </div>
   );
 }

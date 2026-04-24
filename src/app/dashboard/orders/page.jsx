@@ -1,9 +1,11 @@
+import Link from "next/link";
 import { laravelFetch, getSessionToken } from "@/lib/auth";
 import {
   FaArrowRight,
   FaBoxOpen,
   FaCheckCircle,
   FaClock,
+  FaEye,
   FaReceipt,
 } from "react-icons/fa";
 
@@ -259,6 +261,14 @@ export default async function OrdersPage() {
                       <p className="mt-2 text-sm leading-6 text-slate-600">{order.note}</p>
                     </div>
                   ) : null}
+
+                  <Link
+                    href={`/dashboard/orders/${order.id}`}
+                    className="mt-4 inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+                  >
+                    <FaEye />
+                    View Invoice
+                  </Link>
                 </article>
               );
             })}
@@ -283,6 +293,7 @@ export default async function OrdersPage() {
                     <th className="px-6 py-4 font-semibold">Shipping</th>
                     <th className="px-6 py-4 font-semibold">Status</th>
                     <th className="px-6 py-4 font-semibold">Note</th>
+                    <th className="px-6 py-4 font-semibold text-right">Action</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -324,6 +335,15 @@ export default async function OrdersPage() {
                           <p className="max-w-xs leading-6">
                             {order.note || "No additional note for this order."}
                           </p>
+                        </td>
+                        <td className="px-6 py-5 text-right">
+                          <Link
+                            href={`/dashboard/orders/${order.id}`}
+                            className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-800 transition hover:border-slate-900 hover:bg-slate-900 hover:text-white"
+                          >
+                            <FaEye />
+                            View
+                          </Link>
                         </td>
                       </tr>
                     );
