@@ -46,10 +46,10 @@ export default function DashboardShell({ user, children }) {
   }
 
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,#f8fafc_0%,#eef4ff_100%)]">
-      <div className="mx-auto flex min-h-screen max-w-[1480px]">
+    <div className="min-h-screen bg-[linear-gradient(180deg,#f8fafc_0%,#eef4ff_100%)] print:min-h-0 print:bg-white">
+      <div className="mx-auto flex min-h-screen max-w-[1480px] print:min-h-0 print:max-w-none">
         <aside
-          className={`fixed inset-y-0 left-0 z-40 w-72 border-r border-slate-200 bg-[linear-gradient(180deg,#0f172a_0%,#111827_100%)] px-5 py-6 text-white shadow-2xl transition-transform duration-200 lg:static lg:translate-x-0 ${
+          className={`fixed inset-y-0 left-0 z-40 w-72 border-r border-slate-200 bg-[linear-gradient(180deg,#0f172a_0%,#111827_100%)] px-5 py-6 text-white shadow-2xl transition-transform duration-200 print:hidden lg:static lg:translate-x-0 ${
             sidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
@@ -115,8 +115,8 @@ export default function DashboardShell({ user, children }) {
           </button>
         </aside>
 
-        <div className="flex min-h-screen flex-1 flex-col">
-          <header className="sticky top-0 z-30 border-b border-white/60 bg-white/70 px-4 py-4 backdrop-blur-xl md:px-6">
+        <div className="flex min-h-screen flex-1 flex-col print:min-h-0">
+          <header className="sticky top-0 z-30 border-b border-white/60 bg-white/70 px-4 py-4 backdrop-blur-xl print:hidden md:px-6">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <button className="lg:hidden" onClick={() => setSidebarOpen(true)}>
@@ -165,7 +165,7 @@ export default function DashboardShell({ user, children }) {
             </div>
           </header>
 
-          <main className="flex-1 px-4 py-6 md:px-6">{children}</main>
+          <main className="flex-1 px-4 py-6 print:p-0 md:px-6">{children}</main>
         </div>
       </div>
     </div>

@@ -118,6 +118,24 @@ body {
 
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@media print {
+  @page {
+    size: auto;
+    margin: 12mm;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+  }
+
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
 button {
   cursor: pointer;
 }

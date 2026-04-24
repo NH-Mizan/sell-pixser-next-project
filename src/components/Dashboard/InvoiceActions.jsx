@@ -7,10 +7,11 @@ export default function InvoiceActions() {
     <button
       type="button"
       onClick={() => window.print()}
-      className="inline-flex items-center gap-2 rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+      className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-600 text-sm font-semibold text-white transition hover:bg-emerald-700"
+      aria-label="Print invoice"
+      title="Print invoice"
     >
       <FaPrint />
-      Print invoice
     </button>
   );
 }
