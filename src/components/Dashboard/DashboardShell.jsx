@@ -53,26 +53,7 @@ export default function DashboardShell({ user, children }) {
             sidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
-          <div className="mb-8 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Image
-                src="/images/sell-pixer.webp"
-                alt="SellPixser"
-                width={96}
-                height={48}
-                className="h-auto w-24 rounded-xl bg-white p-1"
-              />
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-rose-300">
-                  Account
-                </p>
-                <h2 className="text-lg font-bold text-white">Dashboard</h2>
-              </div>
-            </div>
-            <button className="lg:hidden" onClick={() => setSidebarOpen(false)}>
-              <FaTimes />
-            </button>
-          </div>
+        
 
           <div className="mb-8 rounded-[1.75rem] border border-white/10 bg-white/5 p-4 backdrop-blur">
             <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Signed in as</p>
