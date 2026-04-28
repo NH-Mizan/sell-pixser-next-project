@@ -52,6 +52,7 @@ export default function OtpAuthForm({
 
       setPhone(normalizedPhone);
       setStep("otp");
+      alert('otp : ' +`${data?.verify}`);
       setTimer(Number(data?.expires_in) || 120);
       setOtp(Array.from({ length: OTP_LENGTH }, () => ""));
       toast.success(data?.message || "OTP sent successfully.", {

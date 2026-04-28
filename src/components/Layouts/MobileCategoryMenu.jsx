@@ -2,27 +2,15 @@
 
 import { memo, useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-
-function getSubcategories(category) {
-  return (
-    category?.subcategories ||
-    category?.subCategories ||
-    category?.sub_categories ||
-    []
-  );
-}
-
-function getChildCategories(subcategory) {
-  return (
-    subcategory?.childCategories ||
-    subcategory?.child_categories ||
-    subcategory?.children ||
-    []
-  );
-}
+import { getChildCategories, getSubcategories } from '@/lib/taxonomy';
 
 function getItemId(item, fallback) {
   return item?.id ?? item?._id ?? item?.slug ?? fallback;
+}
+
+function buildTaxonomyPath(type, item) {
+  const itemId = getItemId(item);
+  return itemId ? `/${type}/${itemId}` : null;
 }
 
 const ToggleIcon = memo(function ToggleIcon({ isOpen }) {
@@ -33,6 +21,25 @@ const ToggleIcon = memo(function ToggleIcon({ isOpen }) {
     >
       {isOpen ? '-' : '+'}
     </span>
+  );
+});
+
+const MenuLinkButton = memo(function MenuLinkButton({
+  label,
+  isActive,
+  onClick,
+  className = '',
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`${className} truncate text-left transition-all duration-300 ${
+        isActive ? 'text-white' : 'text-white/85 hover:text-white'
+      }`}
+    >
+      {label}
+    </button>
   );
 });
 
@@ -53,7 +60,7 @@ const ChildCategoryButton = memo(function ChildCategoryButton({
         }`}
       >
         <span className="mr-2 text-white/40">-</span>
-        <span className="mr-2 text-white/40">•</span>
+        <span className="truncate">{child?.name}</span>
       </button>
     </li>
   );
@@ -62,39 +69,53 @@ const ChildCategoryButton = memo(function ChildCategoryButton({
 const SubCategoryItem = memo(function SubCategoryItem({
   subcategory,
   isOpen,
-  activeSlug,
+  pathname,
   onToggle,
-  onChildClick,
+  onNavigate,
 }) {
   const childCategories = getChildCategories(subcategory);
   const hasChildren = childCategories.length > 0;
+  const subcategoryPath = buildTaxonomyPath('subcategory', subcategory);
+  const isActive = pathname === subcategoryPath;
 
   return (
     <li className="rounded-2xl bg-white/5">
-      <button
-        type="button"
-        onClick={() => hasChildren && onToggle(getItemId(subcategory, subcategory?.name))}
-        className={`flex w-full items-center justify-between gap-3 rounded-2xl px-3 py-3 pl-6 text-left transition-all duration-300 ${
-          isOpen ? 'bg-white/10 text-white' : 'text-white/85 hover:bg-white/8'
+      <div
+        className={`flex items-center gap-3 rounded-2xl px-3 py-3 pl-6 transition-all duration-300 ${
+          isOpen ? 'bg-white/10' : 'hover:bg-white/8'
         }`}
-        aria-expanded={isOpen}
-        aria-disabled={!hasChildren}
       >
-        <span className="truncate text-sm font-medium">{subcategory.name}</span>
-        {hasChildren ? <ToggleIcon isOpen={isOpen} /> : null}
-      </button>
+        <MenuLinkButton
+          label={subcategory?.name}
+          isActive={isActive}
+          onClick={() => onNavigate(subcategoryPath)}
+          className="flex-1 text-sm font-medium"
+        />
+
+        {hasChildren ? (
+          <button
+            type="button"
+            onClick={() => onToggle(getItemId(subcategory, subcategory?.name))}
+            className="shrink-0"
+            aria-expanded={isOpen}
+            aria-label={`${isOpen ? 'Collapse' : 'Expand'} ${subcategory?.name}`}
+          >
+            <ToggleIcon isOpen={isOpen} />
+          </button>
+        ) : null}
+      </div>
 
       {isOpen && hasChildren ? (
         <ul className="space-y-1 px-2 pb-2 transition-all duration-300">
           {childCategories.map((child, index) => {
-            const childSlug = child?.slug ?? String(getItemId(child, index));
+            const childPath = buildTaxonomyPath('childcategory', child);
 
             return (
               <ChildCategoryButton
                 key={getItemId(child, `${subcategory?.name}-${index}`)}
                 child={child}
-                isActive={activeSlug === childSlug}
-                onClick={onChildClick}
+                isActive={pathname === childPath}
+                onClick={() => onNavigate(childPath)}
               />
             );
           })}
@@ -108,28 +129,42 @@ const CategoryItem = memo(function CategoryItem({
   category,
   isOpen,
   openSubCategoryId,
-  activeSlug,
+  pathname,
   onToggle,
   onSubToggle,
-  onChildClick,
+  onNavigate,
 }) {
   const subcategories = getSubcategories(category);
   const hasSubcategories = subcategories.length > 0;
+  const categoryPath = buildTaxonomyPath('category', category);
+  const isActive = pathname === categoryPath;
 
   return (
-    <li className=" bg-white/5">
-      <button
-        type="button"
-        onClick={() => hasSubcategories && onToggle(getItemId(category, category?.name))}
-        className={`category-item flex w-full items-center justify-between gap-3 rounded-2xl px-4 py-3 text-left transition-all duration-300 ${
-          isOpen ? 'bg-white/10 text-white' : 'text-white hover:bg-white/8'
+    <li className="bg-white/5">
+      <div
+        className={`flex items-center gap-3 rounded-2xl px-4 py-3 transition-all duration-300 ${
+          isOpen ? 'bg-white/10' : 'hover:bg-white/8'
         }`}
-        aria-expanded={isOpen}
-        aria-disabled={!hasSubcategories}
       >
-        <span className="truncate text-sm font-semibold">{category.name}</span>
-        {hasSubcategories ? <ToggleIcon isOpen={isOpen} /> : null}
-      </button>
+        <MenuLinkButton
+          label={category?.name}
+          isActive={isActive}
+          onClick={() => onNavigate(categoryPath)}
+          className="flex-1 text-sm font-semibold"
+        />
+
+        {hasSubcategories ? (
+          <button
+            type="button"
+            onClick={() => onToggle(getItemId(category, category?.name))}
+            className="shrink-0"
+            aria-expanded={isOpen}
+            aria-label={`${isOpen ? 'Collapse' : 'Expand'} ${category?.name}`}
+          >
+            <ToggleIcon isOpen={isOpen} />
+          </button>
+        ) : null}
+      </div>
 
       {isOpen && hasSubcategories ? (
         <ul className="space-y-2 px-2 pb-2 transition-all duration-300">
@@ -138,9 +173,9 @@ const CategoryItem = memo(function CategoryItem({
               key={getItemId(subcategory, `${category?.name}-${index}`)}
               subcategory={subcategory}
               isOpen={openSubCategoryId === getItemId(subcategory, `${category?.name}-${index}`)}
-              activeSlug={activeSlug}
+              pathname={pathname}
               onToggle={onSubToggle}
-              onChildClick={onChildClick}
+              onNavigate={onNavigate}
             />
           ))}
         </ul>
@@ -152,18 +187,50 @@ const CategoryItem = memo(function CategoryItem({
 export default function MobileCategoryMenu({ categories = [], onNavigate }) {
   const [openCategory, setOpenCategory] = useState(null);
   const [openSubCategory, setOpenSubCategory] = useState(null);
-  const [activeSlug, setActiveSlug] = useState(null);
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    if (!pathname?.startsWith('/products/')) {
-      setActiveSlug(null);
+    if (!pathname) {
       return;
     }
 
-    setActiveSlug(pathname.split('/products/')[1]?.split('/')[0] || null);
-  }, [pathname]);
+    const matchedCategory = categories.find((category) => {
+      if (pathname === buildTaxonomyPath('category', category)) {
+        return true;
+      }
+
+      return getSubcategories(category).some((subcategory) => {
+        if (pathname === buildTaxonomyPath('subcategory', subcategory)) {
+          return true;
+        }
+
+        return getChildCategories(subcategory).some(
+          (child) => pathname === buildTaxonomyPath('childcategory', child)
+        );
+      });
+    });
+
+    if (!matchedCategory) {
+      return;
+    }
+
+    setOpenCategory(getItemId(matchedCategory, matchedCategory?.name));
+
+    const matchedSubcategory = getSubcategories(matchedCategory).find((subcategory) => {
+      if (pathname === buildTaxonomyPath('subcategory', subcategory)) {
+        return true;
+      }
+
+      return getChildCategories(subcategory).some(
+        (child) => pathname === buildTaxonomyPath('childcategory', child)
+      );
+    });
+
+    setOpenSubCategory(
+      matchedSubcategory ? getItemId(matchedSubcategory, matchedSubcategory?.name) : null
+    );
+  }, [categories, pathname]);
 
   const handleCategoryToggle = (categoryId) => {
     setOpenCategory((current) => (current === categoryId ? null : categoryId));
@@ -174,20 +241,17 @@ export default function MobileCategoryMenu({ categories = [], onNavigate }) {
     setOpenSubCategory((current) => (current === subcategoryId ? null : subcategoryId));
   };
 
-  const handleChildClick = (child) => {
-    const targetSlug = child?.slug;
-
-    if (!targetSlug) {
+  const handleNavigation = (targetPath) => {
+    if (!targetPath) {
       return;
     }
 
-    router.push(`/products/${targetSlug}`);
+    router.push(targetPath);
     onNavigate?.();
   };
 
   return (
     <div className="space-y-3">
-
       <ul className="space-y-3">
         {categories.map((category, index) => {
           const categoryId = getItemId(category, index);
@@ -198,10 +262,10 @@ export default function MobileCategoryMenu({ categories = [], onNavigate }) {
               category={category}
               isOpen={openCategory === categoryId}
               openSubCategoryId={openSubCategory}
-              activeSlug={activeSlug}
+              pathname={pathname}
               onToggle={handleCategoryToggle}
               onSubToggle={handleSubCategoryToggle}
-              onChildClick={handleChildClick}
+              onNavigate={handleNavigation}
             />
           );
         })}

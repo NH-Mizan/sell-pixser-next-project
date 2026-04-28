@@ -1,10 +1,10 @@
 'use client';
 
-import { getAssetUrl } from "@/lib/api";
+import { getAssetUrl, getLiveSearchProducts } from "@/lib/api";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BiSupport } from "react-icons/bi";
 import {
   FaAngleDown,
@@ -22,20 +22,81 @@ import OtpLoginModal from "../OtpLoginModal ";
 import MobileCategoryMenu from "./MobileCategoryMenu";
 import { useAuthSession } from "../Auth/AuthSessionProvider";
 
+function normalizeLiveSearchResults(results = []) {
+  return results
+    .map((item) => ({
+      id: item?.id ?? item?.product_id ?? item?._id,
+      name: item?.name ?? item?.product_name ?? item?.title,
+      image:
+        item?.image ??
+        item?.thumbnail ??
+        item?.product_image ??
+        item?.photo,
+      price:
+        item?.new_price ??
+        item?.price ??
+        item?.sale_price ??
+        item?.regular_price,
+    }))
+    .filter((item) => item.id && item.name);
+}
+
 export default function MainHeader({ initialCategories = [] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
   const [show, setShow] = useState(false);
   const [selected, setSelected] = useState("");
   const [isHydrated, setIsHydrated] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [liveResults, setLiveResults] = useState([]);
+  const [isSearchLoading, setIsSearchLoading] = useState(false);
+  const [showResults, setShowResults] = useState(false);
   const cartCount = useShopStore((state) => state.cart.length);
   const wishlistCount = useShopStore((state) => state.wishlist.length);
   const user = useAuthSession();
   const router = useRouter();
+  const searchBoxRef = useRef(null);
 
   useEffect(() => {
     setIsHydrated(true);
   }, []);
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (!searchBoxRef.current?.contains(event.target)) {
+        setShowResults(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, []);
+
+  useEffect(() => {
+    const trimmedSearch = searchTerm.trim();
+
+    if (trimmedSearch.length < 2) {
+      setLiveResults([]);
+      setIsSearchLoading(false);
+      return undefined;
+    }
+
+    const timeoutId = setTimeout(async () => {
+      try {
+        setIsSearchLoading(true);
+        const results = await getLiveSearchProducts(trimmedSearch);
+        setLiveResults(normalizeLiveSearchResults(results));
+        setShowResults(true);
+      } catch (error) {
+        console.error("Live search failed:", error);
+        setLiveResults([]);
+      } finally {
+        setIsSearchLoading(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchTerm]);
 
   const safeCartCount = isHydrated ? cartCount : 0;
   const safeWishlistCount = isHydrated ? wishlistCount : 0;
@@ -48,6 +109,26 @@ export default function MainHeader({ initialCategories = [] }) {
     if (value !== "Select Category") {
       router.push(value);
     }
+  };
+
+  const handleSearchInput = (event) => {
+    const value = event.target.value;
+    setSearchTerm(value);
+    setShowResults(Boolean(value.trim()));
+  };
+
+  const handleSearchSubmit = () => {
+    if (liveResults[0]?.id) {
+      router.push(`/details/${liveResults[0].id}`);
+      setShowResults(false);
+    }
+  };
+
+  const handleResultClick = (productId) => {
+    router.push(`/details/${productId}`);
+    setSearchTerm("");
+    setLiveResults([]);
+    setShowResults(false);
   };
 
   return (
@@ -75,10 +156,23 @@ export default function MainHeader({ initialCategories = [] }) {
               </div>
             </div>
 
-            <div className="flex w-full max-w-2xl border border-pry rounded-md mb-2 lg:mb-0 overflow-hidden">
+            <div ref={searchBoxRef} className="relative flex w-full max-w-2xl border border-pry rounded-md mb-2 lg:mb-0 overflow-visible">
               <input
                 type="text"
                 placeholder="Search"
+                value={searchTerm}
+                onChange={handleSearchInput}
+                onFocus={() => {
+                  if (searchTerm.trim()) {
+                    setShowResults(true);
+                  }
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    event.preventDefault();
+                    handleSearchSubmit();
+                  }
+                }}
                 className="w-full px-4 py-2 outline-none text-sm text-gray-700 placeholder:text-gray-400"
               />
 
@@ -98,9 +192,54 @@ export default function MainHeader({ initialCategories = [] }) {
                 ))}
               </select>
 
-              <button className="bg-pry text-white px-4 flex items-center justify-center" aria-label="Search">
+              <button
+                type="button"
+                onClick={handleSearchSubmit}
+                className="bg-pry text-white px-4 flex items-center justify-center"
+                aria-label="Search"
+              >
                 <FaSearch className="text-lg" />
               </button>
+
+              {showResults ? (
+                <div className="absolute left-0 top-full z-40 mt-2 w-full rounded-xl border border-gray-200 bg-white shadow-xl">
+                  {isSearchLoading ? (
+                    <div className="px-4 py-3 text-sm text-gray-500">Searching...</div>
+                  ) : liveResults.length > 0 ? (
+                    <ul className="max-h-96 overflow-y-auto py-2">
+                      {liveResults.map((product) => (
+                        <li key={product.id}>
+                          <button
+                            type="button"
+                            onClick={() => handleResultClick(product.id)}
+                            className="flex w-full items-center gap-3 px-4 py-3 text-left transition hover:bg-gray-50"
+                          >
+                            <Image
+                              src={getAssetUrl(product.image)}
+                              alt={product.name}
+                              width={48}
+                              height={48}
+                              className="h-12 w-12 rounded-md object-cover"
+                            />
+                            <div className="min-w-0 flex-1">
+                              <p className="truncate text-sm font-medium text-gray-900">
+                                {product.name}
+                              </p>
+                              <p className="text-sm font-semibold text-pry">
+                                Tk {product.price ?? "0"}
+                              </p>
+                            </div>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : searchTerm.trim().length >= 2 ? (
+                    <div className="px-4 py-3 text-sm text-gray-500">
+                      No products found.
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
             </div>
 
             <div className="hidden lg:flex items-center justify-end gap-4 text-sm col-span-1 text-black">

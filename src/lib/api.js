@@ -92,6 +92,31 @@ export async function getCategoryProducts(id) {
   return getCollection(`/category/${id}`, { revalidate: 300 });
 }
 
+export async function getSubcategoryProducts(id) {
+  return getCollection(`/subcategory/${id}`, { revalidate: 300 });
+}
+
+export async function getChildCategoryProducts(id) {
+  return getCollection(`/childcategory/${id}`, { revalidate: 300 });
+}
+
+export async function getLiveSearchProducts(query) {
+  const trimmedQuery = query?.trim();
+
+  if (!trimmedQuery) {
+    return [];
+  }
+
+  const params = new URLSearchParams({
+    search: trimmedQuery,
+    q: trimmedQuery,
+  });
+
+  return getCollection(`/livesearch?${params.toString()}`, {
+    cache: "no-store",
+  });
+}
+
 export async function getRelatedProducts(id) {
   return getCollection(`/related-product/${id}`, { revalidate: 300 });
 }
