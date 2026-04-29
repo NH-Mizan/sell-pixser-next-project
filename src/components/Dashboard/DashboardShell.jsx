@@ -49,13 +49,13 @@ export default function DashboardShell({ user, children }) {
     <div className="min-h-screen bg-[linear-gradient(180deg,#f8fafc_0%,#eef4ff_100%)] print:min-h-0 print:bg-white">
       <div className="mx-auto flex min-h-screen max-w-[1480px] print:min-h-0 print:max-w-none">
         <aside
-          className={`fixed inset-y-0 left-0 z-40 w-72 border-r border-slate-200 bg-[linear-gradient(180deg,#0f172a_0%,#111827_100%)] px-5 py-6 text-white shadow-2xl transition-transform duration-200 print:hidden lg:static lg:translate-x-0 ${
+          className={`fixed inset-y-0 left-0 z-40 w-72 border-r border-slate-200 px-5 py-6 text-black shadow-2xl transition-transform duration-200 print:hidden lg:static lg:translate-x-0 ${
             sidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
         
 
-          <div className="mb-8 rounded-[1.75rem] border border-white/10 bg-white p-4 backdrop-blur">
+          <div className="mb-8 rounded-[1.75rem] border border-white/10 bg-white/10 p-4 backdrop-blur">
             <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Signed in as</p>
             <h3 className="mt-2 text-lg font-bold text-white">
               {currentUser?.name || "Customer"}
@@ -63,7 +63,7 @@ export default function DashboardShell({ user, children }) {
             <p className="mt-1 text-sm text-slate-300">
               {currentUser?.phone || currentUser?.email || "Secure OTP session"}
             </p>
-            <div className="mt-4 flex items-center gap-3 rounded-2xl bg-white px-3 py-3">
+            <div className="mt-4 flex items-center gap-3 rounded-2xl bg-white/10 px-3 py-3">
               <div className="relative h-12 w-12 overflow-hidden rounded-2xl border border-white/10 bg-slate-800">
                 <Image
                   src={getAssetUrl(currentUser?.image)}
@@ -73,7 +73,7 @@ export default function DashboardShell({ user, children }) {
                 />
               </div>
               <div>
-                <p className="text-sm font-semibold text-white">
+                <p className="text-sm font-semibold text-blue-400">
                   {currentUser?.status === "active" ? "Active customer" : "Customer"}
                 </p>
                 <p className="text-xs text-slate-300">
@@ -94,7 +94,7 @@ export default function DashboardShell({ user, children }) {
                   className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition ${
                     isActive
                       ? "bg-white text-slate-950 shadow-lg"
-                      : "text-slate-300 hover:bg-white/10 hover:text-white"
+                      : "text-slate-300 hover:bg-white/10 hover:text-black/80"
                   }`}
                   onClick={() => setSidebarOpen(false)}
                 >
