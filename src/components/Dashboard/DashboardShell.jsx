@@ -55,7 +55,7 @@ export default function DashboardShell({ user, children }) {
         >
         
 
-          <div className="mb-8 rounded-[1.75rem] border border-white/10 bg-white/10 p-4 backdrop-blur">
+          <div className="mb-8 rounded-[1.75rem] border border-white/10 bg-white p-4 backdrop-blur">
             <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Signed in as</p>
             <h3 className="mt-2 text-lg font-bold text-white">
               {currentUser?.name || "Customer"}
@@ -63,7 +63,7 @@ export default function DashboardShell({ user, children }) {
             <p className="mt-1 text-sm text-slate-300">
               {currentUser?.phone || currentUser?.email || "Secure OTP session"}
             </p>
-            <div className="mt-4 flex items-center gap-3 rounded-2xl bg-white/10 px-3 py-3">
+            <div className="mt-4 flex items-center gap-3 rounded-2xl bg-white px-3 py-3">
               <div className="relative h-12 w-12 overflow-hidden rounded-2xl border border-white/10 bg-slate-800">
                 <Image
                   src={getAssetUrl(currentUser?.image)}

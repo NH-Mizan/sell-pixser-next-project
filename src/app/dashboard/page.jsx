@@ -41,7 +41,7 @@ export default function DashboardOverviewPage() {
             </p>
           </div>
 
-          <div className="rounded-[1.75rem] border border-white/10 bg-white/10 p-5 backdrop-blur">
+          <div className="rounded-[1.75rem] border border-white/23 bg-white/23 p-5 backdrop-blur">
             <p className="text-xs uppercase tracking-[0.2em] text-sky-100">
               Account snapshot
             </p>
