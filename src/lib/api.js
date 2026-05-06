@@ -47,7 +47,15 @@ export async function getJson(path, { revalidate = DEFAULT_REVALIDATE, ...init }
 async function getCollection(path, options) {
   try {
     const data = await getJson(path, options);
-    return data?.data ?? [];
+    if (Array.isArray(data?.data)) {
+      return data.data;
+    }
+
+    if (Array.isArray(data?.data?.data)) {
+      return data.data.data;
+    }
+
+    return Array.isArray(data) ? data : [];
   } catch (error) {
     console.error(error);
     return [];

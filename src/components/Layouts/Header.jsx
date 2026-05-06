@@ -1,6 +1,7 @@
 'use client';
 
 import { getAssetUrl, getLiveSearchProducts } from "@/lib/api";
+import { getChildCategories, getSubcategories } from "@/lib/taxonomy";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -41,6 +42,15 @@ function normalizeLiveSearchResults(results = []) {
     .filter((item) => item.id && item.name);
 }
 
+function getItemId(item, fallback) {
+  return item?.id ?? item?._id ?? item?.slug ?? fallback;
+}
+
+function buildTaxonomyPath(type, item) {
+  const itemId = getItemId(item);
+  return itemId ? `/${type}/${itemId}` : "#";
+}
+
 export default function MainHeader({ initialCategories = [] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
@@ -51,11 +61,29 @@ export default function MainHeader({ initialCategories = [] }) {
   const [liveResults, setLiveResults] = useState([]);
   const [isSearchLoading, setIsSearchLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
+  const [activeCategoryId, setActiveCategoryId] = useState(null);
+  const [activeSubcategoryId, setActiveSubcategoryId] = useState(null);
   const cartCount = useShopStore((state) => state.cart.length);
   const wishlistCount = useShopStore((state) => state.wishlist.length);
   const user = useAuthSession();
   const router = useRouter();
   const searchBoxRef = useRef(null);
+
+  useEffect(() => {
+    if (!initialCategories.length) {
+      setActiveCategoryId(null);
+      setActiveSubcategoryId(null);
+      return;
+    }
+
+    const firstCategory = initialCategories[0];
+    const firstSubcategory = getSubcategories(firstCategory)[0] ?? null;
+
+    setActiveCategoryId(getItemId(firstCategory, firstCategory?.name));
+    setActiveSubcategoryId(
+      firstSubcategory ? getItemId(firstSubcategory, firstSubcategory?.name) : null
+    );
+  }, [initialCategories]);
 
   useEffect(() => {
     setIsHydrated(true);
@@ -130,6 +158,18 @@ export default function MainHeader({ initialCategories = [] }) {
     setLiveResults([]);
     setShowResults(false);
   };
+
+  const activeCategory =
+    initialCategories.find(
+      (category) => getItemId(category, category?.name) === activeCategoryId
+    ) ?? initialCategories[0];
+  const activeSubcategories = getSubcategories(activeCategory);
+  const activeSubcategory =
+    activeSubcategories.find(
+      (subcategory) =>
+        getItemId(subcategory, subcategory?.name) === activeSubcategoryId
+    ) ?? activeSubcategories[0];
+  const activeChildCategories = getChildCategories(activeSubcategory);
 
   return (
     <div className="sticky top-0 z-50 shadow-md mb-2">
@@ -302,37 +342,126 @@ export default function MainHeader({ initialCategories = [] }) {
         <div onClick={toggleMenu} className="fixed inset-0 bg-black opacity-30 z-40" />
       )}
 
-      {show && (
-        <div className="absolute left-0 top-full w-full z-30 animate-slideDown">
-          <div className="w-10/12 mx-auto bg-white grid grid-cols-6 gap-4 py-6">
-            {initialCategories.map((category) => (
-              <Link key={category.id} href={`/category/${category.id}`}>
-                <div className="flex flex-col items-center" onClick={() => setShow(false)}>
-                  <Image
-                    src={getAssetUrl(category.image)}
-                    alt={category.name}
-                    width={64}
-                    height={64}
-                    className="w-16 h-16 object-cover mb-2 rounded-full"
-                  />
-                  <span className="text-sm font-semibold">{category.name}</span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-
       <div className="bg-sec shadow-sm">
         <div className="w-11/12 lg:w-10/12 mx-auto flex items-center justify-between py-2 lg:py-0">
-          <button
-            onClick={() => setShow((value) => !value)}
-            className="hidden lg:flex items-center bg-pry text-white px-4 py-2 cursor-pointer"
+          <div
+            className="relative hidden lg:block"
+            onMouseEnter={() => setShow(true)}
+            onMouseLeave={() => setShow(false)}
           >
-            <span className="mr-2 text-xl"><FaBars /></span>
-            <span>Categories</span>
-            <span className="ml-2 text-sm"><FaAngleDown /></span>
-          </button>
+            <button
+              type="button"
+              className="flex items-center bg-pry text-white px-4 py-2 cursor-pointer"
+            >
+              <span className="mr-2 text-xl"><FaBars /></span>
+              <span>Categories</span>
+              <span className={`ml-2 text-sm transition-transform ${show ? "rotate-180" : ""}`}>
+                <FaAngleDown />
+              </span>
+            </button>
+
+            {show ? (
+              <div className="absolute left-0 top-full z-30 w-[820px] overflow-hidden rounded-b-xl border border-black/5 bg-white shadow-2xl">
+                <div className="grid grid-cols-[260px_260px_1fr]">
+                  <div className="max-h-[460px] overflow-y-auto border-r border-gray-100 bg-gray-50/80 py-3">
+                    {initialCategories.map((category, index) => {
+                      const categoryId = getItemId(category, index);
+                      const isActive = categoryId === getItemId(activeCategory, activeCategory?.name);
+
+                      return (
+                        <Link
+                          key={categoryId}
+                          href={buildTaxonomyPath("category", category)}
+                          onMouseEnter={() => {
+                            const firstSubcategory = getSubcategories(category)[0] ?? null;
+                            setActiveCategoryId(categoryId);
+                            setActiveSubcategoryId(
+                              firstSubcategory
+                                ? getItemId(firstSubcategory, firstSubcategory?.name)
+                                : null
+                            );
+                          }}
+                          className={`flex items-center gap-3 px-4 py-3 transition ${
+                            isActive ? "bg-white text-pry" : "text-gray-700 hover:bg-white hover:text-pry"
+                          }`}
+                        >
+                          <Image
+                            src={getAssetUrl(category.image)}
+                            alt={category.name}
+                            width={40}
+                            height={40}
+                            className="h-10 w-10 rounded-full object-cover"
+                          />
+                          <span className="line-clamp-1 text-sm font-semibold">{category.name}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+
+                  <div className="max-h-[460px] overflow-y-auto border-r border-gray-100 py-3">
+                    {activeSubcategories.length > 0 ? (
+                      activeSubcategories.map((subcategory, index) => {
+                        const subcategoryId = getItemId(subcategory, `${activeCategory?.name}-${index}`);
+                        const isActive =
+                          subcategoryId === getItemId(activeSubcategory, activeSubcategory?.name);
+
+                        return (
+                          <Link
+                            key={subcategoryId}
+                            href={buildTaxonomyPath("subcategory", subcategory)}
+                            onMouseEnter={() => setActiveSubcategoryId(subcategoryId)}
+                            className={`flex items-center justify-between gap-3 px-4 py-3 text-sm transition ${
+                              isActive ? "bg-gray-50 font-semibold text-pry" : "text-gray-700 hover:bg-gray-50 hover:text-pry"
+                            }`}
+                          >
+                            <span className="line-clamp-1">{subcategory.name}</span>
+                            {getChildCategories(subcategory).length > 0 ? (
+                              <span className="text-xs text-gray-400">&gt;</span>
+                            ) : null}
+                          </Link>
+                        );
+                      })
+                    ) : (
+                      <div className="px-4 py-6 text-sm text-gray-500">
+                        No subcategories available.
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="max-h-[460px] overflow-y-auto p-4">
+                    {activeSubcategory ? (
+                      <div className="mb-4 border-b border-gray-100 pb-3">
+                        <Link
+                          href={buildTaxonomyPath("subcategory", activeSubcategory)}
+                          className="text-base font-semibold text-gray-900 hover:text-pry"
+                        >
+                          {activeSubcategory.name}
+                        </Link>
+                      </div>
+                    ) : null}
+
+                    {activeChildCategories.length > 0 ? (
+                      <div className="grid grid-cols-2 gap-3">
+                        {activeChildCategories.map((child, index) => (
+                          <Link
+                            key={getItemId(child, `${activeSubcategory?.name}-${index}`)}
+                            href={buildTaxonomyPath("childcategory", child)}
+                            className="rounded-lg border border-gray-100 px-4 py-3 text-sm font-medium text-gray-700 transition hover:border-pry hover:text-pry"
+                          >
+                            {child.name}
+                          </Link>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-sm text-gray-500">
+                        No child categories available.
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ) : null}
+          </div>
 
           <ul className="flex items-center uppercase gap-2 lg:gap-6 text-[9px] lg:text-[15px] font-medium text-wt">
             <li className="hover-text-pry cursor-pointer"><Link href="/">Home</Link></li>
