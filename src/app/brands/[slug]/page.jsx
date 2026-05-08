@@ -1,5 +1,5 @@
 import TaxonomyProductsClient from "@/components/Products/TaxonomyProductsClient";
-import { getBrandProducts, getBrands } from "@/lib/api";
+import { getBrandProducts, getCategories } from "@/lib/api";
 
 export const revalidate = 300;
 
@@ -27,8 +27,8 @@ export async function generateMetadata({ params }) {
 
 export default async function BrandProductsPage({ params }) {
   const { slug } = await params;
-  const [brands, brandResponse] = await Promise.all([
-    getBrands(),
+  const [categories, brandResponse] = await Promise.all([
+    getCategories(),
     getBrandProducts(slug),
   ]);
   const { brand, products } = normalizeBrandResponse(brandResponse);
@@ -37,10 +37,7 @@ export default async function BrandProductsPage({ params }) {
     <TaxonomyProductsClient
       title={brand?.name ? `${brand.name} Products` : "Brand Products"}
       products={products}
-      navigationItems={brands}
-      navigationTitle="Brands"
-      navigationBasePath="/brands"
-      selectedId={slug}
+      categories={categories}
     />
   );
 }

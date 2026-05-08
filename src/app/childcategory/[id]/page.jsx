@@ -1,6 +1,10 @@
 import TaxonomyProductsClient from "@/components/Products/TaxonomyProductsClient";
 import { getCategories, getChildCategoryProducts } from "@/lib/api";
-import { findChildCategoryById } from "@/lib/taxonomy";
+import {
+  findChildCategoryById,
+  findParentCategoryByChildId,
+  findParentSubcategoryByChildId,
+} from "@/lib/taxonomy";
 
 export const revalidate = 300;
 
@@ -24,11 +28,17 @@ export default async function ChildCategoryPage({ params }) {
     getChildCategoryProducts(id),
   ]);
   const childCategory = findChildCategoryById(categories, id);
+  const parentCategory = findParentCategoryByChildId(categories, id);
+  const parentSubcategory = findParentSubcategoryByChildId(categories, id);
 
   return (
     <TaxonomyProductsClient
       title={childCategory?.name || "Child Category Products"}
       products={products}
+      categories={categories}
+      currentCategoryId={parentCategory?.id ?? null}
+      currentSubcategoryId={parentSubcategory?.id ?? null}
+      currentChildCategoryId={id}
     />
   );
 }

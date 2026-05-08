@@ -49,3 +49,49 @@ export function findChildCategoryById(categories = [], id) {
 
   return null;
 }
+
+export function findParentCategoryBySubcategoryId(categories = [], id) {
+  for (const category of categories) {
+    const match = getSubcategories(category).find(
+      (item) => Number(item.id) === Number(id)
+    );
+
+    if (match) {
+      return category;
+    }
+  }
+
+  return null;
+}
+
+export function findParentSubcategoryByChildId(categories = [], id) {
+  for (const category of categories) {
+    for (const subcategory of getSubcategories(category)) {
+      const match = getChildCategories(subcategory).find(
+        (item) => Number(item.id) === Number(id)
+      );
+
+      if (match) {
+        return subcategory;
+      }
+    }
+  }
+
+  return null;
+}
+
+export function findParentCategoryByChildId(categories = [], id) {
+  for (const category of categories) {
+    for (const subcategory of getSubcategories(category)) {
+      const match = getChildCategories(subcategory).find(
+        (item) => Number(item.id) === Number(id)
+      );
+
+      if (match) {
+        return category;
+      }
+    }
+  }
+
+  return null;
+}

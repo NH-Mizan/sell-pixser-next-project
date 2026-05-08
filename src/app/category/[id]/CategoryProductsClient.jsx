@@ -7,10 +7,8 @@ export default function CategoryProductsClient({ id, products = [], categories =
     <TaxonomyProductsClient
       title={currentCategory?.name || "Category Products"}
       products={products}
-      navigationItems={categories}
-      navigationTitle="Categories"
-      navigationBasePath="/category"
-      selectedId={id}
+      categories={categories}
+      currentCategoryId={id}
     />
   );
 }
