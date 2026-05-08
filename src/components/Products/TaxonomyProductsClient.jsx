@@ -5,6 +5,14 @@ import { ASSET_BASE_URL } from "@/lib/api";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
+function matchesSelectedItem(selectedId, item) {
+  if (selectedId == null) {
+    return false;
+  }
+
+  return String(selectedId) === String(item.id ?? item.slug);
+}
+
 export default function TaxonomyProductsClient({
   title = "Products",
   products = [],
@@ -34,18 +42,20 @@ export default function TaxonomyProductsClient({
             <h2 className="mb-4 border-b pb-2 text-lg font-semibold">{navigationTitle}</h2>
             <ul className="space-y-2">
               {navigationItems.map((item) => (
-                <li key={item.id} className="flex items-center space-x-2">
+                <li key={item.id ?? item.slug} className="flex items-center space-x-2">
                   <input
                     type="radio"
-                    id={`nav-${item.id}`}
+                    id={`nav-${item.id ?? item.slug}`}
                     name="taxonomy"
-                    value={item.id}
-                    checked={Number(selectedId) === Number(item.id)}
-                    onChange={() => router.push(`${navigationBasePath}/${item.id}`)}
+                    value={item.id ?? item.slug}
+                    checked={matchesSelectedItem(selectedId, item)}
+                    onChange={() =>
+                      router.push(`${navigationBasePath}/${item.slug ?? item.id}`)
+                    }
                     className="cursor-pointer text-sec focus:ring-sec"
                   />
                   <label
-                    htmlFor={`nav-${item.id}`}
+                    htmlFor={`nav-${item.id ?? item.slug}`}
                     className="cursor-pointer capitalize text-gray-700 hover:text-sec"
                   >
                     {item.name}

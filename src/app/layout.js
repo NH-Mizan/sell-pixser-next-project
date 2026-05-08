@@ -8,7 +8,7 @@ import ScrollToTopButton from "@/components/Layouts/ScrollerTop";
 import ToastProvider from "@/components/Providers/ToastProvider";
 import { Suspense } from "react";
 import { HomePageSkeleton } from "@/components/Skeletons";
-import { getCategories, SITE_URL } from "@/lib/api";
+import { getBrands, getCategories, SITE_URL } from "@/lib/api";
 import { getAuthenticatedUser } from "@/lib/auth";
 import "./globals.css";
 
@@ -82,8 +82,9 @@ export const metadata = {
 
 
 export default async function RootLayout({ children }) {
-  const [categories, user] = await Promise.all([
+  const [categories, brands, user] = await Promise.all([
     getCategories(),
+    getBrands(),
     getAuthenticatedUser(),
   ]);
 
@@ -94,7 +95,7 @@ export default async function RootLayout({ children }) {
       >
         <AuthSessionProvider user={user}>
           <Topline />
-          <MainHeader initialCategories={categories} />
+          <MainHeader initialCategories={categories} brands={brands} />
           <Suspense fallback={<HomePageSkeleton />}>
             <main>{children}</main>
           </Suspense>

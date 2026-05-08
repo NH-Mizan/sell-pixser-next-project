@@ -30,7 +30,7 @@ export default function Brands({ brands = [] }) {
       >
         {brands.map((brand, index) => (
           <SwiperSlide key={brand.id ?? index}>
-            <Link href={`/${brand.slug}`}>
+            <Link href={`/brands/${brand.slug}`}>
               <div className="border rounded-xl p-4 flex justify-center items-center h-28 bg-white hover:shadow-lg transition-all duration-300 cursor-pointer overflow-hidden group">
                 <Image
                   src={getAssetUrl(brand.image)}

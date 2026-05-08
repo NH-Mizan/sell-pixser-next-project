@@ -96,6 +96,24 @@ export async function getBrands() {
   return getCollection("/brands", { revalidate: 900 });
 }
 
+export async function getBrandProducts(slug, page = 1) {
+  try {
+    const params = new URLSearchParams();
+
+    if (page) {
+      params.set("page", String(page));
+    }
+
+    const query = params.toString();
+    return await getJson(`/brands/${slug}${query ? `?${query}` : ""}`, {
+      revalidate: 300,
+    });
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
 export async function getCategoryProducts(id) {
   return getCollection(`/category/${id}`, { revalidate: 300 });
 }

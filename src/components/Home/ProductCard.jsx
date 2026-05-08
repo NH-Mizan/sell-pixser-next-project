@@ -5,7 +5,7 @@ import { getAssetUrl } from '@/lib/api';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { FaShoppingCart } from 'react-icons/fa';
 import { GoHeart } from 'react-icons/go';
 import { toast, Bounce } from 'react-toastify';
@@ -13,13 +13,19 @@ import Swal from 'sweetalert2';
 
 function ProductCard({ product }) {
   const router = useRouter();
+  const [isHydrated, setIsHydrated] = useState(false);
   const wishlist = useShopStore((state) => state.wishlist);
   const addToCart = useShopStore((state) => state.addToCart);
   const addToWishlist = useShopStore((state) => state.addToWishlist);
   const removeFromWishlist = useShopStore((state) => state.removeFromWishlist);
 
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
   const imageUrl = getAssetUrl(product.image?.image);
-  const isWishlisted = wishlist.some((item) => item.id === product.id);
+  const isWishlisted =
+    isHydrated && wishlist.some((item) => item.id === product.id);
   const discount = useMemo(() => {
     if (!product.old_price) return 0;
     return Math.round(((product.old_price - product.new_price) / product.old_price) * 100);

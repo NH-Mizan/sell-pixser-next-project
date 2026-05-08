@@ -51,7 +51,7 @@ function buildTaxonomyPath(type, item) {
   return itemId ? `/${type}/${itemId}` : "#";
 }
 
-export default function MainHeader({ initialCategories = [] }) {
+export default function MainHeader({ initialCategories = [], brands = [] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
   const [show, setShow] = useState(false);
@@ -466,7 +466,25 @@ export default function MainHeader({ initialCategories = [] }) {
           <ul className="flex items-center uppercase gap-2 lg:gap-6 text-[9px] lg:text-[15px] font-medium text-wt">
             <li className="hover-text-pry cursor-pointer"><Link href="/">Home</Link></li>
             <li className="hover-text-pry cursor-pointer"><Link href="/products">Products</Link></li>
-            <li className="hover-text-pry cursor-pointer flex items-center">Brands <FaAngleDown /></li>
+            <li className="group relative cursor-pointer">
+              <div className="hover-text-pry flex items-center gap-1">
+                <span>Brands</span>
+                <FaAngleDown />
+              </div>
+              {brands.length > 0 ? (
+                <div className="invisible absolute left-0 top-full z-30 min-w-[220px] translate-y-2 rounded-xl bg-white p-2 text-left normal-case opacity-0 shadow-xl transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+                  {brands.map((brand) => (
+                    <Link
+                      key={brand.id ?? brand.slug}
+                      href={`/brands/${brand.slug}`}
+                      className="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50 hover:text-pry"
+                    >
+                      {brand.name}
+                    </Link>
+                  ))}
+                </div>
+              ) : null}
+            </li>
             <li className="hover-text-pry cursor-pointer">Offers</li>
             <li className="hover-text-pry cursor-pointer">Best Seller</li>
           </ul>
