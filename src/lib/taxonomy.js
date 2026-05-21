@@ -9,6 +9,7 @@ export function getSubcategories(category) {
 
 export function getChildCategories(subcategory) {
   return (
+    subcategory?.childcategories ||
     subcategory?.childCategories ||
     subcategory?.child_categories ||
     subcategory?.children ||

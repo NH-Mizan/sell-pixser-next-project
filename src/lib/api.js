@@ -62,6 +62,43 @@ async function getCollection(path, options) {
   }
 }
 
+function normalizeChildCategory(item = {}) {
+  return {
+    ...item,
+  };
+}
+
+function normalizeSubcategory(item = {}) {
+  const childCategories =
+    item?.childcategories ??
+    item?.childCategories ??
+    item?.child_categories ??
+    item?.children ??
+    [];
+
+  return {
+    ...item,
+    childcategories: Array.isArray(childCategories)
+      ? childCategories.map(normalizeChildCategory)
+      : [],
+  };
+}
+
+function normalizeCategory(item = {}) {
+  const subcategories =
+    item?.subcategories ??
+    item?.subCategories ??
+    item?.sub_categories ??
+    [];
+
+  return {
+    ...item,
+    subcategories: Array.isArray(subcategories)
+      ? subcategories.map(normalizeSubcategory)
+      : [],
+  };
+}
+
 export function getAssetUrl(path) {
   if (!path) {
     return "/images/sell-pixer.webp";
@@ -76,7 +113,8 @@ export function getAssetUrl(path) {
 }
 
 export async function getCategories() {
-  return getCollection("/categories", { revalidate: 900 });
+  const categories = await getCollection("/categories", { revalidate: 900 });
+  return Array.isArray(categories) ? categories.map(normalizeCategory) : [];
 }
 
 export async function getSliderItems() {
