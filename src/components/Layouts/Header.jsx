@@ -130,6 +130,11 @@ export default function MainHeader({ initialCategories = [], brands = [] }) {
   const safeWishlistCount = isHydrated ? wishlistCount : 0;
 
   const toggleMenu = () => setIsOpen((value) => !value);
+  const openLoginModal = () => {
+    setIsOpen(false);
+    setLoginModal(true);
+  };
+
   const handleChange = (event) => {
     const value = event.target.value;
     setSelected(value);
@@ -186,9 +191,20 @@ export default function MainHeader({ initialCategories = [], brands = [] }) {
               </Link>
 
               <div className="lg:hidden md:hidden flex gap-4">
-                <Link href="/login" className="flex items-center gap-1" aria-label="Login">
-                  <FaUser />
-                </Link>
+                {user ? (
+                  <Link href="/dashboard" className="flex items-center gap-1" aria-label="Dashboard">
+                    <FaUser />
+                  </Link>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={openLoginModal}
+                    className="flex items-center gap-1"
+                    aria-label="Login"
+                  >
+                    <FaUser />
+                  </button>
+                )}
                 <Link href="/checkout" className="relative" aria-label="Cart">
                   <FaShoppingCart />
                   <span className="absolute -top-2 -right-2 bg-pry text-wt text-xs px-1 rounded-full">{safeCartCount}</span>
@@ -290,7 +306,7 @@ export default function MainHeader({ initialCategories = [], brands = [] }) {
                        <p className="text-sm">{user.name}</p>
                   </Link>
                 ) : (
-                  <button onClick={() => setLoginModal(true)} className="flex items-center gap-1">
+                  <button type="button" onClick={openLoginModal} className="flex items-center gap-1">
                     <FaRegUserCircle className="text-[30px]" />
                      <p className="text-sm">Login / Register</p>
                   </button>
@@ -333,7 +349,19 @@ export default function MainHeader({ initialCategories = [], brands = [] }) {
         </div>
         <ul className="flex flex-col gap-4 px-6 py-4">
           <li><Link href="#" className="hover-text-pry">Track Order</Link></li>
-          <li><Link href="/otp-login" className="hover-text-pry">Login / Signup</Link></li>
+          {user ? (
+            <li>
+              <Link href="/dashboard" onClick={toggleMenu} className="hover-text-pry">
+                Dashboard
+              </Link>
+            </li>
+          ) : (
+            <li>
+              <button type="button" onClick={openLoginModal} className="hover-text-pry">
+                Login / Signup
+              </button>
+            </li>
+          )}
         </ul>
         
       </div>

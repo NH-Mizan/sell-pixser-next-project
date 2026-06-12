@@ -2,20 +2,110 @@ import ProductGallery from "@/components/ProductGallery";
 import ProductInfoTabs from "@/components/ProductInfoTabs";
 import ProductSizeColor from "@/components/ProductSizeColor";
 import RelatedProducts from "@/components/RelatedProducts";
-import { getProductDetails } from "@/lib/api";
+import { getAssetUrl, getProductDetails, SITE_URL } from "@/lib/api";
 import Link from "next/link";
 import { FaWhatsapp } from "react-icons/fa";
 
 export const revalidate = 300;
 
+function stripHtml(value = "") {
+  return String(value)
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function truncate(value = "", maxLength = 160) {
+  if (value.length <= maxLength) {
+    return value;
+  }
+
+  return `${value.slice(0, maxLength - 3).trim()}...`;
+}
+
+function getProductDescription(product) {
+  const description =
+    stripHtml(product?.short_description) ||
+    stripHtml(product?.description) ||
+    product?.name ||
+    "Shop this product at Sell-Pixers.";
+
+  return truncate(description);
+}
+
+function getProductImages(product) {
+  const images = Array.isArray(product?.images)
+    ? product.images.map((image) => image?.image).filter(Boolean)
+    : [];
+
+  if (product?.image?.image) {
+    images.unshift(product.image.image);
+  }
+
+  if (images.length === 0) {
+    return [getAssetUrl("/images/sell.jpg")];
+  }
+
+  return [...new Set(images)].map((image) => getAssetUrl(image));
+}
+
 export async function generateMetadata({ params }) {
   const { id } = await params;
   const data = await getProductDetails(id);
   const product = data?.data;
+  const productUrl = `${SITE_URL}/details/${id}`;
+
+  if (!product) {
+    return {
+      title: `Product Details - ${id}`,
+      description: "Product details",
+      alternates: {
+        canonical: productUrl,
+      },
+    };
+  }
+
+  const title = `${product.name} | Sell-Pixers`;
+  const description = getProductDescription(product);
+  const images = getProductImages(product);
+  const imageMeta = images.map((image) => ({
+    url: image,
+    width: 800,
+    height: 800,
+    alt: product.name,
+  }));
 
   return {
-    title: product?.name ? `${product.name} | Sell-Pixers` : `Product Details - ${id}`,
-    description: product?.short_description || product?.name || "Product details",
+    title,
+    description,
+    keywords: [
+      product.name,
+      product?.brand?.name,
+      "Sell-Pixers",
+      "online shopping",
+      "Bangladesh ecommerce",
+    ].filter(Boolean),
+    alternates: {
+      canonical: productUrl,
+    },
+    openGraph: {
+      title,
+      description,
+      url: productUrl,
+      siteName: "Sell-Pixers",
+      type: "website",
+      images: imageMeta,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
   };
 }
 
@@ -33,9 +123,43 @@ export default async function ProductDetailsPage({ params }) {
   const discount = product.old_price
     ? Math.round(((product.old_price - product.new_price) / product.old_price) * 100)
     : 0;
+  const productUrl = `${SITE_URL}/details/${id}`;
+  const productImages = getProductImages(product);
+  const productDescription = getProductDescription(product);
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: productDescription,
+    image: productImages,
+    brand: product?.brand?.name
+      ? {
+          "@type": "Brand",
+          name: product.brand.name,
+        }
+      : undefined,
+    sku: product?.sku || String(product.id ?? id),
+    url: productUrl,
+    offers: {
+      "@type": "Offer",
+      url: productUrl,
+      priceCurrency: "BDT",
+      price: String(product?.new_price ?? ""),
+      availability:
+        product?.variable?.stock === 0
+          ? "https://schema.org/OutOfStock"
+          : "https://schema.org/InStock",
+      itemCondition: "https://schema.org/NewCondition",
+    },
+  };
 
   return (
     <section className="container my-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+
       <div className="w-full flex flex-col md:flex-row gap-6 p-4 bg-white shadow-md rounded-lg">
         <ProductGallery product={product} />
 

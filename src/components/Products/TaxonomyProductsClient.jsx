@@ -5,6 +5,54 @@ import { getChildCategories, getSubcategories } from "@/lib/taxonomy";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
+function SortableProducts({ products, title }) {
+  const [sortBy, setSortBy] = useState("");
+
+  const sortedProducts = useMemo(() => {
+    return [...products].sort((a, b) => {
+      if (sortBy === "price") return Number(a.new_price) - Number(b.new_price);
+      if (sortBy === "price-desc") return Number(b.new_price) - Number(a.new_price);
+      if (sortBy === "name") return a.name.localeCompare(b.name);
+      return 0;
+    });
+  }, [products, sortBy]);
+
+  return (
+    <div className="space-y-5 md:col-span-3">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <h1 className="text-lg font-semibold text-gray-900 lg:text-2xl">{title}</h1>
+
+        <select
+          className="rounded-md border px-3 py-2 shadow-sm"
+          value={sortBy}
+          onChange={(event) => setSortBy(event.target.value)}
+        >
+          <option value="">Sort By</option>
+          <option value="price">Price Low to High</option>
+          <option value="price-desc">Price High to Low</option>
+          <option value="name">Name A to Z</option>
+        </select>
+      </div>
+
+      <div className="text-sm text-gray-600">
+        Showing {sortedProducts.length} product{sortedProducts.length === 1 ? "" : "s"}
+      </div>
+
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        {sortedProducts.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
+
+      {sortedProducts.length === 0 ? (
+        <div className="rounded-xl border border-dashed border-gray-300 px-6 py-12 text-center text-sm text-gray-500">
+          No products found for the selected filters.
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 export default function TaxonomyProductsClient({
   title = "Products",
   products = [],
@@ -13,7 +61,6 @@ export default function TaxonomyProductsClient({
   currentSubcategoryId = null,
   currentChildCategoryId = null,
 }) {
-  const [sortBy, setSortBy] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState(
     currentCategoryId ? String(currentCategoryId) : ""
   );
@@ -105,15 +152,6 @@ export default function TaxonomyProductsClient({
     selectedMinPrice,
     selectedSubcategoryId,
   ]);
-
-  const sortedProducts = useMemo(() => {
-    return [...filteredProducts].sort((a, b) => {
-      if (sortBy === "price") return Number(a.new_price) - Number(b.new_price);
-      if (sortBy === "price-desc") return Number(b.new_price) - Number(a.new_price);
-      if (sortBy === "name") return a.name.localeCompare(b.name);
-      return 0;
-    });
-  }, [filteredProducts, sortBy]);
 
   const handleCategoryChange = (event) => {
     const value = event.target.value;
@@ -295,38 +333,7 @@ export default function TaxonomyProductsClient({
           </div>
         </aside>
 
-        <div className="space-y-5 md:col-span-3">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <h1 className="text-lg font-semibold text-gray-900 lg:text-2xl">{title}</h1>
-
-            <select
-              className="rounded-md border px-3 py-2 shadow-sm"
-              value={sortBy}
-              onChange={(event) => setSortBy(event.target.value)}
-            >
-              <option value="">Sort By</option>
-              <option value="price">Price Low to High</option>
-              <option value="price-desc">Price High to Low</option>
-              <option value="name">Name A to Z</option>
-            </select>
-          </div>
-
-          <div className="text-sm text-gray-600">
-            Showing {sortedProducts.length} product{sortedProducts.length === 1 ? "" : "s"}
-          </div>
-
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-            {sortedProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-
-          {sortedProducts.length === 0 ? (
-            <div className="rounded-xl border border-dashed border-gray-300 px-6 py-12 text-center text-sm text-gray-500">
-              No products found for the selected filters.
-            </div>
-          ) : null}
-        </div>
+        <SortableProducts products={filteredProducts} title={title} />
       </div>
     </div>
   );
